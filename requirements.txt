@@ -1,0 +1,31 @@
+python-dotenv
+
+# 框架与多智能体基建
+fastapi
+flask
+uvicorn[standard]
+langchain
+langgraph
+langchain-core
+langchain-openai
+
+# 结构化数据与 SQL 交互
+SQLAlchemy
+aiosqlite
+asyncpg
+pydantic
+psycopg2-binary
+PyYAML
+
+# RAG 与非结构化数据处理
+chromadb
+pymilvus
+sentence-transformers
+FlagEmbedding
+# 性能与异步基建
+redis
+sse-starlette
+
+# 测试
+pytest
+pytest-asyncio
