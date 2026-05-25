@@ -278,7 +278,7 @@ zx_ai_advisor/
 ### 1. 克隆项目
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/Aurirlk/zxf_ai_advisor.git
 cd zx_ai_advisor
 ```
 
@@ -357,7 +357,7 @@ python -m api.main
 
 ```bash
 # 1. 克隆并进入项目
-git clone <repo-url> && cd zx_ai_advisor
+git clone https://github.com/Aurirlk/zxf_ai_advisor.git && cd zx_ai_advisor
 
 # 2. 创建虚拟环境
 conda create -n zxf python=3.10 -y && conda activate zxf
@@ -391,7 +391,7 @@ python -m api.main
 
 ```bash
 # 1. 克隆项目
-git clone <repo-url> && cd zx_ai_advisor
+git clone https://github.com/Aurirlk/zxf_ai_advisor.git && cd zx_ai_advisor
 
 # 2. 设置环境变量
 export DEEPSEEK_API_KEY=sk-xxx
@@ -445,7 +445,7 @@ mkdir -p /opt/zx_ai_advisor
 cd /opt/zx_ai_advisor
 
 # 部署代码
-git clone <repo-url> .
+git clone https://github.com/Aurirlk/zxf_ai_advisor.git .
 
 # 创建虚拟环境
 python3.10 -m venv venv
