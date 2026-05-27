@@ -1,0 +1,41 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+pycache/
+*.py[cod]
+*$py.class
+*.so
+
+.env
+.env
+.env.
+!.env.example  # 如果你有脱敏的模板文件，可以允许上传模板
+
+
+.pytest_cache/
+.tox/
+.coverage
+htmlcov/
+nosetests.xml
+coverage.xml
+
+
+
+logs/
+*.log
+
+
+.vscode/
+.idea/
+*.swp
+*.swo
+
+
+venv/
+env/
+.venv/
+
+
+
+data/vector_store/
+

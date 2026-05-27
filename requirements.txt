@@ -22,6 +22,7 @@ chromadb
 pymilvus
 sentence-transformers
 FlagEmbedding
+pdfplumber
 # 性能与异步基建
 redis
 sse-starlette
