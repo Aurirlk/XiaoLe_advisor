@@ -1,6 +1,0 @@
-llm:
-  model: deepseek-v4-flash
-  temperature: 0.2
-  base_url: "https://api.deepseek.com"
-  api_key_env: DEEPSEEK_API_KEY
-  timeout_seconds: 30
