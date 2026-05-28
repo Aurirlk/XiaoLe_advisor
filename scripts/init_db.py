@@ -19,7 +19,13 @@ def main() -> None:
     )
     conn.autocommit = True
     with conn.cursor() as cur:
-        for file in ["01_universities.sql", "02_scores.sql", "03_majors.sql", "04_user_profiles.sql"]:
+        for file in [
+            "01_universities.sql",
+            "02_scores.sql",
+            "03_majors.sql",
+            "04_user_profiles.sql",
+            "05_web_search_records.sql",
+        ]:
             sql = (ROOT / "data" / "sql_schema" / file).read_text(encoding="utf-8")
             cur.execute(sql)
     conn.close()
