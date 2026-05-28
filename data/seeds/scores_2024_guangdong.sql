@@ -1,0 +1,2 @@
+-- 2024 广东省物理类投档线（SQLite 请用 scripts/import_code_artifacts.py 导入）
+-- PostgreSQL 需先确保 universities 表含对应院校，再按 university_id 写入 admission_scores
