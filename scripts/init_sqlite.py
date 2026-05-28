@@ -66,6 +66,63 @@ CRM_INDEX_LAST_SEEN = """
 CREATE INDEX IF NOT EXISTS idx_crm_profiles_last_seen ON user_profiles (last_seen_at DESC);
 """
 
+WEB_SEARCH_SESSIONS_SQL = """
+CREATE TABLE IF NOT EXISTS web_search_sessions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    query_text TEXT NOT NULL,
+    query_hash TEXT NOT NULL,
+    session_id TEXT DEFAULT '',
+    result_count INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT DEFAULT (datetime('now'))
+);
+"""
+
+WEB_SEARCH_PAGES_SQL = """
+CREATE TABLE IF NOT EXISTS web_search_pages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    session_id INTEGER NOT NULL REFERENCES web_search_sessions(id) ON DELETE CASCADE,
+    url TEXT NOT NULL,
+    url_hash TEXT NOT NULL,
+    title TEXT DEFAULT '',
+    snippet TEXT DEFAULT '',
+    content_text TEXT DEFAULT '',
+    content_chars INTEGER NOT NULL DEFAULT 0,
+    fetch_status TEXT NOT NULL DEFAULT 'pending',
+    fetch_error TEXT DEFAULT '',
+    fetched_at TEXT DEFAULT (datetime('now')),
+    UNIQUE (session_id, url_hash)
+);
+"""
+
+WEB_SEARCH_INDEX_QUERY = """
+CREATE INDEX IF NOT EXISTS idx_web_sessions_query_hash ON web_search_sessions (query_hash);
+"""
+
+WEB_SEARCH_INDEX_CREATED = """
+CREATE INDEX IF NOT EXISTS idx_web_sessions_created_at ON web_search_sessions (created_at DESC);
+"""
+
+WEB_SEARCH_INDEX_URL = """
+CREATE INDEX IF NOT EXISTS idx_web_pages_url_hash ON web_search_pages (url_hash);
+"""
+
+WEB_SEARCH_INDEX_FETCHED = """
+CREATE INDEX IF NOT EXISTS idx_web_pages_fetched_at ON web_search_pages (fetched_at DESC);
+"""
+
+MAJORS_SQL = """
+CREATE TABLE IF NOT EXISTS majors (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    major_code TEXT UNIQUE,
+    major_name TEXT NOT NULL UNIQUE,
+    category TEXT NOT NULL,
+    is_pitfall INTEGER NOT NULL DEFAULT 0,
+    civil_service_friendly INTEGER NOT NULL DEFAULT 0,
+    base_salary_tier INTEGER NOT NULL DEFAULT 3,
+    description TEXT DEFAULT ''
+);
+"""
+
 SEED_UNIVERSITIES = [
     ("清华大学", "顶尖985", "北京", "211,985,双一流", 65.0),
     ("北京大学", "顶尖985", "北京", "211,985,双一流", 60.0),
@@ -126,6 +183,13 @@ def init_sqlite(db_path: str | Path | None = None) -> str:
     conn.execute(USER_PROFILES_SQL)
     conn.execute(CRM_INDEX_PHONE)
     conn.execute(CRM_INDEX_LAST_SEEN)
+    conn.execute(WEB_SEARCH_SESSIONS_SQL)
+    conn.execute(WEB_SEARCH_PAGES_SQL)
+    conn.execute(WEB_SEARCH_INDEX_QUERY)
+    conn.execute(WEB_SEARCH_INDEX_CREATED)
+    conn.execute(WEB_SEARCH_INDEX_URL)
+    conn.execute(WEB_SEARCH_INDEX_FETCHED)
+    conn.execute(MAJORS_SQL)
 
     cur = conn.execute("SELECT COUNT(*) FROM universities")
     if cur.fetchone()[0] == 0:
