@@ -10,6 +10,7 @@ from pydantic import BaseModel
 from sse_starlette.sse import EventSourceResponse
 
 from api.dependencies import get_compiled_graph, get_checkpoint_manager
+from core.web_search_status import drain_status
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
@@ -44,10 +45,24 @@ async def _event_generator(
     last_node = ""
     try:
         async for chunk in graph.astream(init_state, config=config):
+            for status_msg in drain_status(sid):
+                yield {
+                    "event": "message",
+                    "data": json.dumps(
+                        {"type": "status", "msg": status_msg},
+                        ensure_ascii=False,
+                    ),
+                }
             for node_name in chunk:
                 logger.info(f"[{sid}] 节点完成: {node_name}")
-                if node_name == "supervisor_agent" and last_node != "supervisor_agent":
-                    pass
+                if node_name == "web_search_agent":
+                    yield {
+                        "event": "message",
+                        "data": json.dumps(
+                            {"type": "status", "msg": "联网查询与落库已完成"},
+                            ensure_ascii=False,
+                        ),
+                    }
                 elif node_name == "synthesis_agent":
                     yield {
                         "event": "message",

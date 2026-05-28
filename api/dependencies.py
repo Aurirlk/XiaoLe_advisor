@@ -9,8 +9,10 @@ from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
 from core.checkpoint_manager import CheckpointManager
 from core.crm_manager import CRMProfileManager
+from core.web_search_service import WebSearchService
+from core.web_search_store import WebSearchStore
 from tools.rag_tools import RAGTools
-from tools.vector_store import ChromaVectorStore
+from tools.vector_store import ChromaVectorStore, DEFAULT_EMBEDDING_MODEL, DEFAULT_PERSIST_DIR
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -52,8 +54,14 @@ def get_compiled_graph():
 
     checkpointer = get_checkpoint_manager().get_saver()
     crm = get_crm_manager()
-    return build_graph(get_db_engine(), llm, rag_tools, checkpointer=checkpointer,
-                       on_conversation_end=_make_crm_callback(crm))
+    return build_graph(
+        get_db_engine(),
+        llm,
+        rag_tools,
+        checkpointer=checkpointer,
+        on_conversation_end=_make_crm_callback(crm),
+        web_search_service=get_web_search_service(),
+    )
 
 
 @lru_cache(maxsize=1)
@@ -114,6 +122,37 @@ def get_vector_store() -> ChromaVectorStore:
         with open(cfg_path, "r", encoding="utf-8") as f:
             cfg = yaml.safe_load(f).get("vector", {})
     return ChromaVectorStore.from_config(cfg)
+
+
+@lru_cache(maxsize=1)
+def get_web_search_store() -> WebSearchStore:
+    return WebSearchStore(get_sqlite_engine())
+
+
+@lru_cache(maxsize=1)
+def get_web_vector_store() -> ChromaVectorStore:
+    from core.web_search_service import WebSearchConfig
+
+    cfg_path = ROOT / "configs" / "vector_config.yaml"
+    vector_cfg: dict = {}
+    if cfg_path.exists():
+        with open(cfg_path, "r", encoding="utf-8") as f:
+            vector_cfg = yaml.safe_load(f).get("vector", {}) or {}
+    ws_cfg = WebSearchConfig.load()
+    collection = vector_cfg.get("web_cache_collection", ws_cfg.vector_collection)
+    return ChromaVectorStore(
+        persist_dir=vector_cfg.get("persist_dir", DEFAULT_PERSIST_DIR),
+        collection_name=collection,
+        embedding_model=vector_cfg.get("embedding_model", DEFAULT_EMBEDDING_MODEL),
+    )
+
+
+@lru_cache(maxsize=1)
+def get_web_search_service() -> WebSearchService:
+    return WebSearchService(
+        store=get_web_search_store(),
+        vector_store=get_web_vector_store(),
+    )
 
 
 @lru_cache(maxsize=1)
