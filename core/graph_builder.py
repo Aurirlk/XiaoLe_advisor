@@ -31,6 +31,7 @@ def build_graph(
     rag_tools: RAGTools | None = None,
     checkpointer: BaseCheckpointSaver | None = None,
     on_conversation_end: Callable[[GraphState], Awaitable[None]] | None = None,
+    web_search_service=None,
 ):
     graph = StateGraph(GraphState)
     sql_tools = SQLTools(engine)
@@ -40,7 +41,10 @@ def build_graph(
     synthesis_agent = build_synthesis_agent(llm)
     match_agent = build_match_agent(sql_tools)
     career_agent = build_career_agent(rag_tools)
-    web_search_agent = build_web_search_agent(web_search_tools)
+    web_search_agent = build_web_search_agent(
+        web_search_service=web_search_service,
+        web_search=web_search_tools,
+    )
     sql_fc_agent = build_sql_agent(llm)
 
     # `safe_node_call` is async; nodes must be async functions too, otherwise

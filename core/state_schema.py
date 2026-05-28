@@ -35,6 +35,7 @@ class GraphState(TypedDict, total=False):
     sql_results: List[Dict[str, str]]
     career_context: str
     web_search_results: str
+    web_search_pages: List[Dict[str, Any]]
     risk_assessment: Dict[str, Any]
     reality_check: Dict[str, Any]
     decision_hints: Dict[str, Any]
