@@ -2,3 +2,4 @@ vector:
   persist_dir: data/chroma_db
   collection_name: zx_experience
   embedding_model: paraphrase-multilingual-MiniLM-L12-v2
+  web_cache_collection: zx_web_cache
