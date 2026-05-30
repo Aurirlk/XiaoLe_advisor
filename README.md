@@ -28,7 +28,6 @@
 ## 目录
 
 - [项目介绍](#项目介绍)
-- [开发与运行目录分离（GitHub Desktop）](#开发与运行目录分离github-desktop)
 - [技术栈](#技术栈)
 - [架构概览](#架构概览)
 - [项目结构](#项目结构)
@@ -60,89 +59,17 @@ ZX AI Advisor 是一个智能高考志愿填报顾问系统，采用 **张雪峰
 
 ### 核心亮点
 
-| 能力    | 说明                                    |
-| ----- | ------------------------------------- |
-| 智能路由  | LLM 结构化意图识别 + 确定性关键词兜底                |
-| 分层工具  | SQL 四级降级链 → RAG 混合召回 → WebSearch 自动降级 |
-| 防端水引擎 | 三层防线：信号检测 → Prompt 注入 → 输出校验与强制修正     |
-| 多轮对话  | LangGraph Checkpoint 持久化状态，会话隔离，变更可追溯 |
-| 用户画像  | CRM 持久化画像，跨会话断点续传                     |
-| 流式输出  | SSE 事件驱动，Token 级打字机效果                 |
+| 能力    | 说明                                      |
+| ----- | --------------------------------------- |
+| 智能路由  | LLM 结构化意图识别 + 确定性关键词兜底                  |
+| 分层工具  | SQL 四级降级链 → RAG 混合召回 → WebSearch 自动降级   |
+| 防端水引擎 | 三层防线：信号检测 → Prompt 注入 → 输出校验与强制修正       |
+| 多轮对话  | LangGraph Checkpoint 持久化状态，会话隔离，变更可追溯   |
+| 用户画像  | CRM 持久化画像，跨会话断点续传                       |
+| 流式输出  | SSE 事件驱动，Token 级打字机效果                   |
 | 联网落库  | 搜索 → 抓取正文 → SQLite + ChromaDB 双写，24h 缓存 |
-| 本地自包含 | SQLite + ChromaDB，零外部依赖即可运行           |
-| 现代 UI | Vue 3 组件化架构，响应式布局，实时状态监控              |
-
----
-
-## 开发与运行目录分离（GitHub Desktop）
-
-若**开发文件夹**（写代码、用 Git）与**测试/运行文件夹**（启动服务、生成数据库）不是同一个路径，建议按下面方式组织，避免把运行垃圾提交到 GitHub。
-
-### 原则
-
-| 目录角色 | 典型路径示例 | 说明 |
-|----------|--------------|------|
-| **开发仓（提交 GitHub）** | `D:\Program\zx_ai_advisor` | 只放源码、配置模板、种子数据、测试用例 |
-| **运行/测试仓（不提交）** | `D:\Test\zx_ai_advisor-run` | `git clone` 后的副本，或本机第二份目录，专门跑服务 |
-
-### 应放在「开发仓」并上传到 GitHub 的内容
-
-把整个项目根目录交给 GitHub Desktop，**但**依赖根目录的 [`.gitignore`](.gitignore) 自动排除运行产物。需要进仓库的包括：
-
-| 路径 | 说明 |
-|------|------|
-| `agents/` `api/` `core/` `tools/` `skills/` `frontend/` | 全部业务与前端源码 |
-| `tests/` | 全部测试（必须保留） |
-| `configs/` | YAML 配置（不含密钥） |
-| `scripts/` | `init_sqlite.py`、`import_code_artifacts.py`、`build_rag_index.py` 等 |
-| `data/sql_schema/` | 数据库 DDL |
-| `data/seeds/` | 种子数据（专业库、经验片段、2024 分数线说明） |
-| `data/eval/` | 评测黄金集 |
-| `data/documents/` | 文档目录（可只保留 `README.md`，用户自行放 pdf/md） |
-| `data/vector_store/zx_experience.json` | 可选提交（约 120KB）；也可用种子脚本重建 |
-| `requirements.txt` `pytest.ini` `docker-compose.yml` `start.ps1` | 依赖与启动 |
-| `README.md` `项目报告.md` `.gitignore` `.env.example` `.gitattributes` | 文档与 Git 配置 |
-
-### 只留在「运行/测试目录」、不要提交的内容
-
-以下由首次启动或测试自动生成，**不要**复制进 GitHub（已在 `.gitignore` 中忽略）：
-
-| 路径 | 说明 |
-|------|------|
-| `.env` | API Key 等密钥 |
-| `logs/` | 运行日志 |
-| `data/zx_advisor.db` | SQLite 运行时库（含导入后的专业/分数线） |
-| `data/chroma_db/` | 向量库（含嵌入模型缓存目录） |
-| `data/checkpoints.db` | LangGraph 多轮 checkpoint（若启用 sqlite 后端） |
-| `.pytest_cache/` `__pycache__/` | 测试与 Python 缓存 |
-
-### 推荐工作流（GitHub Desktop）
-
-1. 在**开发目录**用 GitHub Desktop → **Add Local Repository** → 选择 `zx_ai_advisor` 根目录。
-2. 确认 Changes 里**没有** `.env`、`logs/`、`data/zx_advisor.db`、`data/chroma_db/`。
-3. 首次提交前复制环境变量：`copy .env.example .env`，在 `.env` 中填写 `DEEPSEEK_API_KEY`（`.env` 不会被提交）。
-4. **测试目录**操作：
-   ```powershell
-   git clone <你的仓库地址> D:\Test\zx_ai_advisor-run
-   cd D:\Test\zx_ai_advisor-run
-   copy .env.example .env
-   # 编辑 .env 填入 Key
-   pip install -r requirements.txt
-   python -m scripts.init_sqlite
-   python -m scripts.import_code_artifacts
-   python -m api.main
-   ```
-5. 日常只在**开发目录**改代码 → GitHub Desktop Commit → Push；**测试目录** `git pull` 后重新跑服务验证。
-
-### 从开发目录同步到测试目录（未用 Git 时）
-
-若暂时不用 `git clone`，可手动同步**源码文件夹**到测试目录，**不要**覆盖测试目录里已有的 `.env` 和 `data/zx_advisor.db`：
-
-- 复制：`agents/` `api/` `core/` `tools/` `skills/` `frontend/` `configs/` `scripts/` `tests/`
-- 复制：`requirements.txt` `pytest.ini` `start.ps1` `docker-compose.yml` `README.md`
-- 不复制：`logs/` `.env` `data/zx_advisor.db` `data/chroma_db/` `.pytest_cache/`
-
----
+| 本地自包含 | SQLite + ChromaDB，零外部依赖即可运行             |
+| 现代 UI | Vue 3 组件化架构，响应式布局，实时状态监控                |
 
 ## 技术栈
 
@@ -655,28 +582,28 @@ nginx -t && systemctl reload nginx
 
 ### 端点总览
 
-| 方法       | 路径                             | 说明                         |
-| -------- | ------------------------------ | -------------------------- |
-| `GET`    | `/`                            | 服务信息                       |
-| `GET`    | `/healthz`                     | 健康检查                       |
-| `GET`    | `/status`                      | 服务状态详情 (含各组件就绪状态)          |
-| `POST`   | `/stream/advice`               | **SSE 流式建议** (核心接口)        |
-| `GET`    | `/stream/state/{session_id}`   | 当前对话状态与用户画像                |
-| `GET`    | `/stream/history/{session_id}` | 画像变更历史                     |
-| `POST`   | `/chat/message`                | 保存消息到 Redis                |
-| `GET`    | `/chat/history/{session_id}`   | 查询历史消息                     |
-| `DELETE` | `/chat/history/{session_id}`   | 清空会话历史                     |
-| `POST`   | `/rag/ingest`                  | 增量入库文档                     |
-| `POST`   | `/rag/upload`                  | 上传文件自动解析入库（md/csv/pdf/txt） |
-| `POST`   | `/rag/scan-documents`          | 扫描 data/documents/ 重建索引    |
-| `POST`   | `/rag/rebuild`                 | 清空重建索引                     |
-| `POST`   | `/rag/sync-from-json`          | 从 JSON 同步向量库               |
-| `GET`    | `/rag/stats`                   | 向量库统计                      |
-| `DELETE` | `/rag/collection`              | 清空向量集合                     |
+| 方法       | 路径                             | 说明                             |
+| -------- | ------------------------------ | ------------------------------ |
+| `GET`    | `/`                            | 服务信息                           |
+| `GET`    | `/healthz`                     | 健康检查                           |
+| `GET`    | `/status`                      | 服务状态详情 (含各组件就绪状态)              |
+| `POST`   | `/stream/advice`               | **SSE 流式建议** (核心接口)            |
+| `GET`    | `/stream/state/{session_id}`   | 当前对话状态与用户画像                    |
+| `GET`    | `/stream/history/{session_id}` | 画像变更历史                         |
+| `POST`   | `/chat/message`                | 保存消息到 Redis                    |
+| `GET`    | `/chat/history/{session_id}`   | 查询历史消息                         |
+| `DELETE` | `/chat/history/{session_id}`   | 清空会话历史                         |
+| `POST`   | `/rag/ingest`                  | 增量入库文档                         |
+| `POST`   | `/rag/upload`                  | 上传文件自动解析入库（md/csv/pdf/txt）     |
+| `POST`   | `/rag/scan-documents`          | 扫描 data/documents/ 重建索引        |
+| `POST`   | `/rag/rebuild`                 | 清空重建索引                         |
+| `POST`   | `/rag/sync-from-json`          | 从 JSON 同步向量库                   |
+| `GET`    | `/rag/stats`                   | 向量库统计                          |
+| `DELETE` | `/rag/collection`              | 清空向量集合                         |
 | `POST`   | `/web/search`                  | 联网搜索 + 抓取正文 + SQLite/Chroma 落库 |
-| `GET`    | `/web/sessions`                | 联网查询历史列表                   |
-| `GET`    | `/web/sessions/{id}`           | 单次查询的页面明细                 |
-| `GET`    | `/web/cache/check?q=...`       | 检查 24h 内是否有缓存              |
+| `GET`    | `/web/sessions`                | 联网查询历史列表                       |
+| `GET`    | `/web/sessions/{id}`           | 单次查询的页面明细                      |
+| `GET`    | `/web/cache/check?q=...`       | 检查 24h 内是否有缓存                  |
 
 ### 流式建议接口
 
