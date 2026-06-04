@@ -1,0 +1,13 @@
+rag:
+  write_remote: true
+  backend: local_file
+  index_path: data/vector_store/zx_experience.json
+  milvus:
+    host: localhost
+    port: 19530
+    collection: zx_experience
+    expr: ""
+  elasticsearch:
+    endpoint: http://localhost:9200
+    index: zx_experience
+    timeout_seconds: 2.0
