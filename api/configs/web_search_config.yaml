@@ -1,0 +1,12 @@
+web_search:
+  top_k: 5
+  search_timeout_seconds: 4
+  fetch_timeout_seconds: 8
+  max_content_bytes: 512000
+  cache_ttl_hours: 24
+  user_agent: "Mozilla/5.0 (compatible; ZXAIAdvisor/1.0)"
+  enable_page_fetch: true
+  vector_collection: zx_web_cache
+  max_chroma_text_chars: 2000
+  synthesis_excerpt_chars: 800
+  fetch_concurrency: 3
