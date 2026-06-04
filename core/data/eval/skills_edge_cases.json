@@ -1,0 +1,448 @@
+{
+  "_description": "技能边缘案例与防穿透评测数据集 — 覆盖 risk_assessor / reality_checker / decision_heuristics / roi_calculator 的边界值、异常值和对抗输入",
+
+  "risk_assessor_cases": [
+    {
+      "id": "risk_001",
+      "label": "四大天坑_非985院校",
+      "major": "生物工程",
+      "tier": "双非一本",
+      "profile": {},
+      "expect_risk": true,
+      "expect_risk_level": "high"
+    },
+    {
+      "id": "risk_002",
+      "label": "生物工程_985可以豁免",
+      "major": "生物工程",
+      "tier": "985",
+      "profile": {},
+      "expect_risk": false,
+      "expect_risk_level": "low"
+    },
+    {
+      "id": "risk_003",
+      "label": "化学工程_211不能豁免",
+      "major": "化学工程",
+      "tier": "211",
+      "profile": {},
+      "expect_risk": true,
+      "expect_risk_level": "high"
+    },
+    {
+      "id": "risk_004",
+      "label": "环境工程_顶尖211豁免",
+      "major": "环境工程",
+      "tier": "顶尖211",
+      "profile": {},
+      "expect_risk": false,
+      "expect_risk_level": "low"
+    },
+    {
+      "id": "risk_005",
+      "label": "材料科学_双非",
+      "major": "材料科学与工程",
+      "tier": "双非一本",
+      "profile": {},
+      "expect_risk": true,
+      "expect_risk_level": "high"
+    },
+    {
+      "id": "risk_006",
+      "label": "计算机_正常专业不触发",
+      "major": "计算机科学与技术",
+      "tier": "双非一本",
+      "profile": {},
+      "expect_risk": false,
+      "expect_risk_level": "low"
+    },
+    {
+      "id": "risk_007",
+      "label": "临床医学_预算不足触发",
+      "major": "临床医学",
+      "tier": "985",
+      "profile": {"budget": 50000},
+      "expect_risk": true,
+      "expect_risk_level": "high"
+    },
+    {
+      "id": "risk_008",
+      "label": "口腔医学_预算临界值刚好不足",
+      "major": "口腔医学",
+      "tier": "985",
+      "profile": {"budget": 79999},
+      "expect_risk": true,
+      "expect_risk_level": "high"
+    },
+    {
+      "id": "risk_009",
+      "label": "口腔医学_预算临界值刚好足够",
+      "major": "口腔医学",
+      "tier": "985",
+      "profile": {"budget": 80000},
+      "expect_risk": false,
+      "expect_risk_level": "low"
+    },
+    {
+      "id": "risk_010",
+      "label": "临床医学_预算充足不触发",
+      "major": "临床医学",
+      "tier": "985",
+      "profile": {"budget": 150000},
+      "expect_risk": false,
+      "expect_risk_level": "low"
+    },
+    {
+      "id": "risk_011",
+      "label": "对抗_预算为0",
+      "major": "临床医学",
+      "tier": "985",
+      "profile": {"budget": 0},
+      "expect_risk": false,
+      "expect_risk_level": "low",
+      "note": "budget=0 不符合 >0 条件，不触发医学风控"
+    },
+    {
+      "id": "risk_012",
+      "label": "对抗_预算为负数",
+      "major": "临床医学",
+      "tier": "985",
+      "profile": {"budget": -10000},
+      "expect_risk": false,
+      "expect_risk_level": "low",
+      "note": "负数不符合 isinstance(budget, (int,float)) and budget > 0，不触发风控"
+    },
+    {
+      "id": "risk_013",
+      "label": "对抗_预算为超大值",
+      "major": "临床医学",
+      "tier": "985",
+      "profile": {"budget": 99999999},
+      "expect_risk": false,
+      "expect_risk_level": "low"
+    },
+    {
+      "id": "risk_014",
+      "label": "对抗_专业名含SQL注入",
+      "major": "计算机'; DROP TABLE students; --",
+      "tier": "双非一本",
+      "profile": {},
+      "expect_risk": false,
+      "expect_risk_level": "low"
+    },
+    {
+      "id": "risk_015",
+      "label": "对抗_profie为None",
+      "major": "生物工程",
+      "tier": "双非一本",
+      "profile": null,
+      "expect_risk": true,
+      "expect_risk_level": "high",
+      "note": "profile=None 时，or {} 兜底"
+    },
+    {
+      "id": "risk_016",
+      "label": "对抗_专业名为空字符串",
+      "major": "",
+      "tier": "985",
+      "profile": {},
+      "expect_risk": false,
+      "expect_risk_level": "low"
+    },
+    {
+      "id": "risk_017",
+      "label": "同时触发双风险",
+      "major": "生物工程",
+      "tier": "双非一本",
+      "profile": {"budget": 50000, "family_budget": 50000},
+      "expect_risk": true,
+      "expect_risk_level": "high",
+      "note": "生化环材风控触发，医学风控不触发（major不是临床/口腔）"
+    },
+    {
+      "id": "risk_018",
+      "label": "family_budget渠道触发医学风控",
+      "major": "临床医学",
+      "tier": "985",
+      "profile": {"family_budget": 30000},
+      "expect_risk": true,
+      "expect_risk_level": "high",
+      "note": "family_budget 应被 budget = profile.get('budget') or profile.get('family_budget') 捕获"
+    },
+    {
+      "id": "risk_019",
+      "label": "预算为字符串不触发",
+      "major": "临床医学",
+      "tier": "985",
+      "profile": {"budget": "50000"},
+      "expect_risk": false,
+      "expect_risk_level": "low",
+      "note": "字符串不满足 isinstance(budget, (int,float))"
+    },
+    {
+      "id": "risk_020",
+      "label": "边界_unknown_tier",
+      "major": "生物工程",
+      "tier": "未知",
+      "profile": {},
+      "expect_risk": true,
+      "expect_risk_level": "high",
+      "note": "tier不在豁免集合内，触发风控"
+    }
+  ],
+
+  "reality_checker_cases": [
+    {
+      "id": "real_001",
+      "label": "刚好低于容忍线 -9分",
+      "user_score": 599,
+      "target_min": 608,
+      "tolerance": 8,
+      "expect": {"is_realistic": "false"}
+    },
+    {
+      "id": "real_002",
+      "label": "刚好在容忍线上 -8分",
+      "user_score": 600,
+      "target_min": 608,
+      "tolerance": 8,
+      "expect": {"is_realistic": "true"}
+    },
+    {
+      "id": "real_003",
+      "label": "刚好等于目标分",
+      "user_score": 600,
+      "target_min": 600,
+      "tolerance": 8,
+      "expect": {"is_realistic": "true"}
+    },
+    {
+      "id": "real_004",
+      "label": "刚好高于35分_触发高分低报警告",
+      "user_score": 636,
+      "target_min": 600,
+      "tolerance": 8,
+      "expect": {"is_realistic": "warning"}
+    },
+    {
+      "id": "real_005",
+      "label": "刚好35分_不触发警告",
+      "user_score": 635,
+      "target_min": 600,
+      "tolerance": 8,
+      "expect": {"is_realistic": "true"}
+    },
+    {
+      "id": "real_006",
+      "label": "巨大差距_低100分",
+      "user_score": 500,
+      "target_min": 600,
+      "tolerance": 8,
+      "expect": {"is_realistic": "false"}
+    },
+    {
+      "id": "real_007",
+      "label": "巨大差距_高100分",
+      "user_score": 700,
+      "target_min": 600,
+      "tolerance": 8,
+      "expect": {"is_realistic": "warning"}
+    },
+    {
+      "id": "real_008",
+      "label": "默认tolerance",
+      "user_score": 590,
+      "target_min": 600,
+      "expect": {"is_realistic": "false"}
+    },
+    {
+      "id": "real_009",
+      "label": "边界_zero tolerance",
+      "user_score": 599,
+      "target_min": 600,
+      "tolerance": 0,
+      "expect": {"is_realistic": "false"}
+    },
+    {
+      "id": "real_010",
+      "label": "极端_负分数",
+      "user_score": -100,
+      "target_min": 500,
+      "tolerance": 8,
+      "expect": {"is_realistic": "false"},
+      "note": "gap=-600 < -8"
+    },
+    {
+      "id": "real_011",
+      "label": "极端_负目标分",
+      "user_score": 500,
+      "target_min": -100,
+      "tolerance": 8,
+      "expect": {"is_realistic": "warning"},
+      "note": "gap=600 > 35"
+    }
+  ],
+
+  "decision_heuristics_cases": [
+    {
+      "id": "heu_001",
+      "label": "完全空画像",
+      "profile": {},
+      "expect_min_questions": 6
+    },
+    {
+      "id": "heu_002",
+      "label": "完全填充",
+      "profile": {"province": "广东省", "subject_type": "物理类", "major_name": "计算机", "score": 600, "rank": 5000, "target_city": "深圳", "budget": 100000, "postgraduate_plan": "yes"},
+      "expect_questions": 0
+    },
+    {
+      "id": "heu_003",
+      "label": "只有score无rank",
+      "profile": {"score": 600},
+      "expect_questions": 6,
+      "note": "question 3: '你多少分/全省位次多少？' 不触发（有score），故只有6个问题"
+    },
+    {
+      "id": "heu_004",
+      "label": "只有rank无score",
+      "profile": {"rank": 5000},
+      "expect_questions": 6,
+      "note": "question 3 不触发（有rank），故6个问题"
+    },
+    {
+      "id": "heu_005",
+      "label": "postgraduate_plan为None时触发追问",
+      "profile": {"province": "广东省", "subject_type": "物理类"},
+      "expect_contains": "你能不能接受读研/读博",
+      "note": "postgraduate_plan is None → trigger"
+    },
+    {
+      "id": "heu_006",
+      "label": "postgraduate_plan为空字符串不触发追问",
+      "profile": {"postgraduate_plan": ""},
+      "expect_not_contains": "你能不能接受读研/读博",
+      "note": "postgraduate_plan gets '' which is not None"
+    },
+    {
+      "id": "heu_007",
+      "label": "city_priority_无城市",
+      "profile": {},
+      "expect_city_hint_contains": "能去更强的城市就别自我感动"
+    },
+    {
+      "id": "heu_008",
+      "label": "city_priority_有城市",
+      "profile": {"target_city": "南京"},
+      "expect_city_hint_contains": "南京"
+    },
+    {
+      "id": "heu_009",
+      "label": "ten_year_test_默认城市",
+      "profile": {},
+      "expect_ten_year_contains": "你想去的城市"
+    },
+    {
+      "id": "heu_010",
+      "label": "ten_year_test_指定城市",
+      "profile": {"target_city": "杭州"},
+      "expect_ten_year_contains": "杭州"
+    },
+    {
+      "id": "heu_011",
+      "label": "summarize_结构完整性",
+      "profile": {},
+      "expect_keys": ["soul_questions", "hints"]
+    }
+  ],
+
+  "roi_calculator_cases": [
+    {
+      "id": "roi_001",
+      "label": "标准计算",
+      "tuition": 10000,
+      "years": 4,
+      "salary": 50000,
+      "expect_total": 40000.0,
+      "expect_ratio": 0.8
+    },
+    {
+      "id": "roi_002",
+      "label": "零薪资_返回-1",
+      "tuition": 10000,
+      "years": 4,
+      "salary": 0,
+      "expect_total": 40000.0,
+      "expect_ratio": -1.0
+    },
+    {
+      "id": "roi_003",
+      "label": "负薪资_返回-1",
+      "tuition": 10000,
+      "years": 4,
+      "salary": -5000,
+      "expect_total": 40000.0,
+      "expect_ratio": -1.0
+    },
+    {
+      "id": "roi_004",
+      "label": "零学费_零年",
+      "tuition": 0,
+      "years": 0,
+      "salary": 10000,
+      "expect_total": 0.0,
+      "expect_ratio": 0.0
+    },
+    {
+      "id": "roi_005",
+      "label": "极大值",
+      "tuition": 500000,
+      "years": 5,
+      "salary": 200000,
+      "expect_total": 2500000.0,
+      "expect_ratio": 12.5
+    },
+    {
+      "id": "roi_006",
+      "label": "极小正薪资",
+      "tuition": 10000,
+      "years": 4,
+      "salary": 1,
+      "expect_total": 40000.0,
+      "expect_ratio": 40000.0
+    }
+  ],
+
+  "exception_handler_cases": [
+    {
+      "id": "ex_001",
+      "label": "同步函数正常返回",
+      "test_type": "sync_ok"
+    },
+    {
+      "id": "ex_002",
+      "label": "同步函数抛异常",
+      "test_type": "sync_crash"
+    },
+    {
+      "id": "ex_003",
+      "label": "异步函数正常返回",
+      "test_type": "async_ok"
+    },
+    {
+      "id": "ex_004",
+      "label": "异步函数抛异常",
+      "test_type": "async_crash"
+    },
+    {
+      "id": "ex_005",
+      "label": "函数返回None",
+      "test_type": "sync_none"
+    },
+    {
+      "id": "ex_006",
+      "label": "函数返回非dict",
+      "test_type": "sync_non_dict"
+    }
+  ]
+}

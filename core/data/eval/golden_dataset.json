@@ -1,0 +1,20 @@
+[
+  {
+    "id": "case_hebei_cs_score",
+    "query": "我河北物理类580分，想报计算机科学与技术，给我一个冲稳保建议。",
+    "expected_keywords": ["冲", "稳", "保", "分", "位次"],
+    "persona_keywords": ["听懂了吧", "别上头", "按数据来"]
+  },
+  {
+    "id": "case_medical_budget",
+    "query": "我河北物理类520分，家里预算紧张，但想学临床医学，靠谱吗？",
+    "expected_keywords": ["风险", "预算", "建议"],
+    "persona_keywords": ["先说结论", "按数据", "别上头"]
+  },
+  {
+    "id": "case_career_civil_service",
+    "query": "法学专业以后考公怎么样，就业前景如何？",
+    "expected_keywords": ["考公", "就业", "前景"],
+    "persona_keywords": ["先说结论", "现实", "策略"]
+  }
+]
