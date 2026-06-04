@@ -32,7 +32,9 @@ _CITY_PATTERN_WEAK = re.compile(
 _PROVINCE_LIST = ["河北省", "河南省", "山东省", "广东省", "江苏省", "浙江省", "四川省",
                    "湖北省", "湖南省", "福建省", "安徽省", "江西省", "辽宁省",
                    "吉林省", "黑龙江省", "陕西省", "山西省", "甘肃省",
-                   "云南省", "贵州省", "海南省", "青海省", "台湾省"]
+                   "云南省", "贵州省", "海南省", "青海省", "台湾省",
+                   "内蒙古自治区", "西藏自治区", "新疆维吾尔自治区",
+                   "宁夏回族自治区", "广西壮族自治区"]
 _KNOWN_MAJORS = [
     "临床医学", "口腔医学", "计算机科学与技术", "软件工程", "法学",
     "汉语言文学", "金融学", "会计学", "土木工程", "电气工程及其自动化",
@@ -110,17 +112,24 @@ def _extract_from_query(query: str) -> Dict[str, Any]:
         if city not in {"一个", "哪个", "什么", "哪里", "那儿", "一下", "一点"}:
             extracted["target_city"] = city
 
-    # 省份
+    # 省份（支持多个：第一个作为 province，后续出现的 "去/想去/在XX" 作为 target_province）
+    found_provinces: list[str] = []
     for province in _PROVINCE_LIST:
         short = province.replace("省", "")
         if short in query or province in query:
-            extracted["province"] = province
-            break
+            found_provinces.append(province)
+    if found_provinces:
+        extracted["province"] = found_provinces[0]
+    if len(found_provinces) > 1:
+        # 第二个出现的省份作为目标省份（通常是"想去XX"的语义）
+        extracted["target_province"] = found_provinces[1]
 
-    # 选科
-    if "物理" in query:
+    # 选科（使用明确后缀避免误匹配，如"物理变化"不应触发）
+    _SUBJECT_PHYSICAL = ("物理类", "选物理", "选了物理", "选的是物理", "物理方向", "物理组合", "物理考生")
+    _SUBJECT_HISTORY = ("历史类", "选历史", "选了历史", "选的是历史", "历史方向", "历史组合", "历史考生")
+    if any(kw in query for kw in _SUBJECT_PHYSICAL):
         extracted["subject_type"] = "物理类"
-    elif "历史" in query:
+    elif any(kw in query for kw in _SUBJECT_HISTORY):
         extracted["subject_type"] = "历史类"
 
     # 专业（全称匹配 + 别名映射）
@@ -199,13 +208,9 @@ def profile_agent(state: GraphState) -> GraphState:
     history: List[ProfileChange] = list(state.get("profile_history") or [])
     history.extend(changes)
 
-    # 5) 特殊字段直写 state
-    if "_extracted_score" in new_fields:
-        state["extracted_score"] = new_fields["_extracted_score"]
-    if "_extracted_rank" in new_fields:
-        state["extracted_rank"] = new_fields["_extracted_rank"]
-    state["user_profile"] = merged
-    state["profile_history"] = history
+    # 5) 构建返回值（不直接修改传入的 state）
+    extracted_score = new_fields.get("_extracted_score", state.get("extracted_score"))
+    extracted_rank = new_fields.get("_extracted_rank", state.get("extracted_rank"))
 
     # 6) 判定画像是否齐全
     missing_fields = [
@@ -218,11 +223,13 @@ def profile_agent(state: GraphState) -> GraphState:
             "missing_profile_fields": missing_fields,
             "profile_history": history,
             "next_node": "synthesis_agent",
+            "extracted_score": extracted_score,
+            "extracted_rank": extracted_rank,
         }
     return {
         "user_profile": merged,
         "profile_history": history,
         "next_node": "supervisor_agent",
-        "extracted_score": state.get("extracted_score"),
-        "extracted_rank": state.get("extracted_rank"),
+        "extracted_score": extracted_score,
+        "extracted_rank": extracted_rank,
     }
