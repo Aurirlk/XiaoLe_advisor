@@ -1,6 +1,8 @@
 from pathlib import Path
 import json
+import logging
 
+import yaml
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 from core.state_schema import GraphState
@@ -10,6 +12,7 @@ from skills.decision_heuristics import summarize_decision_hints
 ROOT = Path(__file__).resolve().parents[1]
 ZX_PROMPT_PATH = ROOT / "configs" / "prompts" / "zx_system_prompt.md"
 FALLBACK_PROMPT_PATH = ROOT / "configs" / "prompts" / "synthesis_system_prompt.txt"
+PATCHES_PATH = ROOT / "configs" / "synthesis_patches.yaml"
 
 
 def _load_synthesis_prompt() -> str:
@@ -18,7 +21,27 @@ def _load_synthesis_prompt() -> str:
     return FALLBACK_PROMPT_PATH.read_text(encoding="utf-8")
 
 
-def build_synthesis_agent(llm: ChatOpenAI):
+def _load_feedback_patches() -> list[dict]:
+    if not PATCHES_PATH.exists():
+        return []
+    data = yaml.safe_load(PATCHES_PATH.read_text(encoding="utf-8")) or {}
+    return data.get("patches", []) or []
+
+
+def _build_patch_inject(tags: list[str]) -> str:
+    if not tags:
+        return ""
+    patches = _load_feedback_patches()
+    injects: list[str] = []
+    tag_set = set(tags)
+    for patch in patches:
+        trigger_tags = set(patch.get("trigger_tags") or [])
+        if trigger_tags & tag_set:
+            injects.append(str(patch.get("inject", "")).strip())
+    return "\n".join(item for item in injects if item)
+
+
+def build_synthesis_agent(llm: ChatOpenAI, feedback_store=None):
     async def synthesis_agent(state: GraphState) -> GraphState:
         sql_results = state.get("sql_results", [])
         risk = state.get("risk_assessment", {})
@@ -49,6 +72,16 @@ def build_synthesis_agent(llm: ChatOpenAI):
             "decision_hints": decision_hints,
         }
         system_prompt = _load_synthesis_prompt()
+
+        session_id = state.get("session_id", "")
+        if feedback_store and session_id:
+            try:
+                negative_tags = await feedback_store.get_session_negative_tags(session_id)
+                patch_text = _build_patch_inject(negative_tags)
+                if patch_text:
+                    system_prompt = patch_text + "\n\n" + system_prompt
+            except Exception:
+                logging.getLogger(__name__).warning("获取 session 负反馈标签失败", exc_info=True)
 
         # --- Guard: 检测硬信号，注入强制格式指令 ---
         guard_signals = SynthesisGuard.detect_signals(state)

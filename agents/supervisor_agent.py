@@ -1,11 +1,23 @@
-from typing import Any
+from typing import Any, Literal
 
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
-import sys
+from pydantic import BaseModel
 
+from core.routing_tuner import load_tuning, merge_keywords
 from core.state_schema import GraphState
 
+
+class RouteDecision(BaseModel):
+    reasoning: str
+    next: Literal[
+        "profile_agent",
+        "match_agent",
+        "career_agent",
+        "web_search_agent",
+        "sql_agent",
+        "synthesis_agent",
+    ]
 
 SUPERVISOR_SYSTEM_PROMPT = """
 你是报考顾问系统的 Supervisor，只做路由，不做业务回答。
@@ -29,18 +41,58 @@ def _fallback_route(state: GraphState) -> str:
     raw = state.get("user_query") or ""
     query = str(raw).strip() if not isinstance(raw, (str, bytes)) else (raw or "").strip()
     profile = state.get("user_profile") or {}
-    if not profile.get("province") and not profile.get("subject_type") and not profile.get("major_name"):
+    tuning = load_tuning()
+    if any(not profile.get(k) for k in ("province", "subject_type", "major_name")):
         return "profile_agent"
-    if any(key in query for key in ["搜一下", "帮我查", "官网", "政策", "最新", "通知", "新闻", "2026"]):
+    web_keys = merge_keywords(
+        ["搜一下", "帮我查", "官网", "政策", "最新", "通知", "新闻", "2026"],
+        tuning.get("web_search_agent", []),
+    )
+    if any(key in query for key in web_keys):
         return "web_search_agent"
-    if any(key in query for key in ["就业", "考公", "前景", "薪资", "工资", "行业", "转行", "考研"]):
+    career_keys = merge_keywords(
+        ["就业", "考公", "前景", "薪资", "工资", "行业", "转行", "考研"],
+        tuning.get("career_agent", []),
+    )
+    if any(key in query for key in career_keys):
         return "career_agent"
-    if "分" in query or "位次" in query or state.get("extracted_score"):
+    match_keys = merge_keywords(["分", "位次"], tuning.get("match_agent", []))
+    if any(key in query for key in match_keys) or state.get("extracted_score") is not None:
         return "match_agent"
     return "synthesis_agent"
 
 
 import json as json_mod
+import logging
+import re
+
+logger = logging.getLogger(__name__)
+
+_VALID_NEXT_NODES = frozenset({
+    "profile_agent", "match_agent", "career_agent",
+    "web_search_agent", "sql_agent", "synthesis_agent",
+})
+
+
+def _extract_json_from_text(text: str) -> dict | None:
+    """从 LLM 输出中稳健提取 JSON，支持多个代码块的情况（优先取最后一个）"""
+    blocks = re.findall(r"```(?:json)?\s*\n?(.*?)```", text, re.DOTALL)
+    candidates = list(reversed(blocks)) if blocks else [text]
+    for block in candidates:
+        block = block.strip()
+        if not block:
+            continue
+        start = block.find("{")
+        end = block.rfind("}")
+        if start != -1 and end > start:
+            try:
+                return json_mod.loads(block[start:end + 1])
+            except json_mod.JSONDecodeError:
+                continue
+    try:
+        return json_mod.loads(text)
+    except json_mod.JSONDecodeError:
+        return None
 
 
 def build_supervisor_agent(llm: ChatOpenAI):
@@ -63,14 +115,13 @@ def build_supervisor_agent(llm: ChatOpenAI):
                 ]
             )
             text = (resp.content or "").strip()
-            if "```" in text:
-                text = text.split("```")[1]
-                if text.startswith("json"):
-                    text = text[4:]
-                text = text.strip()
-            data = json_mod.loads(text)
-            return {"next_node": data.get("next", "synthesis_agent")}
+            data = _extract_json_from_text(text)
+            if data and data.get("next") in _VALID_NEXT_NODES:
+                return {"next_node": data["next"]}
+            logger.warning("supervisor LLM 返回无效 next=%s，回退到关键词路由", data.get("next") if data else None)
+            return {"next_node": _fallback_route(state)}
         except Exception:
+            logger.warning("supervisor LLM 调用失败，回退到关键词路由", exc_info=True)
             return {"next_node": _fallback_route(state)}
 
     return supervisor_agent

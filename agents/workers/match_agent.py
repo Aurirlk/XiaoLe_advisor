@@ -57,8 +57,12 @@ def build_match_agent(sql_tools: SQLTools):
             user_profile=profile,
         )
         reality = {}
-        if rows and state.get("extracted_score"):
-            reality = check_expectation_gap(state["extracted_score"], rows[0]["min_score"])
+        if rows and state.get("extracted_score") is not None:
+            try:
+                score = int(state["extracted_score"])
+                reality = check_expectation_gap(score, rows[0]["min_score"])
+            except (ValueError, TypeError):
+                pass
 
         sql_results = rows
         if result.is_degraded and result.diagnostics:
