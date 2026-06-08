@@ -8,7 +8,10 @@ from langchain_openai import ChatOpenAI
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
 from core.checkpoint_manager import CheckpointManager
+from core.conversation_turn_store import ConversationTurnStore
 from core.crm_manager import CRMProfileManager
+from core.feedback_analyzer import append_negative_feedback_candidate
+from core.feedback_store import FeedbackStore
 from core.web_search_service import WebSearchService
 from core.web_search_store import WebSearchStore
 from tools.rag_tools import RAGTools
@@ -61,6 +64,7 @@ def get_compiled_graph():
         checkpointer=checkpointer,
         on_conversation_end=_make_crm_callback(crm),
         web_search_service=get_web_search_service(),
+        feedback_store=get_feedback_store(),
     )
 
 
@@ -163,3 +167,25 @@ def get_rag_tools() -> RAGTools:
         with open(rag_cfg_path, "r", encoding="utf-8") as f:
             rag_cfg = yaml.safe_load(f).get("rag", {})
     return RAGTools.from_config(rag_cfg)
+
+
+@lru_cache(maxsize=1)
+def get_conversation_turn_store() -> ConversationTurnStore:
+    return ConversationTurnStore(get_sqlite_engine())
+
+
+@lru_cache(maxsize=1)
+def get_feedback_store() -> FeedbackStore:
+    return FeedbackStore(get_sqlite_engine())
+
+
+def get_feedback_analyzer_callback():
+    async def _on_negative(
+        turn_id: str,
+        query: str,
+        bad_answer: str,
+        tags: list,
+    ) -> None:
+        append_negative_feedback_candidate(turn_id, query, bad_answer, tags)
+
+    return _on_negative
