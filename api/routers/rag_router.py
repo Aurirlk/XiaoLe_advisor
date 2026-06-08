@@ -1,14 +1,23 @@
 from __future__ import annotations
 
+import os
 from typing import Dict, List
 
-from fastapi import APIRouter, Depends, HTTPException, File, UploadFile
+from fastapi import APIRouter, Depends, File, Header, HTTPException, UploadFile
 from pydantic import BaseModel, Field
 
 from api.dependencies import get_vector_store, get_rag_tools
 from tools.vector_store import ChromaVectorStore
 
 router = APIRouter(prefix="/rag", tags=["rag"])
+
+
+def _verify_admin_key(x_admin_key: str | None = Header(default=None)) -> None:
+    expected = os.getenv("ADMIN_API_KEY", "")
+    if not expected:
+        raise HTTPException(status_code=503, detail="管理员 API Key 未配置")
+    if x_admin_key != expected:
+        raise HTTPException(status_code=401, detail="无效的管理员 API Key")
 
 
 class IngestRequest(BaseModel):
@@ -34,6 +43,7 @@ class StatsResponse(BaseModel):
 async def ingest_documents(
     payload: IngestRequest,
     store: ChromaVectorStore = Depends(get_vector_store),
+    _: None = Depends(_verify_admin_key),
 ):
     if not payload.documents:
         raise HTTPException(status_code=400, detail="documents 不能为空")
@@ -52,6 +62,7 @@ async def ingest_documents(
 async def rebuild_index(
     payload: IngestRequest,
     store: ChromaVectorStore = Depends(get_vector_store),
+    _: None = Depends(_verify_admin_key),
 ):
     if not payload.documents:
         raise HTTPException(status_code=400, detail="documents 不能为空")
@@ -66,6 +77,7 @@ async def rebuild_index(
 @router.delete("/collection")
 async def clear_collection(
     store: ChromaVectorStore = Depends(get_vector_store),
+    _: None = Depends(_verify_admin_key),
 ):
     store.delete_collection()
     return {"ok": True, "message": "向量集合已清空并重建"}
@@ -82,6 +94,7 @@ async def get_stats(
 @router.post("/sync-from-json")
 async def sync_from_json(
     store: ChromaVectorStore = Depends(get_vector_store),
+    _: None = Depends(_verify_admin_key),
 ):
     """从本地 zx_experience.json 同步数据到向量数据库"""
     from pathlib import Path
@@ -100,6 +113,7 @@ async def sync_from_json(
 @router.post("/scan-documents")
 async def scan_documents(
     store: ChromaVectorStore = Depends(get_vector_store),
+    _: None = Depends(_verify_admin_key),
 ):
     """重新扫描 data/documents/ 下所有文件（md/csv/pdf/txt），重建 RAG 索引并同步到向量库"""
     from pathlib import Path
@@ -124,6 +138,7 @@ async def scan_documents(
 async def upload_document(
     file: UploadFile = File(...),
     store: ChromaVectorStore = Depends(get_vector_store),
+    _: None = Depends(_verify_admin_key),
 ):
     """上传单个文档文件（md/csv/pdf/txt），即时解析并加入向量库"""
     from pathlib import Path
