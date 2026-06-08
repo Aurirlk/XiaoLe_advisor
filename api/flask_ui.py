@@ -828,7 +828,12 @@ def create_flask_ui(api_base_url: str) -> Flask:
                 for chunk in resp.iter_content(chunk_size=None):
                     if chunk:
                         yield chunk
-            return Response(generate(), content_type='text/event-stream')
+            headers = {
+                'Content-Type': 'text/event-stream',
+                'Cache-Control': 'no-cache',
+                'X-Accel-Buffering': 'no',
+            }
+            return Response(generate(), headers=headers)
         except Exception:
             return 'event: message\ndata: {"type":"token","msg":"服务暂时不可用，请稍后重试。"}\n\n', 502, {'Content-Type': 'text/event-stream'}
 
