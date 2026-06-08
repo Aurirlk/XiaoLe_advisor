@@ -25,6 +25,8 @@ from api.routers.chat_router import router as chat_router
 from api.routers.stream_router import router as stream_router
 from api.routers.rag_router import router as rag_router
 from api.routers.web_router import router as web_router
+from api.routers.admin_router import router as admin_router
+from api.routers.feedback_router import router as feedback_router
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -73,13 +75,18 @@ async def lifespan(app: FastAPI):
         app.state.notes.append("SQLite 初始化失败（将影响本地 SQL 查询能力）。")
 
     try:
-        from api.dependencies import get_web_search_store
+        from api.dependencies import get_web_search_store, get_conversation_turn_store, get_feedback_store
 
         store = get_web_search_store()
         await store.ensure_tables()
+        turn_store = get_conversation_turn_store()
+        await turn_store.ensure_tables()
+        feedback_store = get_feedback_store()
+        await feedback_store.ensure_tables()
         app.state.notes.append("联网查询缓存表已就绪。")
+        app.state.notes.append("对话轮次与反馈表已就绪。")
     except Exception:
-        app.state.notes.append("联网查询表初始化失败（已降级，不影响启动）。")
+        app.state.notes.append("联网查询/反馈表初始化失败（已降级，不影响启动）。")
 
     # 3) ChromaDB 向量库自动同步（懒加载模型，避免每次启动 ~13s 开销）
     try:
@@ -148,6 +155,8 @@ app.include_router(chat_router)
 app.include_router(stream_router)
 app.include_router(rag_router)
 app.include_router(web_router)
+app.include_router(admin_router)
+app.include_router(feedback_router)
 
 
 @app.get("/healthz")
