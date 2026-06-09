@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 from pathlib import Path
@@ -79,7 +80,7 @@ class CRMProfileManager:
         }
         for key in _PROFILE_KEY_MAP:
             val = row.get(key)
-            if val is not None and val != "" and val != 0:
+            if val is not None and val != "":
                 profile[key] = val
         return profile
 
@@ -111,6 +112,7 @@ class CRMProfileManager:
                             budget = :budget,
                             target_city = :target_city,
                             postgraduate_plan = :postgraduate_plan,
+                            extra_tags = :extra_tags,
                             session_count = :session_count,
                             last_seen_at = :last_seen_at,
                             last_query = :last_query,
@@ -126,6 +128,7 @@ class CRMProfileManager:
                         "budget": user_profile.get("budget", 0),
                         "target_city": user_profile.get("target_city", ""),
                         "postgraduate_plan": user_profile.get("postgraduate_plan", ""),
+                        "extra_tags": json.dumps(user_profile.get("extra_tags", {}), ensure_ascii=False),
                         "session_count": existing["session_count"] + 1,
                         "last_seen_at": now,
                         "last_query": last_query,
