@@ -32,13 +32,14 @@ def build_graph(
     checkpointer: BaseCheckpointSaver | None = None,
     on_conversation_end: Callable[[GraphState], Awaitable[None]] | None = None,
     web_search_service=None,
+    feedback_store=None,
 ):
     graph = StateGraph(GraphState)
     sql_tools = SQLTools(engine)
     rag_tools = rag_tools or RAGTools()
     web_search_tools = WebSearchTools()
     supervisor_agent = build_supervisor_agent(llm)
-    synthesis_agent = build_synthesis_agent(llm)
+    synthesis_agent = build_synthesis_agent(llm, feedback_store=feedback_store)
     match_agent = build_match_agent(sql_tools)
     career_agent = build_career_agent(rag_tools)
     web_search_agent = build_web_search_agent(
@@ -67,7 +68,11 @@ def build_graph(
     async def _synthesis_node(state: GraphState) -> dict:
         result = await safe_node_call(synthesis_agent, state)
         if on_conversation_end:
-            await on_conversation_end(state)
+            try:
+                await on_conversation_end(state)
+            except Exception:
+                import logging
+                logging.getLogger(__name__).warning("on_conversation_end 回调失败", exc_info=True)
         return result
 
     async def _sql_agent_node(state: GraphState) -> dict:
