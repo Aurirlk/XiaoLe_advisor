@@ -138,10 +138,6 @@ class SynthesisGuard:
             corrected = SynthesisGuard._force_prepend_guard_block(critical, "")
             return False, corrected, ["LLM 输出为空但存在 critical 风控信号"]
 
-        critical = [s for s in signals if s.is_critical]
-        if not critical:
-            return True, output, []
-
         failures: List[str] = []
         corrected = output
 
