@@ -133,7 +133,7 @@ class WebSearchService:
                 )
 
         _status("正在联网搜索...")
-        results = self.web_search.search(q, top_k=self.config.top_k)
+        results = await self.web_search.search(q, top_k=self.config.top_k)
         if not results:
             return WebSearchBundle(
                 formatted_text=(
@@ -203,7 +203,7 @@ class WebSearchService:
 
         if self.vector_store:
             _status("正在写入向量缓存...")
-            self._upsert_to_vector(q, pages)
+            await asyncio.to_thread(self._upsert_to_vector, q, pages)
 
         formatted = self._format_pages(pages)
         return WebSearchBundle(
