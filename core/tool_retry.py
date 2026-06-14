@@ -10,6 +10,7 @@
 from __future__ import annotations
 
 import asyncio
+import inspect
 from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Literal, Optional
 
@@ -143,7 +144,3 @@ def normalize_subject(raw: str) -> str:
     if "历史" in raw:
         return "历史类"
     return raw
-
-
-# needed for with_retry
-import inspect
