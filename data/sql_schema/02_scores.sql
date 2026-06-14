@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS admission_scores (
   major_name VARCHAR(120) NOT NULL,
   min_score INTEGER NOT NULL,
   lowest_rank INTEGER NOT NULL,
+  data_source VARCHAR(120) DEFAULT 'seed',
+  import_batch_id INTEGER,
   UNIQUE (university_id, province, subject_type, year, major_name)
 );
 
