@@ -10,7 +10,7 @@ export default {
       default: false
     }
   },
-  emits: ['send-message', 'clear-chat'],
+  emits: ['send-message', 'clear-chat', 'submit-feedback'],
   template: `
     <div class="main-area">
       <div class="chat-container" ref="chatContainer">
@@ -28,6 +28,7 @@ export default {
             v-for="msg in messages" 
             :key="msg.id" 
             :message="msg"
+            @submit-feedback="$emit('submit-feedback', $event)"
           ></message-bubble>
         </template>
       </div>
