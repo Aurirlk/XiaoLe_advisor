@@ -29,6 +29,7 @@ export default {
           :is-sending="isSending"
           @send-message="sendMessage"
           @clear-chat="clearChat"
+          @submit-feedback="submitFeedback"
         ></chat-container>
         
         <side-panel 
@@ -96,7 +97,8 @@ export default {
         content: '',
         status: '',
         timestamp: new Date(),
-        isLoading: true
+        isLoading: true,
+        turnId: null
       });
       
       try {
@@ -146,8 +148,18 @@ export default {
               if (data.type === 'profile_update' && data.profile) {
                 this.profile = data.profile;
               }
+
+              if (data.type === 'meta') {
+                if (data.session_id) {
+                  this.sessionId = data.session_id;
+                }
+                if (data.turn_id) {
+                  this.lastAssistantMsg().turnId = data.turn_id;
+                }
+              }
             } catch (e) {
-              this.lastAssistantMsg().content += payload;
+              // JSON 解析失败时不暴露原始数据到用户界面
+              console.warn('SSE payload parse error:', e, payload);
             }
           }
         }
@@ -187,12 +199,36 @@ export default {
       this.messages = [];
       this.profile = {};
       this.sessionId = this.generateSessionId();
+    },
+
+    async submitFeedback(payload) {
+      if (!payload.turnId) return;
+      try {
+        await fetch(window.API_BASE + '/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            turn_id: payload.turnId,
+            rating: payload.rating,
+            tags: payload.tags || [],
+            comment: payload.comment || ''
+          })
+        });
+      } catch (error) {
+        console.error('Feedback submit failed:', error);
+      }
     }
   },
   
   mounted() {
     this.refreshStatus();
-    // 每30秒刷新状态
-    setInterval(() => this.refreshStatus(), 30000);
+    this._statusInterval = setInterval(() => this.refreshStatus(), 30000);
+  },
+
+  beforeUnmount() {
+    if (this._statusInterval) {
+      clearInterval(this._statusInterval);
+      this._statusInterval = null;
+    }
   }
 }
