@@ -1,15 +1,6 @@
-"""
-一次性/可重复执行：将 code_artifact 数据导入 SQLite 与 RAG 经验库。
-
-用法:
-  python -m scripts.import_code_artifacts
-  python -m scripts.import_code_artifacts --json-only
-  python -m scripts.import_code_artifacts --sql-only
-"""
 from __future__ import annotations
 
 import json
-import re
 import sqlite3
 from pathlib import Path
 
@@ -17,19 +8,6 @@ ROOT = Path(__file__).resolve().parents[1]
 DB_PATH = ROOT / "data" / "zx_advisor.db"
 EXPERIENCE_PATH = ROOT / "data" / "vector_store" / "zx_experience.json"
 ARTIFACT_JSON = ROOT / "data" / "seeds" / "experience_artifact.json"
-
-MAJORS_DDL = """
-CREATE TABLE IF NOT EXISTS majors (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    major_code TEXT UNIQUE,
-    major_name TEXT NOT NULL UNIQUE,
-    category TEXT NOT NULL,
-    is_pitfall INTEGER NOT NULL DEFAULT 0,
-    civil_service_friendly INTEGER NOT NULL DEFAULT 0,
-    base_salary_tier INTEGER NOT NULL DEFAULT 3,
-    description TEXT DEFAULT ''
-);
-"""
 
 MAJOR_ROWS = [
     ("080901", "计算机科学与技术", "工学", 0, 1, 5,
@@ -51,18 +29,18 @@ MAJOR_ROWS = [
 ]
 
 SCORE_ROWS_2024 = [
-    ("深圳大学", "广东省", 2024, "物理类", "计算机科学与技术", 628, 12000),
-    ("深圳大学", "广东省", 2024, "物理类", "软件工程", 618, 16000),
-    ("深圳大学", "广东省", 2024, "物理类", "人工智能", 613, 19000),
-    ("深圳大学", "广东省", 2024, "物理类", "电子信息工程", 610, 21000),
-    ("深圳大学", "广东省", 2024, "物理类", "土木工程", 591, 35000),
-    ("华南师范大学", "广东省", 2024, "物理类", "物理学(师范)", 591, 35000),
-    ("华南师范大学", "广东省", 2024, "物理类", "数学与应用数学(师范)", 587, 38000),
-    ("华南师范大学", "广东省", 2024, "物理类", "计算机科学与技术", 580, 45000),
-    ("华南师范大学", "广东省", 2024, "物理类", "光电信息科学与工程", 574, 52000),
-    ("广东工业大学", "广东省", 2024, "物理类", "计算机科学与技术", 575, 51000),
-    ("广东工业大学", "广东省", 2024, "物理类", "自动化", 568, 58000),
-    ("广东工业大学", "广东省", 2024, "物理类", "机械设计制造及其自动化", 560, 65000),
+    ("深圳大学", "广东省", 2024, "物理类", "计算机科学与技术", 628, 12000, "guangdong_2024"),
+    ("深圳大学", "广东省", 2024, "物理类", "软件工程", 618, 16000, "guangdong_2024"),
+    ("深圳大学", "广东省", 2024, "物理类", "人工智能", 613, 19000, "guangdong_2024"),
+    ("深圳大学", "广东省", 2024, "物理类", "电子信息工程", 610, 21000, "guangdong_2024"),
+    ("深圳大学", "广东省", 2024, "物理类", "土木工程", 591, 35000, "guangdong_2024"),
+    ("华南师范大学", "广东省", 2024, "物理类", "物理学(师范)", 591, 35000, "guangdong_2024"),
+    ("华南师范大学", "广东省", 2024, "物理类", "数学与应用数学(师范)", 587, 38000, "guangdong_2024"),
+    ("华南师范大学", "广东省", 2024, "物理类", "计算机科学与技术", 580, 45000, "guangdong_2024"),
+    ("华南师范大学", "广东省", 2024, "物理类", "光电信息科学与工程", 574, 52000, "guangdong_2024"),
+    ("广东工业大学", "广东省", 2024, "物理类", "计算机科学与技术", 575, 51000, "guangdong_2024"),
+    ("广东工业大学", "广东省", 2024, "物理类", "自动化", 568, 58000, "guangdong_2024"),
+    ("广东工业大学", "广东省", 2024, "物理类", "机械设计制造及其自动化", 560, 65000, "guangdong_2024"),
 ]
 
 
@@ -75,65 +53,54 @@ def _ensure_db() -> sqlite3.Connection:
     return conn
 
 
-def import_majors(conn: sqlite3.Connection) -> int:
-    conn.execute(MAJORS_DDL)
-    inserted = 0
-    for row in MAJOR_ROWS:
-        cur = conn.execute(
-            """
-            INSERT INTO majors (
-                major_code, major_name, category, is_pitfall,
-                civil_service_friendly, base_salary_tier, description
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-            ON CONFLICT(major_name) DO UPDATE SET
-                major_code = excluded.major_code,
-                category = excluded.category,
-                is_pitfall = excluded.is_pitfall,
-                civil_service_friendly = excluded.civil_service_friendly,
-                base_salary_tier = excluded.base_salary_tier,
-                description = excluded.description
-            """,
-            row,
-        )
-        if cur.rowcount:
-            inserted += 1
+def import_majors_legacy(conn: sqlite3.Connection) -> int:
+    from core.data_importer.pipeline import import_majors
+
+    rows = [
+        {
+            "major_code": r[0],
+            "major_name": r[1],
+            "category": r[2],
+            "is_pitfall": r[3],
+            "civil_service_friendly": r[4],
+            "base_salary_tier": r[5],
+            "description": r[6],
+        }
+        for r in MAJOR_ROWS
+    ]
+    imported, _ = import_majors(conn, rows)
     conn.commit()
-    return inserted
+    return imported
 
 
 def import_scores_2024(conn: sqlite3.Connection) -> int:
-    name_to_id = {
-        row[0]: row[1]
-        for row in conn.execute("SELECT name, id FROM universities").fetchall()
-    }
-    inserted = 0
-    for uni_name, province, year, subject_type, major_name, min_score, lowest_rank in SCORE_ROWS_2024:
-        uid = name_to_id.get(uni_name)
-        if uid is None:
-            conn.execute(
-                "INSERT INTO universities (name, tier, city, tags, graduate_recommendation_rate) "
-                "VALUES (?, ?, ?, ?, ?)",
-                (uni_name, "双非一本", "广东", "双非", 3.0),
-            )
-            uid = conn.execute("SELECT id FROM universities WHERE name = ?", (uni_name,)).fetchone()[0]
-            name_to_id[uni_name] = uid
-        cur = conn.execute(
-            """
-            INSERT INTO admission_scores (
-                university_id, province, subject_type, year, major_name, min_score, lowest_rank
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-            ON CONFLICT(university_id, province, subject_type, year, major_name) DO UPDATE SET
-                min_score = excluded.min_score,
-                lowest_rank = excluded.lowest_rank
-            """,
-            (uid, province, subject_type, year, major_name, min_score, lowest_rank),
-        )
-        if cur.rowcount:
-            inserted += 1
+    from core.data_importer.pipeline import import_scores
+
+    rows = [
+        {
+            "university_name": r[0],
+            "province": r[1],
+            "year": r[2],
+            "subject_type": r[3],
+            "major_name": r[4],
+            "min_score": r[5],
+            "lowest_rank": r[6],
+            "data_source": r[7],
+        }
+        for r in SCORE_ROWS_2024
+    ]
+    from core.data_importer.pipeline import create_batch, file_checksum
+
+    batch_id = create_batch(
+        conn,
+        source_file="import_code_artifacts.py",
+        source_type="builtin",
+        checksum="legacy",
+        record_count=len(rows),
+    )
+    imported, _ = import_scores(conn, rows, batch_id, "guangdong_2024")
     conn.commit()
-    return inserted
+    return imported
 
 
 def import_experience_json(path: Path | None = None) -> int:
@@ -177,7 +144,7 @@ def main() -> None:
 
     if not args.json_only:
         conn = _ensure_db()
-        majors_n = import_majors(conn)
+        majors_n = import_majors_legacy(conn)
         scores_n = import_scores_2024(conn)
         conn.close()
         print(f"SQLite majors upserted: {majors_n} rows touched")

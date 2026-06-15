@@ -52,6 +52,7 @@ class ChromaVectorStore:
         self,
         documents: List[Dict[str, str]],
         batch_size: int = 64,
+        id_key: Optional[str] = None,
     ) -> int:
         total = 0
         for i in range(0, len(documents), batch_size):
@@ -59,12 +60,53 @@ class ChromaVectorStore:
             texts = [doc["text"] for doc in batch]
             sources = [doc.get("source", "") for doc in batch]
             embeddings = self._embed(texts)
-            ids = [f"doc_{total + j}" for j in range(len(batch))]
+            if id_key and id_key in batch[0]:
+                ids = [str(doc[id_key]) for doc in batch]
+            else:
+                ids = [f"doc_{total + j}" for j in range(len(batch))]
+            metadatas = []
+            for doc in batch:
+                meta = {"source": doc.get("source", "")}
+                for k, v in doc.items():
+                    if k.startswith("meta_") and v is not None:
+                        meta[k[5:]] = str(v)
+                metadatas.append(meta)
             self._collection.add(
                 ids=ids,
                 embeddings=embeddings,
                 documents=texts,
-                metadatas=[{"source": src} for src in sources],
+                metadatas=metadatas,
+            )
+            total += len(batch)
+        return total
+
+    def upsert_documents(
+        self,
+        documents: List[Dict[str, str]],
+        batch_size: int = 64,
+        id_key: str = "id",
+    ) -> int:
+        """Insert or update documents using stable ids (e.g. url_hash)."""
+        if not documents:
+            return 0
+        total = 0
+        for i in range(0, len(documents), batch_size):
+            batch = documents[i : i + batch_size]
+            texts = [doc["text"] for doc in batch]
+            ids = [str(doc[id_key]) for doc in batch]
+            embeddings = self._embed(texts)
+            metadatas = []
+            for doc in batch:
+                meta = {"source": doc.get("source", "")}
+                for k, v in doc.items():
+                    if k.startswith("meta_") and v is not None:
+                        meta[k[5:]] = str(v)
+                metadatas.append(meta)
+            self._collection.upsert(
+                ids=ids,
+                embeddings=embeddings,
+                documents=texts,
+                metadatas=metadatas,
             )
             total += len(batch)
         return total

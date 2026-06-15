@@ -8,6 +8,10 @@ export default {
     isSending: {
       type: Boolean,
       default: false
+    },
+    currentEmotion: {
+      type: Object,
+      default: () => ({ label: 'neutral', intensity: 0.5 })
     }
   },
   emits: ['send-message', 'clear-chat', 'submit-feedback'],
@@ -28,6 +32,7 @@ export default {
             v-for="msg in messages" 
             :key="msg.id" 
             :message="msg"
+            :current-emotion="currentEmotion"
             @submit-feedback="$emit('submit-feedback', $event)"
           ></message-bubble>
         </template>
@@ -35,13 +40,14 @@ export default {
 
       <!-- Input Area -->
       <div class="input-area">
+        <voice-input @voice-result="handleVoiceResult"></voice-input>
         <div class="input-wrapper">
           <textarea 
             ref="inputTextarea"
             v-model="inputQuery"
             @keydown.enter.exact.prevent="sendMessage"
             @input="autoResize"
-            placeholder="输入你的问题，如：广东省物理类580分，想去江浙沪读计算机..."
+            placeholder="输入你的问题，如：广东省物理类580分，想去江浙沪读计算机... 或按住麦克风语音输入"
             rows="1"
             :disabled="isSending"
           ></textarea>
@@ -72,6 +78,11 @@ export default {
     
     handleQuickQuery(query) {
       this.inputQuery = query;
+      this.sendMessage();
+    },
+
+    handleVoiceResult(text) {
+      this.inputQuery = text;
       this.sendMessage();
     },
     

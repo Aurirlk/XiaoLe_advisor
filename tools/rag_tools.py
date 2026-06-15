@@ -1,6 +1,7 @@
 from pathlib import Path
 import json
 import re
+import asyncio
 from collections import Counter
 from typing import Any, Dict, List, Tuple
 from urllib.error import URLError
@@ -14,11 +15,13 @@ class RAGTools:
         index_path: Path | None = None,
         milvus_cfg: Dict[str, Any] | None = None,
         es_cfg: Dict[str, Any] | None = None,
+        vector_store=None,
     ) -> None:
         root = Path(__file__).resolve().parents[1]
         self.backend = backend
         self.milvus_cfg = milvus_cfg or {}
         self.es_cfg = es_cfg or {}
+        self._vector_store = vector_store
         index_path = index_path or (root / "data" / "vector_store" / "zx_experience.json")
         if index_path.exists():
             self._docs: List[Dict[str, str]] = json.loads(index_path.read_text(encoding="utf-8"))
@@ -30,16 +33,16 @@ class RAGTools:
             ]
 
     @classmethod
-    def from_config(cls, config: Dict[str, Any] | None) -> "RAGTools":
+    def from_config(cls, config: Dict[str, Any] | None, vector_store=None) -> "RAGTools":
         if not config:
-            return cls()
+            return cls(vector_store=vector_store)
         backend = config.get("backend", "local_file")
         index_rel_path = config.get("index_path", "data/vector_store/zx_experience.json")
         milvus_cfg = config.get("milvus", {})
         es_cfg = config.get("elasticsearch", {})
         root = Path(__file__).resolve().parents[1]
         index_path = root / index_rel_path
-        return cls(backend=backend, index_path=index_path, milvus_cfg=milvus_cfg, es_cfg=es_cfg)
+        return cls(backend=backend, index_path=index_path, milvus_cfg=milvus_cfg, es_cfg=es_cfg, vector_store=vector_store)
 
     @staticmethod
     def _tokenize(text: str) -> List[str]:
@@ -82,9 +85,102 @@ class RAGTools:
         return sorted(candidates, key=rerank_score, reverse=True)
 
     def _local_search(self, query: str, top_k: int) -> List[Dict[str, str]]:
+        """本地搜索 - RRF混合融合（并行执行三路检索）"""
+        # 并行执行三路检索
+        embedding_results = self._search_embedding(query, top_k)
+        fts_results = self._search_fts5(query, top_k)
         recalled = self._hybrid_recall(query)
-        recalled_docs = [doc for _, doc in recalled[: max(top_k * 2, 3)]]
-        return self._rerank(query, recalled_docs)[:top_k]
+        keyword_docs = [doc for _, doc in recalled[:max(top_k * 2, 3)]]
+        keyword_results = self._rerank(query, keyword_docs)[:top_k]
+
+        # 如果所有结果都为空，返回空列表
+        if not embedding_results and not fts_results and not keyword_results:
+            return []
+
+        # RRF融合排序
+        return self._rrf_fusion(query, embedding_results, fts_results, keyword_results, top_k)
+
+    def _rrf_fusion(
+        self,
+        query: str,
+        vector_results: List[Dict[str, str]],
+        fts_results: List[Dict[str, str]],
+        keyword_results: List[Dict[str, str]],
+        top_k: int,
+        k: int = 60,
+    ) -> List[Dict[str, str]]:
+        """RRF (Reciprocal Rank Fusion) 混合融合排序算法
+        
+        score = 1/(k+rank_vector) + 1/(k+rank_fts5) + 1/(k+rank_keyword)
+        k=60 为标准参数
+        """
+        # 构建文档到排名的映射
+        doc_scores: Dict[str, float] = {}
+        doc_map: Dict[str, Dict[str, str]] = {}
+
+        # 向量检索结果
+        for rank, doc in enumerate(vector_results, 1):
+            key = f"{doc.get('source', '')}::{doc.get('text', '')[:50]}"
+            doc_scores[key] = doc_scores.get(key, 0) + 1 / (k + rank)
+            doc_map[key] = doc
+
+        # FTS5检索结果
+        for rank, doc in enumerate(fts_results, 1):
+            key = f"{doc.get('source', '')}::{doc.get('text', '')[:50]}"
+            doc_scores[key] = doc_scores.get(key, 0) + 1 / (k + rank)
+            if key not in doc_map:
+                doc_map[key] = doc
+
+        # 关键词召回结果
+        for rank, doc in enumerate(keyword_results, 1):
+            key = f"{doc.get('source', '')}::{doc.get('text', '')[:50]}"
+            doc_scores[key] = doc_scores.get(key, 0) + 1 / (k + rank)
+            if key not in doc_map:
+                doc_map[key] = doc
+
+        # 按RRF分数排序
+        sorted_keys = sorted(doc_scores.keys(), key=lambda x: doc_scores[x], reverse=True)
+
+        # 返回Top-K结果
+        result = []
+        for key in sorted_keys[:top_k]:
+            doc = doc_map[key].copy()
+            doc["rrf_score"] = doc_scores[key]
+            result.append(doc)
+
+        return result
+
+    def _search_embedding(self, query: str, top_k: int) -> List[Dict[str, str]]:
+        """ChromaDB embedding 向量语义检索"""
+        if not self._vector_store:
+            return []
+        try:
+            results = self._vector_store.query(query, top_k=top_k)
+            if results:
+                return [{"source": r.get("source", ""), "text": r.get("text", "")} for r in results]
+        except Exception:
+            pass
+        return []
+
+    def _search_fts5(self, query: str, top_k: int) -> List[Dict[str, str]]:
+        """SQLite FTS5 全文检索"""
+        try:
+            import sqlite3
+            from pathlib import Path
+            db_path = Path(__file__).resolve().parents[1] / "data" / "zx_advisor.db"
+            if not db_path.exists():
+                return []
+            conn = sqlite3.connect(str(db_path))
+            try:
+                rows = conn.execute(
+                    "SELECT source, text FROM rag_fts WHERE rag_fts MATCH ? ORDER BY rank LIMIT ?",
+                    (query, top_k),
+                ).fetchall()
+                return [{"source": r[0], "text": r[1]} for r in rows]
+            finally:
+                conn.close()
+        except Exception:
+            return []
 
     def _search_from_es(self, query: str, top_k: int) -> List[Dict[str, str]]:
         endpoint = self.es_cfg.get("endpoint", "").rstrip("/")
@@ -139,14 +235,17 @@ class RAGTools:
         alias = "zx_ai_advisor_rag"
         try:
             connections.connect(alias=alias, host=host, port=port)
-            collection = Collection(name=collection_name, using=alias)
-            expr = self.milvus_cfg.get("expr") or ""
-            # 这里假设 Milvus 中 text/source 字段可直接查询；若无向量检索条件，则做轻量过滤召回。
-            rows = collection.query(
-                expr=expr,
-                output_fields=["text", "source"],
-                limit=max(top_k * 3, 10),
-            )
+            try:
+                collection = Collection(name=collection_name, using=alias)
+                expr = self.milvus_cfg.get("expr") or ""
+                # 这里假设 Milvus 中 text/source 字段可直接查询；若无向量检索条件，则做轻量过滤召回。
+                rows = collection.query(
+                    expr=expr,
+                    output_fields=["text", "source"],
+                    limit=max(top_k * 3, 10),
+                )
+            finally:
+                connections.disconnect(alias=alias)
         except Exception:
             return []
 
@@ -182,3 +281,7 @@ class RAGTools:
         else:
             selected = self._local_search(query, top_k)
         return "\n".join([f"[来源：{item['source']}] {item['text']}" for item in selected])
+
+    async def query_zx_experience_async(self, query: str, top_k: int = 3) -> str:
+        """异步版本的查询方法，支持并行执行"""
+        return await asyncio.to_thread(self.query_zx_experience, query, top_k)

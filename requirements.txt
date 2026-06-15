@@ -21,12 +21,24 @@ PyYAML
 chromadb
 pymilvus
 sentence-transformers
-FlagEmbedding
 pdfplumber
 # 性能与异步基建
 redis
+celery[redis]
 sse-starlette
+httpx
+trafilatura
+edge-tts
+python-multipart
 
 # 测试
 pytest
 pytest-asyncio
+
+# 认证与安全
+PyJWT
+passlib
+bcrypt
+
+# Neo4j 知识图谱
+neo4j

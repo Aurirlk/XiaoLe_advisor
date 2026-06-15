@@ -1,0 +1,117 @@
+# ASR 语音识别配置
+# active: 当前激活的预设名称
+# 为后续语音输入功能预留
+
+asr:
+  active: funasr-local
+
+  defaults:
+    language: zh
+    output_dir: tmp/
+
+  presets:
+    # ── FunASR 本地（推荐，免费）────────────────────────────
+    funasr-local:
+      type: fun_local
+      model_dir: models/SenseVoiceSmall
+      description: "FunASR 本地 Paraformer，中文最佳，完全免费"
+      supported_formats: [".wav", ".mp3", ".m4a", ".ogg", ".flac"]
+
+    # ── 阿里百炼 Paraformer 实时流式 ────────────────────────
+    aliyunbl-stream:
+      type: aliyunbl_stream
+      api_key: ${DASHSCOPE_API_KEY}
+      model: paraformer-realtime-v2
+      format: pcm
+      sample_rate: 16000
+      description: "阿里百炼 Paraformer 实时流式，低延迟"
+      punctuation_prediction_enabled: true
+      inverse_text_normalization_enabled: true
+      max_sentence_silence: 200
+
+    # ── 豆包流式 ASR ───────────────────────────────────────
+    doubao-stream:
+      type: doubao_stream
+      appid: ${DOUBAO_APPID}
+      access_token: ${DOUBAO_ACCESS_TOKEN}
+      resource_id: volc.bigasr.sauc.duration
+      description: "火山引擎豆包 ASR，大模型增强识别"
+      end_window_size: 200
+
+    # ── 腾讯 ASR ───────────────────────────────────────────
+    tencent:
+      type: tencent
+      appid: ${TENCENT_APPID}
+      secret_id: ${TENCENT_SECRET_ID}
+      secret_key: ${TENCENT_SECRET_KEY}
+      description: "腾讯云 ASR，企业级稳定"
+
+    # ── 百度 ASR ───────────────────────────────────────────
+    baidu:
+      type: baidu
+      app_id: ${BAIDU_APP_ID}
+      api_key: ${BAIDU_API_KEY}
+      secret_key: ${BAIDU_SECRET_KEY}
+      dev_pid: 1537
+      description: "百度语音识别，中文老牌"
+
+    # ── 通义千问 Qwen3-ASR-Flash ───────────────────────────
+    qwen3-asr:
+      type: qwen3_asr_flash
+      api_key: ${DASHSCOPE_API_KEY}
+      base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+      model_name: qwen3-asr-flash
+      description: "通义千问 Qwen3 ASR，多模态大模型识别"
+      enable_lid: true
+      enable_itn: true
+
+    # ── 讯飞流式 ASR ───────────────────────────────────────
+    xunfei-stream:
+      type: xunfei_stream
+      app_id: ${XUNFEI_APP_ID}
+      api_key: ${XUNFEI_API_KEY}
+      api_secret: ${XUNFEI_API_SECRET}
+      domain: slm
+      language: zh_cn
+      accent: mandarin
+      description: "讯飞流式 ASR，方言识别能力强"
+
+    # ── Sherpa-ONNX 本地 ───────────────────────────────────
+    sherpa-sensevoice:
+      type: sherpa_onnx_local
+      model_dir: models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17
+      model_type: sense_voice
+      description: "Sherpa SenseVoice 本地，支持中英日韩粤"
+
+    # ── OpenAI Whisper ─────────────────────────────────────
+    openai-whisper:
+      type: openai
+      api_key: ${OPENAI_API_KEY}
+      base_url: https://api.openai.com/v1/audio/transcriptions
+      model_name: gpt-4o-mini-transcribe
+      description: "OpenAI Whisper，多语言通用，需海外网络"
+
+    # ── Groq Whisper ───────────────────────────────────────
+    groq-whisper:
+      type: openai
+      api_key: ${GROQ_API_KEY}
+      base_url: https://api.groq.com/openai/v1/audio/transcriptions
+      model_name: whisper-large-v3-turbo
+      description: "Groq Whisper，极速推理"
+
+  # ── VAD 语音活动检测 ──────────────────────────────────────
+  vad:
+    type: silero
+    threshold: 0.5
+    threshold_low: 0.3
+    model_dir: models/snakers4_silero-vad
+    min_silence_duration_ms: 200
+
+  # ── 前端音频采集（供前端参考）────────────────────────────
+  frontend:
+    sample_rate: 16000
+    channel_count: 1
+    echo_cancellation: true
+    noise_suppression: true
+    auto_gain_control: true
+    max_record_duration_sec: 300

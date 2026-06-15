@@ -41,6 +41,9 @@ USER_PROFILES_SQL = """
 CREATE TABLE IF NOT EXISTS user_profiles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     phone_number TEXT NOT NULL UNIQUE,
+    username TEXT DEFAULT '',
+    password_hash TEXT DEFAULT '',
+    role TEXT DEFAULT 'student',
     province TEXT DEFAULT '',
     subject_type TEXT DEFAULT '',
     major_name TEXT DEFAULT '',
@@ -60,6 +63,14 @@ CREATE TABLE IF NOT EXISTS user_profiles (
 
 CRM_INDEX_PHONE = """
 CREATE INDEX IF NOT EXISTS idx_crm_profiles_phone ON user_profiles (phone_number);
+"""
+
+CRM_INDEX_USERNAME = """
+CREATE INDEX IF NOT EXISTS idx_crm_profiles_username ON user_profiles (username);
+"""
+
+CRM_INDEX_ROLE = """
+CREATE INDEX IF NOT EXISTS idx_crm_profiles_role ON user_profiles (role);
 """
 
 CRM_INDEX_LAST_SEEN = """
@@ -123,6 +134,152 @@ CREATE TABLE IF NOT EXISTS majors (
 );
 """
 
+DATA_IMPORT_BATCHES_SQL = """
+CREATE TABLE IF NOT EXISTS data_import_batches (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    source_file TEXT NOT NULL,
+    source_type TEXT NOT NULL DEFAULT 'csv',
+    record_count INTEGER NOT NULL DEFAULT 0,
+    checksum TEXT DEFAULT '',
+    imported_at TEXT DEFAULT (datetime('now')),
+    status TEXT NOT NULL DEFAULT 'completed',
+    error_log TEXT DEFAULT ''
+);
+"""
+
+CONVERSATION_TURNS_SQL = """
+CREATE TABLE IF NOT EXISTS conversation_turns (
+    turn_id TEXT PRIMARY KEY,
+    session_id TEXT NOT NULL,
+    user_query TEXT NOT NULL,
+    assistant_response TEXT DEFAULT '',
+    route_path TEXT DEFAULT '[]',
+    user_profile_snapshot TEXT DEFAULT '{}',
+    sql_hit_count INTEGER NOT NULL DEFAULT 0,
+    risk_level TEXT DEFAULT '',
+    created_at TEXT DEFAULT (datetime('now'))
+);
+"""
+
+FEEDBACK_RECORDS_SQL = """
+CREATE TABLE IF NOT EXISTS feedback_records (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    turn_id TEXT NOT NULL UNIQUE REFERENCES conversation_turns(turn_id),
+    session_id TEXT NOT NULL,
+    rating INTEGER NOT NULL,
+    tags TEXT DEFAULT '[]',
+    comment TEXT DEFAULT '',
+    created_at TEXT DEFAULT (datetime('now'))
+);
+"""
+
+FEEDBACK_INDEXES = [
+    "CREATE INDEX IF NOT EXISTS idx_turns_session ON conversation_turns (session_id);",
+    "CREATE INDEX IF NOT EXISTS idx_turns_created ON conversation_turns (created_at DESC);",
+    "CREATE INDEX IF NOT EXISTS idx_feedback_session ON feedback_records (session_id);",
+    "CREATE INDEX IF NOT EXISTS idx_feedback_rating ON feedback_records (rating);",
+    "CREATE INDEX IF NOT EXISTS idx_scores_batch ON admission_scores (import_batch_id);",
+    "CREATE INDEX IF NOT EXISTS idx_batches_imported_at ON data_import_batches (imported_at DESC);",
+]
+
+RAG_FTS_SQL = """
+CREATE VIRTUAL TABLE IF NOT EXISTS rag_fts USING fts5(
+    source, text, tokenize='unicode61'
+);
+"""
+
+COST_TRACKING_SQL = """
+CREATE TABLE IF NOT EXISTS token_usage (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp TEXT DEFAULT (datetime('now', '+8 hours')),
+    model_name TEXT NOT NULL,
+    input_tokens INTEGER DEFAULT 0,
+    output_tokens INTEGER DEFAULT 0,
+    cost_yuan REAL DEFAULT 0.0,
+    session_id TEXT,
+    turn_id TEXT
+);
+"""
+
+COST_INDEXES = [
+    "CREATE INDEX IF NOT EXISTS idx_usage_timestamp ON token_usage (timestamp);",
+    "CREATE INDEX IF NOT EXISTS idx_usage_model ON token_usage (model_name);",
+]
+
+FAMILY_PROFILES_SQL = """
+CREATE TABLE IF NOT EXISTS parent_profiles (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_phone TEXT NOT NULL,
+    role TEXT NOT NULL DEFAULT '',
+    name TEXT DEFAULT '',
+    occupation TEXT DEFAULT '',
+    industry TEXT DEFAULT '',
+    education TEXT DEFAULT '',
+    expectation TEXT DEFAULT '',
+    concerns TEXT DEFAULT '[]',
+    decision_weight TEXT DEFAULT 'consultative',
+    phone TEXT DEFAULT '',
+    created_at TEXT DEFAULT (datetime('now', '+8 hours')),
+    updated_at TEXT DEFAULT (datetime('now', '+8 hours'))
+);
+"""
+
+FAMILY_CONTEXTS_SQL = """
+CREATE TABLE IF NOT EXISTS family_contexts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_phone TEXT NOT NULL UNIQUE,
+    income_level TEXT DEFAULT '',
+    annual_budget INTEGER DEFAULT 0,
+    total_budget INTEGER DEFAULT 0,
+    is_only_child INTEGER DEFAULT -1,
+    sibling_count INTEGER DEFAULT 0,
+    family_resources TEXT DEFAULT '[]',
+    decision_maker TEXT DEFAULT '',
+    location_preference TEXT DEFAULT '',
+    financial_urgency TEXT DEFAULT '',
+    parent_consensus TEXT DEFAULT '',
+    created_at TEXT DEFAULT (datetime('now', '+8 hours')),
+    updated_at TEXT DEFAULT (datetime('now', '+8 hours'))
+);
+"""
+
+FAMILY_INDEXES = [
+    "CREATE INDEX IF NOT EXISTS idx_parent_student ON parent_profiles (student_phone);",
+    "CREATE INDEX IF NOT EXISTS idx_family_student ON family_contexts (student_phone);",
+]
+
+
+def _migrate_admission_scores_columns(conn: sqlite3.Connection) -> None:
+    cols = {row[1] for row in conn.execute("PRAGMA table_info(admission_scores)").fetchall()}
+    if "data_source" not in cols:
+        conn.execute("ALTER TABLE admission_scores ADD COLUMN data_source TEXT DEFAULT 'seed'")
+    if "import_batch_id" not in cols:
+        conn.execute("ALTER TABLE admission_scores ADD COLUMN import_batch_id INTEGER")
+
+
+def _migrate_user_profiles_columns(conn: sqlite3.Connection) -> None:
+    """为 user_profiles 表添加新画像字段和认证字段"""
+    cols = {row[1] for row in conn.execute("PRAGMA table_info(user_profiles)").fetchall()}
+    new_cols = {
+        "username": "TEXT DEFAULT ''",
+        "password_hash": "TEXT DEFAULT ''",
+        "role": "TEXT DEFAULT 'student'",
+        "gender": "TEXT DEFAULT ''",
+        "gaokao_city": "TEXT DEFAULT ''",
+        "strong_subjects": "TEXT DEFAULT '[]'",
+        "weak_subjects": "TEXT DEFAULT '[]'",
+        "major_preferences": "TEXT DEFAULT '[]'",
+        "interests": "TEXT DEFAULT '[]'",
+        "personality": "TEXT DEFAULT ''",
+        "target_universities": "TEXT DEFAULT '[]'",
+        "risk_tolerance": "TEXT DEFAULT ''",
+        "special_notes": "TEXT DEFAULT ''",
+        "subject_scores_json": "TEXT DEFAULT '{}'",
+    }
+    for col_name, col_type in new_cols.items():
+        if col_name not in cols:
+            conn.execute(f"ALTER TABLE user_profiles ADD COLUMN {col_name} {col_type}")
+
 SEED_UNIVERSITIES = [
     ("清华大学", "顶尖985", "北京", "211,985,双一流", 65.0),
     ("北京大学", "顶尖985", "北京", "211,985,双一流", 60.0),
@@ -182,7 +339,8 @@ def init_sqlite(db_path: str | Path | None = None) -> str:
     conn.execute(INDEX_SQL)
     conn.execute(USER_PROFILES_SQL)
     conn.execute(CRM_INDEX_PHONE)
-    conn.execute(CRM_INDEX_LAST_SEEN)
+    # 注意：CRM_INDEX_USERNAME和CRM_INDEX_ROLE需要在迁移后执行
+    # 因为旧表可能没有username和role字段
     conn.execute(WEB_SEARCH_SESSIONS_SQL)
     conn.execute(WEB_SEARCH_PAGES_SQL)
     conn.execute(WEB_SEARCH_INDEX_QUERY)
@@ -190,6 +348,29 @@ def init_sqlite(db_path: str | Path | None = None) -> str:
     conn.execute(WEB_SEARCH_INDEX_URL)
     conn.execute(WEB_SEARCH_INDEX_FETCHED)
     conn.execute(MAJORS_SQL)
+    conn.execute(DATA_IMPORT_BATCHES_SQL)
+    conn.execute(CONVERSATION_TURNS_SQL)
+    conn.execute(FEEDBACK_RECORDS_SQL)
+    _migrate_admission_scores_columns(conn)
+    for stmt in FEEDBACK_INDEXES:
+        conn.execute(stmt)
+
+    conn.execute(RAG_FTS_SQL)
+    conn.execute(COST_TRACKING_SQL)
+    for stmt in COST_INDEXES:
+        conn.execute(stmt)
+
+    conn.execute(FAMILY_PROFILES_SQL)
+    conn.execute(FAMILY_CONTEXTS_SQL)
+    for stmt in FAMILY_INDEXES:
+        conn.execute(stmt)
+
+    _migrate_user_profiles_columns(conn)
+    
+    # 在迁移后创建索引（确保字段存在）
+    conn.execute(CRM_INDEX_USERNAME)
+    conn.execute(CRM_INDEX_ROLE)
+    conn.execute(CRM_INDEX_LAST_SEEN)
 
     cur = conn.execute("SELECT COUNT(*) FROM universities")
     if cur.fetchone()[0] == 0:

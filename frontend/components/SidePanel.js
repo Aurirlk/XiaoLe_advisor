@@ -1,18 +1,12 @@
 export default {
   name: 'SidePanel',
   props: {
-    status: {
-      type: Object,
-      default: () => ({})
-    },
-    profile: {
-      type: Object,
-      default: () => ({})
-    },
-    messageCount: {
-      type: Number,
-      default: 0
-    }
+    status: { type: Object, default: () => ({}) },
+    profile: { type: Object, default: () => ({}) },
+    parentProfile: { type: Object, default: () => ({}) },
+    familyContext: { type: Object, default: () => ({}) },
+    subjectScores: { type: Object, default: () => ({}) },
+    messageCount: { type: Number, default: 0 }
   },
   emits: ['clear-chat'],
   template: `
@@ -81,7 +75,12 @@ export default {
       <!-- User Profile -->
       <div class="section">
         <h4><i class="fas fa-user-circle"></i> 用户画像</h4>
-        <profile-card :profile="profile"></profile-card>
+        <profile-card 
+          :profile="profile"
+          :parent-profile="parentProfile"
+          :family-context="familyContext"
+          :subject-scores="subjectScores"
+        ></profile-card>
       </div>
 
       <!-- Session Info -->
@@ -94,6 +93,12 @@ export default {
           <i class="fas fa-trash-alt"></i>
           清空对话
         </button>
+      </div>
+
+      <!-- Image Analysis -->
+      <div class="section">
+        <h4><i class="fas fa-image"></i> 图片分析</h4>
+        <image-analyzer @analysis-result="onImageAnalysis"></image-analyzer>
       </div>
 
       <!-- Tips -->
@@ -114,6 +119,9 @@ export default {
       const hours = Math.floor(mins / 60);
       const remainingMins = mins % 60;
       return `${hours}小时${remainingMins}分钟`;
+    },
+    onImageAnalysis(data) {
+      this.$emit('image-analysis', data)
     }
   }
 }

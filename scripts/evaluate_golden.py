@@ -37,14 +37,15 @@ def _score_case(answer: str, case: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-async def _run_single(graph, query: str) -> str:
+async def _run_single(graph, query: str, thread_id: str) -> str:
     init_state = {"user_query": query, "messages": [{"role": "user", "content": query}]}
-    result = await graph.ainvoke(init_state, config={"recursion_limit": 10})
+    config = {"recursion_limit": 10, "configurable": {"thread_id": thread_id}}
+    result = await graph.ainvoke(init_state, config=config)
     messages = result.get("messages", [])
     if not messages:
         return ""
     last = messages[-1]
-    return str(last.get("content", ""))
+    return str(getattr(last, "content", "") or "")
 
 
 async def main() -> None:
@@ -55,8 +56,9 @@ async def main() -> None:
     graph = get_compiled_graph()
     results: list[dict[str, Any]] = []
 
-    for case in dataset:
-        answer = await _run_single(graph, case.get("query", ""))
+    for i, case in enumerate(dataset):
+        thread_id = f"eval_golden_{i}"
+        answer = await _run_single(graph, case.get("query", ""), thread_id)
         results.append(_score_case(answer, case))
 
     total = len(results)

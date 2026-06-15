@@ -256,20 +256,22 @@ class TestRAGToolsDegradation:
 
 class TestWebSearchDegradation:
 
-    def test_empty_query_returns_empty(self):
+    @pytest.mark.asyncio
+    async def test_empty_query_returns_empty(self):
         from tools.web_search_tools import WebSearchTools
         ws = WebSearchTools()
-        results = ws.search("")
+        results = await ws.search("")
         assert results == []
 
     def test_format_empty_returns_empty_string(self):
         from tools.web_search_tools import WebSearchTools
         assert WebSearchTools.format_results([]) == ""
 
-    def test_search_returns_list(self):
+    @pytest.mark.asyncio
+    async def test_search_returns_list(self):
         from tools.web_search_tools import WebSearchTools
         ws = WebSearchTools(timeout_seconds=2.0)
-        results = ws.search("高考 计算机 分数线 2025", top_k=3)
+        results = await ws.search("高考 计算机 分数线 2025", top_k=3)
         assert isinstance(results, list)
         for item in results:
             assert "title" in item

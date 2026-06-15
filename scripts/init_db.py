@@ -18,18 +18,26 @@ def main() -> None:
         password=os.getenv(cfg["password_env"], ""),
     )
     conn.autocommit = True
-    with conn.cursor() as cur:
-        for file in [
-            "01_universities.sql",
-            "02_scores.sql",
-            "03_majors.sql",
-            "04_user_profiles.sql",
-            "05_web_search_records.sql",
-        ]:
-            sql = (ROOT / "data" / "sql_schema" / file).read_text(encoding="utf-8")
-            cur.execute(sql)
-    conn.close()
-    print("Database initialized.")
+    try:
+        with conn.cursor() as cur:
+            for file in [
+                "01_universities.sql",
+                "02_scores.sql",
+                "03_majors.sql",
+                "04_user_profiles.sql",
+                "05_web_search_records.sql",
+                "06_data_provenance.sql",
+                "07_feedback.sql",
+            ]:
+                sql_path = ROOT / "data" / "sql_schema" / file
+                if not sql_path.exists():
+                    print(f"[WARN] Schema 文件不存在，已跳过: {file}")
+                    continue
+                sql = sql_path.read_text(encoding="utf-8")
+                cur.execute(sql)
+        print("Database initialized.")
+    finally:
+        conn.close()
 
 
 if __name__ == "__main__":

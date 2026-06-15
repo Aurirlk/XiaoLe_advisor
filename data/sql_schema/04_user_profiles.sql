@@ -1,6 +1,9 @@
 CREATE TABLE IF NOT EXISTS user_profiles (
     id SERIAL PRIMARY KEY,
     phone_number VARCHAR(20) NOT NULL UNIQUE,
+    username TEXT DEFAULT '',
+    password_hash TEXT DEFAULT '',
+    role TEXT DEFAULT 'student',
     province VARCHAR(40) DEFAULT '',
     subject_type VARCHAR(30) DEFAULT '',
     major_name VARCHAR(120) DEFAULT '',
@@ -18,4 +21,6 @@ CREATE TABLE IF NOT EXISTS user_profiles (
 );
 
 CREATE INDEX IF NOT EXISTS idx_user_profiles_phone ON user_profiles (phone_number);
+CREATE INDEX IF NOT EXISTS idx_user_profiles_username ON user_profiles (username);
+CREATE INDEX IF NOT EXISTS idx_user_profiles_role ON user_profiles (role);
 CREATE INDEX IF NOT EXISTS idx_user_profiles_last_seen ON user_profiles (last_seen_at DESC);

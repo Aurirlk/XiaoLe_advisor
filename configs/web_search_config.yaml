@@ -1,4 +1,9 @@
+# 联网搜索配置
+# provider: 搜索源（duckduckgo / metaso / tavily）
+# DuckDuckGo 免费无需 Key，Metaso/Tavily 需要 API Key
+
 web_search:
+  provider: duckduckgo
   top_k: 5
   search_timeout_seconds: 4
   fetch_timeout_seconds: 8
@@ -10,3 +15,15 @@ web_search:
   max_chroma_text_chars: 2000
   synthesis_excerpt_chars: 800
   fetch_concurrency: 3
+
+  # 秘塔搜索（推荐，国内可用，结果质量高）
+  # 申请地址：https://metaso.cn/search-api/api-keys
+  metaso:
+    api_key: "${METASO_API_KEY}"
+    base_url: https://api.metaso.cn/api/open/search
+
+  # Tavily（海外搜索，需科学上网）
+  # 申请地址：https://app.tavily.com/home
+  tavily:
+    api_key: "${TAVILY_API_KEY}"
+    base_url: https://api.tavily.com/search

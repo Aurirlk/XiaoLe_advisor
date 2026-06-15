@@ -1,0 +1,422 @@
+# ═══════════════════════════════════════════════════════════════
+# 调查问卷配置 - 三类混合模式
+#
+# 设计理念：
+# 1. 画像采集：基础信息、MBTI性格、学科能力 → 填充user_profile
+# 2. 排雷问卷：绝对不接受什么 → 填充parent_constraints.blacklist
+# 3. 意向探索：长板发现、就业倾向 → 填充student_preferences
+# ═══════════════════════════════════════════════════════════════
+
+# 问卷类型定义
+questionnaire_types:
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 第一类：画像采集（确定用户是谁）
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  profile_basic:
+    name: "基础画像采集"
+    description: "快速了解你的基本情况，MBTI性格测试，学科能力评估"
+    category: "profile"
+    estimated_time: "5-8分钟"
+    required: true
+    
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 第二类：排雷问卷（确定用户不要什么）
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  minefield:
+    name: "排雷问卷"
+    description: "明确你的底线和禁区，避免推荐你不接受的方向"
+    category: "blacklist"
+    estimated_time: "3-5分钟"
+    required: true
+    
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 第三类：意向探索（确定用户想要什么）
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  aspiration:
+    name: "意向探索"
+    description: "发现你的长板和职业倾向，匹配最适合的发展方向"
+    category: "aspiration"
+    estimated_time: "5-8分钟"
+    required: false
+
+# 题目类型
+question_types:
+  single_choice: "单选题"
+  multiple_choice: "多选题"
+  fill_blank: "填空题"
+  textarea: "论述题"
+  scale: "量表题"
+  ranking: "排序题"
+
+# ═══════════════════════════════════════════════════════════════
+# 第一类：画像采集问卷
+# ═══════════════════════════════════════════════════════════════
+
+questionnaires:
+  profile_basic:
+    # ── 基础信息 ──
+    - id: pb_province
+      type: single_choice
+      question: "你来自哪个省份？"
+      options:
+        - "北京市" - "上海市" - "广东省" - "江苏省" - "浙江省"
+        - "山东省" - "河南省" - "四川省" - "湖北省" - "湖南省"
+        - "福建省" - "安徽省" - "江西省" - "辽宁省" - "吉林省"
+        - "黑龙江省" - "陕西省" - "山西省" - "甘肃省" - "云南省"
+        - "贵州省" - "海南省" - "河北省" - "其他"
+      required: true
+      profile_field: "province"
+      
+    - id: pb_subject_type
+      type: single_choice
+      question: "你的选科类别是？"
+      options: ["物理类", "历史类", "综合改革（3+3）"]
+      required: true
+      profile_field: "subject_type"
+      
+    - id: pb_score
+      type: fill_blank
+      question: "你的高考分数（或最近模考分数）是多少？"
+      placeholder: "例如：620"
+      input_type: "number"
+      min: 200
+      max: 750
+      required: true
+      profile_field: "score"
+      
+    - id: pb_rank
+      type: fill_blank
+      question: "你的全省位次是多少？（如不清楚可留空）"
+      placeholder: "例如：15000"
+      input_type: "number"
+      required: false
+      profile_field: "rank"
+      
+    - id: pb_gender
+      type: single_choice
+      question: "你的性别是？"
+      options: ["男", "女"]
+      required: true
+      profile_field: "gender"
+      
+    # ── MBTI性格测试（简化版4题） ──
+    - id: pb_mbti_ei
+      type: single_choice
+      question: "【性格】在社交场合中，你通常："
+      options:
+        - "主动与很多人交流，包括陌生人 → E"
+        - "主要与熟悉的人交流 → I"
+        - "倾向于观察而非参与 → I"
+        - "感到疲惫，想独处 → I"
+      dimension: "EI"
+      required: true
+      mbti_dimension: "EI"
+      
+    - id: pb_mbti_sn
+      type: single_choice
+      question: "【性格】你更喜欢处理："
+      options:
+        - "具体的事实和细节 → S"
+        - "抽象的概念和理论 → N"
+        - "实际应用 → S"
+        - "创新想法 → N"
+      dimension: "SN"
+      required: true
+      mbti_dimension: "SN"
+      
+    - id: pb_mbti_tf
+      type: single_choice
+      question: "【性格】做决定时，你更看重："
+      options:
+        - "逻辑和客观分析 → T"
+        - "个人价值观和他人感受 → F"
+        - "效率和结果 → T"
+        - "和谐与理解 → F"
+      dimension: "TF"
+      required: true
+      mbti_dimension: "TF"
+      
+    - id: pb_mbti_jp
+      type: single_choice
+      question: "【性格】你喜欢的生活方式是："
+      options:
+        - "有计划、有条理 → J"
+        - "灵活、随性 → P"
+        - "目标导向 → J"
+        - "开放探索 → P"
+      dimension: "JP"
+      required: true
+      mbti_dimension: "JP"
+      
+    # ── 学科能力 ──
+    - id: pb_strong_subjects
+      type: multiple_choice
+      question: "你擅长的学科有哪些？（可多选）"
+      options: ["语文", "数学", "英语", "物理", "化学", "生物", "政治", "历史", "地理"]
+      required: true
+      profile_field: "strong_subjects"
+      
+    - id: pb_weak_subjects
+      type: multiple_choice
+      question: "你不擅长或不喜欢的学科有哪些？（可多选）"
+      options: ["无", "语文", "数学", "英语", "物理", "化学", "生物", "政治", "历史", "地理"]
+      required: true
+      profile_field: "weak_subjects"
+
+  # ═══════════════════════════════════════════════════════════════
+  # 第二类：排雷问卷（硬约束提取）
+  # ═══════════════════════════════════════════════════════════════
+  
+  minefield:
+    # ── 绝对禁区 ──
+    - id: mf_absolute_no
+      type: multiple_choice
+      question: "以下哪些是你【绝对不接受】的专业方向？（可多选，这是硬性排除）"
+      options:
+        - "土木工程/建筑类（工地、施工、出差）"
+        - "生化环材类（生物、化学、环境、材料）"
+        - "临床医学/护理类（学制长、夜班、倒班）"
+        - "军事/公安类（体能要求、纪律约束）"
+        - "艺术/设计类（学费高、就业难）"
+        - "计算机/IT类（加班、代码、35岁危机）"
+        - "文科类（哲学、历史、文学）"
+        - "金融/经济类（门槛高、看学历）"
+        - "师范/教育类（考编难、待遇低）"
+        - "无特别禁区"
+      required: true
+      constraint_field: "blacklist_majors"
+      value_mapping:
+        "土木工程/建筑类（工地、施工、出差）": "土木建筑"
+        "生化环材类（生物、化学、环境、材料）": "生化环材"
+        "临床医学/护理类（学制长、夜班、倒班）": "医学护理"
+        "军事/公安类（体能要求、纪律约束）": "军事公安"
+        "艺术/设计类（学费高、就业难）": "艺术设计"
+        "计算机/IT类（加班、代码、35岁危机）": "计算机IT"
+        "文科类（哲学、历史、文学）": "人文社科"
+        "金融/经济类（门槛高、看学历）": "金融经济"
+        "师范/教育类（考编难、待遇低）": "师范教育"
+        "无特别禁区": "无"
+      
+    - id: mf_work_style_no
+      type: multiple_choice
+      question: "以下哪些工作方式你【绝对不能接受】？（可多选）"
+      options:
+        - "倒班/夜班/三班倒"
+        - "频繁出差/长期驻外"
+        - "高强度销售/拉客户"
+        - "纯体力劳动/工地现场"
+        - "高压应酬/喝酒"
+        - "无特别限制"
+      required: true
+      constraint_field: "blacklist_work_style"
+      
+    # ── 预算限制 ──
+    - id: mf_budget_ceiling
+      type: single_choice
+      question: "家庭年均可投入的学费+生活费预算是多少？（这决定了能否选民办/中外合作）"
+      options:
+        - "1.5万以下（只能公办）"
+        - "1.5-3万（公办为主）"
+        - "3-6万（可考虑部分中外合作）"
+        - "6-10万（中外合作/民办可选）"
+        - "10万以上（不限）"
+      required: true
+      constraint_field: "budget_ceiling"
+      value_mapping:
+        "1.5万以下（只能公办）": 15000
+        "1.5-3万（公办为主）": 30000
+        "3-6万（可考虑部分中外合作）": 60000
+        "6-10万（中外合作/民办可选）": 100000
+        "10万以上（不限）": 200000
+      
+    # ── 地域限制 ──
+    - id: mf_location_limit
+      type: single_choice
+      question: "对就读地点的限制是？"
+      options:
+        - "必须省内"
+        - "可以出省但不能太远（邻省/高铁4小时内）"
+        - "不限地域"
+        - "必须出省（想去外省发展）"
+      required: true
+      constraint_field: "location_limit"
+      
+    - id: mf_health_restrictions
+      type: multiple_choice
+      question: "孩子是否有以下体检限制？（会影响部分专业录取）"
+      options:
+        - "无限制"
+        - "色弱"
+        - "色盲"
+        - "近视（400度以上）"
+        - "听力障碍"
+        - "其他"
+      required: true
+      constraint_field: "health_restrictions"
+
+  # ═══════════════════════════════════════════════════════════════
+  # 第三类：意向探索（长板发现+就业倾向）
+  # ═══════════════════════════════════════════════════════════════
+  
+  aspiration:
+    # ── 铁饭碗/稳定方向 ──
+    - id: as_iron_bowl
+      type: multiple_choice
+      question: "以下哪些"铁饭碗"方向是你可以接受的？（可多选）"
+      options:
+        - "公务员/事业单位（稳定但竞争激烈）"
+        - "军校/警校（体能要求、包分配）"
+        - "师范/教师（考编难但稳定）"
+        - "医学/医生（学制长但越老越值钱）"
+        - "国家电网/电力系统（门槛高）"
+        - "银行/金融系统（看学历）"
+        - "以上都不是我的菜"
+      required: true
+      aspiration_field: "iron_bowl_acceptable"
+      
+    # ── 大热方向 ──
+    - id: as_hot_directions
+      type: multiple_choice
+      question: "以下哪些大热方向你有兴趣？（可多选）"
+      options:
+        - "计算机/软件/AI（高薪但加班）"
+        - "电子信息/芯片/半导体（国家扶持）"
+        - "新能源/汽车/电池（风口行业）"
+        - "生物医药/医疗设备（朝阳产业）"
+        - "法学/律师（门槛高但上限高）"
+        - "金融/量化/投行（看学校）"
+        - "都不感兴趣"
+      required: true
+      aspiration_field: "hot_directions"
+      
+    # ── 长板探索 ──
+    - id: as_strengths
+      type: multiple_choice
+      question: "你认为自己的长板是什么？（可多选，选最突出的2-3个）"
+      options:
+        - "数学/逻辑思维强"
+        - "写作/表达能力强"
+        - "动手/实验能力强"
+        - "沟通/社交能力强"
+        - "艺术/审美能力强"
+        - "记忆/背诵能力强"
+        - "领导/组织能力强"
+        - "耐心/细心"
+      max_select: 3
+      required: true
+      aspiration_field: "strengths"
+      
+    # ── 工作方式偏好 ──
+    - id: as_work_preference
+      type: single_choice
+      question: "你更喜欢的工作方式是？"
+      options:
+        - "独立工作，专注深度"
+        - "团队协作，沟通交流"
+        - "自由灵活，不受约束"
+        - "稳定有序，按部就班"
+        - "挑战性强，不断突破"
+      required: true
+      aspiration_field: "work_preference"
+      
+    # ── 职业期望 ──
+    - id: as_career_goals
+      type: textarea
+      question: "请用2-3句话描述你对未来职业的期望（如：想成为什么样的人？从事什么工作？）"
+      placeholder: "例如：我想成为一名程序员，或者考公务员..."
+      required: false
+      aspiration_field: "career_goals"
+      
+    # ── 读研意愿 ──
+    - id: as_postgraduate
+      type: single_choice
+      question: "你对读研/读博的态度是？（部分专业必须读研才有出路）"
+      options:
+        - "必须读研/读博"
+        - "倾向于读研"
+        - "看情况再说"
+        - "不太想读研"
+        - "不打算读研"
+      required: true
+      aspiration_field: "postgraduate_plan"
+      
+    # ── 风险偏好 ──
+    - id: as_risk_tolerance
+      type: single_choice
+      question: "你对志愿填报的风险态度是？"
+      options:
+        - "激进：愿意冲更好的学校/专业"
+        - "稳健：冲稳保合理搭配"
+        - "保守：优先确保录取"
+      required: true
+      aspiration_field: "risk_tolerance"
+
+# ═══════════════════════════════════════════════════════════════
+# MBTI结果映射（硬编码，零Token消耗）
+# ═══════════════════════════════════════════════════════════════
+
+mbti_major_mapping:
+  ISTJ:
+    suitable: ["会计学", "法学", "审计学", "金融学", "行政管理"]
+    style: "严谨务实"
+    avoid: ["艺术", "创业"]
+  ISFJ:
+    suitable: ["护理学", "教育学", "社会工作", "人力资源"]
+    style: "细心守护"
+    avoid: ["高强度销售"]
+  INFJ:
+    suitable: ["心理学", "教育学", "哲学", "社会学"]
+    style: "理想主义"
+    avoid: ["纯理工"]
+  INTJ:
+    suitable: ["计算机科学", "数学", "物理学", "金融工程"]
+    style: "战略思维"
+    avoid: ["重复性工作"]
+  ISTP:
+    suitable: ["机械工程", "电子信息", "计算机科学"]
+    style: "动手实践"
+    avoid: ["文科"]
+  ISFP:
+    suitable: ["设计学", "艺术学", "护理学"]
+    style: "艺术感知"
+    avoid: ["高强度竞争"]
+  INFP:
+    suitable: ["心理学", "文学", "教育学"]
+    style: "内心理想"
+    avoid: ["高压销售"]
+  INTP:
+    suitable: ["数学", "物理学", "计算机科学"]
+    style: "理论探索"
+    avoid: ["重复性工作"]
+  ESTP:
+    suitable: ["市场营销", "体育", "创业管理"]
+    style: "行动派"
+    avoid: ["纯理论研究"]
+  ESFP:
+    suitable: ["表演", "市场营销", "旅游管理"]
+    style: "社交达人"
+    avoid: ["独立研究"]
+  ENFP:
+    suitable: ["传播学", "心理学", "市场营销"]
+    style: "创意激发"
+    avoid: ["枯燥数据"]
+  ENTP:
+    suitable: ["法学", "创业管理", "经济学"]
+    style: "辩论创新"
+    avoid: ["重复性工作"]
+  ESTJ:
+    suitable: ["工商管理", "法学", "金融学"]
+    style: "组织管理"
+    avoid: ["艺术创作"]
+  ESFJ:
+    suitable: ["教育学", "护理学", "人力资源"]
+    style: "关怀服务"
+    avoid: ["独立研究"]
+  ENFJ:
+    suitable: ["教育学", "心理学", "传播学"]
+    style: "领袖魅力"
+    avoid: ["纯技术"]
+  ENTJ:
+    suitable: ["工商管理", "金融学", "法学"]
+    style: "果断领导"
+    avoid: ["基层执行"]

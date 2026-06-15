@@ -1,6 +1,96 @@
+# LLM 大模型配置
+# active: 当前激活的预设名称，对应 presets 中的 key
+# 切换模型只需修改 active 字段即可
+
 llm:
-  model: deepseek-v4-flash
-  temperature: 0.2
-  base_url: "https://api.deepseek.com"
-  api_key_env: DEEPSEEK_API_KEY
-  timeout_seconds: 30
+  active: deepseek-v4-flash
+
+  defaults:
+    temperature: 0.7
+    max_tokens: 4096
+    timeout: 60
+
+  presets:
+    # ── DeepSeek V4 系列 ──────────────────────────────────
+    deepseek-v4-flash:
+      type: openai
+      model_name: deepseek-v4-flash
+      base_url: https://api.deepseek.com/v1
+      api_key: ${DEEPSEEK_API_KEY}
+      description: "DeepSeek V4 Flash，性价比之王"
+
+    deepseek-v4-pro:
+      type: openai
+      model_name: deepseek-v4-pro
+      base_url: https://api.deepseek.com/v1
+      api_key: ${DEEPSEEK_API_KEY}
+      description: "DeepSeek V4 Pro，最强能力"
+
+    deepseek-r1:
+      type: openai
+      model_name: deepseek-r1
+      base_url: https://api.deepseek.com/v1
+      api_key: ${DEEPSEEK_API_KEY}
+      temperature: 0.0
+      description: "DeepSeek-R1 深度推理，复杂分析场景"
+
+    # ── 通义千问 3.7 系列 ─────────────────────────────────
+    qwen3.7-plus:
+      type: openai
+      model_name: qwen3.7-plus
+      base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+      api_key: ${DASHSCOPE_API_KEY}
+      description: "通义千问 3.7 Plus，均衡性能"
+
+    qwen3.7-max:
+      type: openai
+      model_name: qwen3.7-max
+      base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+      api_key: ${DASHSCOPE_API_KEY}
+      description: "通义千问 3.7 Max，最强能力"
+
+    qwen3.7-flash:
+      type: openai
+      model_name: qwen3.7-flash
+      base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+      api_key: ${DASHSCOPE_API_KEY}
+      description: "通义千问 3.7 Flash，免费额度充足"
+
+    # ── 智谱 GLM 5.1 系列 ────────────────────────────────
+    glm-5.1-flash:
+      type: openai
+      model_name: glm-5.1-flash
+      base_url: https://open.bigmodel.cn/api/paas/v4/
+      api_key: ${ZHIPU_API_KEY}
+      description: "智谱 GLM-5.1 Flash，免费"
+
+    glm-5.1-pro:
+      type: openai
+      model_name: glm-5.1-pro
+      base_url: https://open.bigmodel.cn/api/paas/v4/
+      api_key: ${ZHIPU_API_KEY}
+      description: "智谱 GLM-5.1 Pro，全量API可用"
+
+    # ── 豆包 Seed 2.0 系列 ────────────────────────────────
+    doubao-seed-2.0-pro:
+      type: openai
+      model_name: doubao-seed-2.0-pro
+      base_url: https://ark.cn-beijing.volces.com/api/v3
+      api_key: ${DOUBAO_API_KEY}
+      description: "豆包 Seed 2.0 Pro，字节最新旗舰"
+
+    # ── Kimi ──────────────────────────────────────────────
+    kimi-k2.6:
+      type: openai
+      model_name: kimi-k2.6
+      base_url: https://api.moonshot.cn/v1
+      api_key: ${MOONSHOT_API_KEY}
+      description: "Kimi K2.6，月之暗面最新通用版"
+
+    # ── Ollama 本地 ───────────────────────────────────────
+    local-qwen:
+      type: ollama
+      model_name: qwen2.5:14b
+      base_url: http://localhost:11434
+      api_key: ollama
+      description: "本地 Qwen2.5-14B，零成本离线"
