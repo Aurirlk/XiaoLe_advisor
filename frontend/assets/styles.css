@@ -331,6 +331,77 @@ body {
   background: var(--primary-light);
 }
 
+.feedback-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-light);
+}
+
+.feedback-btn {
+  border: 1px solid var(--border);
+  background: var(--bg-light);
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  color: var(--text-muted);
+}
+
+.feedback-btn:hover:not(:disabled) {
+  border-color: var(--primary-lighter);
+  color: var(--primary);
+}
+
+.feedback-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.feedback-done {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.feedback-tags {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.feedback-tag {
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.feedback-comment {
+  flex: 1 1 100%;
+  margin-top: 4px;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.feedback-submit {
+  padding: 4px 12px;
+  border: none;
+  border-radius: 6px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+}
+
 .msg-time {
   font-size: 11px;
   color: var(--text-light);
