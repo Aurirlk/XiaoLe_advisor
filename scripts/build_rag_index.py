@@ -125,20 +125,23 @@ def _push_to_milvus(docs: list[dict], cfg: dict) -> None:
     alias = "zx_ai_advisor_build"
     try:
         connections.connect(alias=alias, host=host, port=port)
-        if not utility.has_collection(collection_name, using=alias):
-            schema = CollectionSchema(
-                fields=[
-                    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=True),
-                    FieldSchema(name="source", dtype=DataType.VARCHAR, max_length=200),
-                    FieldSchema(name="text", dtype=DataType.VARCHAR, max_length=4000),
-                ],
-                description="ZX experience text collection",
-            )
-            collection = Collection(name=collection_name, schema=schema, using=alias)
-        else:
-            collection = Collection(name=collection_name, using=alias)
-        collection.insert([[doc.get("source", "") for doc in docs], [doc.get("text", "") for doc in docs]])
-        collection.flush()
+        try:
+            if not utility.has_collection(collection_name, using=alias):
+                schema = CollectionSchema(
+                    fields=[
+                        FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=True),
+                        FieldSchema(name="source", dtype=DataType.VARCHAR, max_length=200),
+                        FieldSchema(name="text", dtype=DataType.VARCHAR, max_length=4000),
+                    ],
+                    description="ZX experience text collection",
+                )
+                collection = Collection(name=collection_name, schema=schema, using=alias)
+            else:
+                collection = Collection(name=collection_name, using=alias)
+            collection.insert([[doc.get("source", "") for doc in docs], [doc.get("text", "") for doc in docs]])
+            collection.flush()
+        finally:
+            connections.disconnect(alias=alias)
     except Exception as exc:
         print(f"[WARN] Milvus 写入失败（已跳过）：{exc}")
 

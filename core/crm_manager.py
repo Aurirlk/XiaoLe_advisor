@@ -41,7 +41,13 @@ CREATE INDEX IF NOT EXISTS idx_crm_profiles_last_seen ON user_profiles (last_see
 
 _PROFILE_KEY_MAP = [
     "province", "subject_type", "major_name", "score", "rank",
-    "budget", "target_city", "postgraduate_plan",
+    "budget", "target_city", "postgraduate_plan", "gender",
+    "gaokao_city", "risk_tolerance", "personality", "special_notes",
+]
+
+_EXTRA_FIELDS = [
+    "strong_subjects", "weak_subjects", "major_preferences",
+    "interests", "target_universities",
 ]
 
 
@@ -82,6 +88,27 @@ class CRMProfileManager:
             val = row.get(key)
             if val is not None and val != "":
                 profile[key] = val
+
+        # 加载 JSON 字段
+        for key in _EXTRA_FIELDS:
+            val = row.get(key)
+            if val:
+                try:
+                    parsed = json.loads(val)
+                    if parsed:
+                        profile[key] = parsed
+                except (json.JSONDecodeError, TypeError):
+                    pass
+
+        extra_tags = row.get("extra_tags")
+        if extra_tags:
+            try:
+                parsed = json.loads(extra_tags)
+                if parsed:
+                    profile["extra_tags"] = parsed
+            except (json.JSONDecodeError, TypeError):
+                pass
+
         return profile
 
     async def save_profile(
@@ -142,11 +169,13 @@ class CRMProfileManager:
                         INSERT INTO user_profiles (
                             phone_number, province, subject_type, major_name,
                             score, rank, budget, target_city, postgraduate_plan,
+                            extra_tags, gender, interests, personality,
                             session_count, first_seen_at, last_seen_at,
                             last_query, last_intent
                         ) VALUES (
                             :phone_number, :province, :subject_type, :major_name,
                             :score, :rank, :budget, :target_city, :postgraduate_plan,
+                            :extra_tags, :gender, :interests, :personality,
                             1, :first_seen_at, :last_seen_at,
                             :last_query, :last_intent
                         )
@@ -161,6 +190,10 @@ class CRMProfileManager:
                         "budget": user_profile.get("budget", 0),
                         "target_city": user_profile.get("target_city", ""),
                         "postgraduate_plan": user_profile.get("postgraduate_plan", ""),
+                        "extra_tags": json.dumps(user_profile.get("extra_tags", {}), ensure_ascii=False),
+                        "gender": user_profile.get("gender", ""),
+                        "interests": json.dumps(user_profile.get("interests", []), ensure_ascii=False),
+                        "personality": user_profile.get("personality", ""),
                         "first_seen_at": now,
                         "last_seen_at": now,
                         "last_query": last_query,

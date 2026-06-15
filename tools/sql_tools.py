@@ -24,7 +24,7 @@ class QueryScoreArgs(BaseModel):
 
 _EXACT_SQL = text("""
     SELECT u.name AS university_name, u.tier, s.province, s.subject_type, s.year,
-           s.major_name, s.min_score, s.lowest_rank
+           s.major_name, s.min_score, s.lowest_rank, s.data_source
     FROM admission_scores s
     JOIN universities u ON u.id = s.university_id
     WHERE s.province = :province
@@ -37,7 +37,7 @@ _EXACT_SQL = text("""
 
 _FUZZY_MAJOR_SQL = text("""
     SELECT u.name AS university_name, u.tier, s.province, s.subject_type, s.year,
-           s.major_name, s.min_score, s.lowest_rank
+           s.major_name, s.min_score, s.lowest_rank, s.data_source
     FROM admission_scores s
     JOIN universities u ON u.id = s.university_id
     WHERE s.province = :province
@@ -50,7 +50,7 @@ _FUZZY_MAJOR_SQL = text("""
 
 _WIDEN_YEAR_SQL = text("""
     SELECT u.name AS university_name, u.tier, s.province, s.subject_type, s.year,
-           s.major_name, s.min_score, s.lowest_rank
+           s.major_name, s.min_score, s.lowest_rank, s.data_source
     FROM admission_scores s
     JOIN universities u ON u.id = s.university_id
     WHERE s.province = :province
@@ -58,6 +58,10 @@ _WIDEN_YEAR_SQL = text("""
       AND s.major_name = :major_name
     ORDER BY s.year DESC, s.min_score DESC
     LIMIT :max_rows
+""")
+
+_DISTINCT_PROVINCES_SQL = text("""
+    SELECT DISTINCT province FROM admission_scores ORDER BY province
 """)
 
 _PROBE_SQL = text("""
@@ -181,7 +185,18 @@ class SQLTools:
             diags.append(f"数据库查询无结果: {norm_province} / {norm_subject} / {args.major_name} / {args.year}")
             suggestions.append("请检查省份/选科/专业名称是否正确")
             suggestions.append("可用省份简称或全称，例如: '广东' 或 '广东省'")
-            suggestions.append(f"当前种子数据仅覆盖广东省物理类，可联系管理员扩充")
+            try:
+                province_rows = await self._execute(_DISTINCT_PROVINCES_SQL, {})
+                available_provinces = [r["province"] for r in province_rows]
+                if available_provinces:
+                    suggestions.append(
+                        f"当前数据库已覆盖省份: {', '.join(available_provinces[:10])}"
+                        + (f" 等共 {len(available_provinces)} 省" if len(available_provinces) > 10 else "")
+                    )
+                else:
+                    suggestions.append("当前数据库暂无分数线数据，请联系管理员导入")
+            except Exception:
+                suggestions.append("当前数据库暂无分数线数据，请联系管理员导入")
 
         result = ToolResult.empty(diag=diags[-1], suggestions=suggestions)
         result.diagnostics = diags

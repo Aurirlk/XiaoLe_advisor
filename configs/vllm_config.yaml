@@ -1,0 +1,57 @@
+# VLLM 视觉大模型配置
+# active: 当前激活的预设名称
+# 支持图片理解、图文分析、OCR 等多模态任务
+
+vllm:
+  active: glm-4v-flash
+
+  defaults:
+    max_tokens: 2048
+    temperature: 0.7
+
+  presets:
+    # ── 智谱 GLM-4V（推荐，免费）──────────────────────────
+    glm-4v-flash:
+      type: openai
+      model_name: glm-4v-flash
+      base_url: https://open.bigmodel.cn/api/paas/v4/
+      api_key: "${ZHIPU_API_KEY}"
+      description: "智谱 GLM-4V Flash，免费视觉模型，中文图文理解"
+      max_image_size_mb: 10
+
+    glm-4v-plus:
+      type: openai
+      model_name: glm-4v-plus
+      base_url: https://open.bigmodel.cn/api/paas/v4/
+      api_key: "${ZHIPU_API_KEY}"
+      description: "智谱 GLM-4V Plus，更强视觉能力"
+
+    # ── 通义千问 VL ────────────────────────────────────────
+    qwen-vl-plus:
+      type: openai
+      model_name: qwen-vl-plus
+      base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+      api_key: "${DASHSCOPE_API_KEY}"
+      description: "通义千问 VL Plus，中文图文理解"
+
+    qwen-vl-max:
+      type: openai
+      model_name: qwen-vl-max
+      base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+      api_key: "${DASHSCOPE_API_KEY}"
+      description: "通义千问 VL Max，最强视觉能力"
+
+    # ── GPT-4o（需海外网络）────────────────────────────────
+    gpt-4o:
+      type: openai
+      model_name: gpt-4o
+      base_url: https://api.openai.com/v1
+      api_key: "${OPENAI_API_KEY}"
+      description: "GPT-4o，综合能力顶级，需海外网络"
+
+    gpt-4o-mini:
+      type: openai
+      model_name: gpt-4o-mini
+      base_url: https://api.openai.com/v1
+      api_key: "${OPENAI_API_KEY}"
+      description: "GPT-4o Mini，性价比视觉模型"

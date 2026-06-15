@@ -27,6 +27,12 @@ from api.routers.rag_router import router as rag_router
 from api.routers.web_router import router as web_router
 from api.routers.admin_router import router as admin_router
 from api.routers.feedback_router import router as feedback_router
+from api.routers.voice_router import router as voice_router
+from api.routers.settings_router import router as settings_router
+from api.routers.ws_router import router as ws_router
+from api.routers.vision_router import router as vision_router
+from api.routers.auth_router import router as auth_router
+from api.routers.questionnaire_router import router as questionnaire_router
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -157,6 +163,12 @@ app.include_router(rag_router)
 app.include_router(web_router)
 app.include_router(admin_router)
 app.include_router(feedback_router)
+app.include_router(voice_router)
+app.include_router(settings_router)
+app.include_router(ws_router)
+app.include_router(vision_router)
+app.include_router(auth_router)
+app.include_router(questionnaire_router)
 
 
 @app.get("/healthz")
@@ -167,23 +179,39 @@ async def healthz():
 @app.get("/", tags=["meta"])
 async def root():
     return {
-        "name": "ZX AI Advisor",
+        "name": "小乐AI · 高考志愿填报助手",
         "version": app.version,
         "docs": "/docs",
         "healthz": "/healthz",
         "status": "/status",
         "endpoints": {
             "stream": "/stream/advice",
+            "websocket": "/ws/chat",
             "chat_save": "/chat/message",
             "chat_history": "/chat/history/{session_id}",
+            "voice_asr": "/voice/asr",
+            "voice_tts": "/voice/tts",
+            "voice_tts_stream": "ws /voice/tts-stream",
+            "voice_status": "/voice/status",
+            "vision_analyze": "/vision/analyze",
+            "vision_chat": "/vision/chat",
+            "feedback": "/feedback",
+            "feedback_stats": "/feedback/stats",
+            "settings": "/settings",
+            "settings_models": "/settings/models",
             "rag_ingest": "/rag/ingest",
-            "rag_rebuild": "/rag/rebuild",
-            "rag_stats": "/rag/stats",
-            "rag_sync": "/rag/sync-from-json",
             "rag_scan": "/rag/scan-documents",
             "rag_upload": "/rag/upload",
+            "rag_stats": "/rag/stats",
             "web_search": "/web/search",
             "web_sessions": "/web/sessions",
+            "admin_import": "/admin/import",
+            "admin_stats": "/admin/data/stats",
+            "admin_switch_model": "/admin/switch-model",
+            "admin_cost": "/admin/cost-stats",
+            "auth_register": "/auth/register",
+            "auth_login": "/auth/login",
+            "auth_me": "/auth/me",
         },
     }
 
@@ -204,6 +232,49 @@ async def status():
         vector_ready=bool(getattr(app.state, "vector_ready", False)),
         notes=notes,
     )
+
+
+class SwitchModelRequest(BaseModel):
+    preset: str
+
+
+@app.post("/admin/switch-model", tags=["admin"])
+async def switch_model(payload: SwitchModelRequest):
+    from api.dependencies import _load_user_config, load_llm_config
+    from api.routers.voice_router import reload_voice_providers
+    user_cfg_path = ROOT / "configs" / ".config.yaml"
+    if not user_cfg_path.exists():
+        raise HTTPException(status_code=404, detail=".config.yaml 不存在")
+    import yaml
+    with open(user_cfg_path, "r", encoding="utf-8") as f:
+        cfg = yaml.safe_load(f)
+    if payload.preset not in cfg.get("LLM", {}):
+        available = list(cfg.get("LLM", {}).keys())
+        raise HTTPException(status_code=400, detail=f"预设 {payload.preset} 不存在，可用: {available}")
+    cfg["selected_module"]["LLM"] = payload.preset
+    with open(user_cfg_path, "w", encoding="utf-8") as f:
+        yaml.dump(cfg, f, allow_unicode=True, default_flow_style=False)
+    try:
+        from api.dependencies import get_compiled_graph
+        get_compiled_graph.cache_clear()
+    except Exception:
+        pass
+    return {"ok": True, "message": f"已切换到 {payload.preset}", "config": load_llm_config()}
+
+
+@app.get("/admin/model-presets", tags=["admin"])
+async def list_model_presets():
+    from api.dependencies import list_model_presets as _list
+    return {"ok": True, "presets": _list()}
+
+
+@app.get("/admin/cost-stats", tags=["admin"])
+async def cost_stats(days: int = 30):
+    from core.cost_tracker import CostTracker
+    tracker = CostTracker()
+    daily = tracker.get_daily_usage()
+    monthly = tracker.get_monthly_usage()
+    return {"ok": True, "daily": daily, "monthly": monthly}
 
 
 if __name__ == "__main__":

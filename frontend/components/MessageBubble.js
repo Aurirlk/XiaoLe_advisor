@@ -4,6 +4,10 @@ export default {
     message: {
       type: Object,
       required: true
+    },
+    currentEmotion: {
+      type: Object,
+      default: () => ({ label: 'neutral', intensity: 0.5 })
     }
   },
   emits: ['submit-feedback'],
@@ -30,6 +34,13 @@ export default {
           </div>
           <template v-else>
             <div v-html="renderContent(message.content)"></div>
+            <voice-output
+              v-if="message.role === 'assistant' && message.content && !message.isLoading"
+              :text="message.content"
+              :auto-play="false"
+              :emotion="currentEmotion.label"
+              :emotion-intensity="currentEmotion.intensity"
+            ></voice-output>
             <div v-if="message.status" class="status-tag">
               <i class="fas fa-cog fa-spin"></i>
               {{ message.status }}

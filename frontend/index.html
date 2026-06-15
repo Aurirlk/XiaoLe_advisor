@@ -3,17 +3,20 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ZX AI Advisor — 智能报考顾问系统</title>
+  <title>小乐AI — 高考志愿填报助手</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x1f393;</text></svg>" />
+  <script>window.API_BASE = window.API_BASE || 'http://127.0.0.1:8000';</script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.prod.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/themes.css">
 </head>
-<body>
+<body data-theme="blue">
   <div id="app">
-    <app-layout></app-layout>
+    <login-page v-if="!isLoggedIn" @login-success="onLoginSuccess"></login-page>
+    <app-layout v-else></app-layout>
   </div>
 
   <script type="module">
@@ -24,12 +27,38 @@
     import StatusIndicator from './components/StatusIndicator.js'
     import ProfileCard from './components/ProfileCard.js'
     import QuickChips from './components/QuickChips.js'
+    import VoiceInput from './components/VoiceInput.js'
+    import VoiceOutput from './components/VoiceOutput.js'
+    import SettingsDrawer from './components/SettingsDrawer.js'
+    import ImageAnalyzer from './components/ImageAnalyzer.js'
+    import LoginPage from './components/LoginPage.js'
+    import UniversityRanking from './components/UniversityRanking.js'
+    import KnowledgeGraph from './components/KnowledgeGraph.js'
     
     const { createApp } = Vue
     
     const app = createApp({
       components: {
-        AppLayout
+        AppLayout,
+        LoginPage
+      },
+      data() {
+        return {
+          isLoggedIn: !!localStorage.getItem('auth_token')
+        }
+      },
+      methods: {
+        onLoginSuccess(user) {
+          this.isLoggedIn = true
+        },
+        checkAuth() {
+          this.isLoggedIn = !!localStorage.getItem('auth_token')
+        }
+      },
+      mounted() {
+        window.addEventListener('auth:expired', () => {
+          this.isLoggedIn = false
+        })
       }
     })
     
@@ -39,6 +68,12 @@
     app.component('StatusIndicator', StatusIndicator)
     app.component('ProfileCard', ProfileCard)
     app.component('QuickChips', QuickChips)
+    app.component('VoiceInput', VoiceInput)
+    app.component('VoiceOutput', VoiceOutput)
+    app.component('SettingsDrawer', SettingsDrawer)
+    app.component('ImageAnalyzer', ImageAnalyzer)
+    app.component('UniversityRanking', UniversityRanking)
+    app.component('KnowledgeGraph', KnowledgeGraph)
     
     app.mount('#app')
   </script>

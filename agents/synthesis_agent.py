@@ -1,6 +1,7 @@
 from pathlib import Path
 import json
 import logging
+from datetime import datetime, timezone, timedelta
 
 import yaml
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -64,14 +65,49 @@ def build_synthesis_agent(llm: ChatOpenAI, feedback_store=None):
         payload = {
             "user_query": query,
             "user_profile": state.get("user_profile", {}),
+            "subject_scores": state.get("subject_scores", {}),
+            "parent_profile": state.get("parent_profile", {}),
+            "family_context": state.get("family_context", {}),
             "sql_results": sql_results[:5],
             "risk_assessment": risk,
             "reality_check": reality,
             "career_context": career_context,
             "web_search_results": web_search_results,
             "decision_hints": decision_hints,
+            "user_emotion": {
+                "label": state.get("emotion_label", "neutral"),
+                "intensity": state.get("emotion_intensity", 0.0),
+            },
         }
         system_prompt = _load_synthesis_prompt()
+
+        # --- 时间感知注入 ---
+        current_dt_str = state.get("current_datetime", "")
+        if current_dt_str:
+            try:
+                dt = datetime.fromisoformat(current_dt_str)
+                gaokao_date = datetime(dt.year, 6, 7)
+                if dt > gaokao_date:
+                    gaokao_date = datetime(dt.year + 1, 6, 7)
+                days_to_gaokao = (gaokao_date.date() - dt.date()).days
+                month = dt.month
+                if 6 <= month <= 8:
+                    period = "志愿填报进行中"
+                elif 9 <= month <= 12:
+                    period = "新学期备考阶段"
+                else:
+                    period = "高考冲刺阶段"
+                time_context = (
+                    f"## 当前时间（回复中必须参考）\n"
+                    f"- 当前日期：{dt.strftime('%Y年%m月%d日 %A')}\n"
+                    f"- 当前时间：{dt.strftime('%H:%M')}\n"
+                    f"- 今年高考：{dt.year}年6月7-8日\n"
+                    f"- 距离高考：{days_to_gaokao} 天\n"
+                    f"- 当前阶段：{period}\n"
+                )
+                system_prompt = time_context + "\n\n" + system_prompt
+            except (ValueError, TypeError):
+                pass
 
         session_id = state.get("session_id", "")
         if feedback_store and session_id:

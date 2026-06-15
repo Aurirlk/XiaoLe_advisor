@@ -1,0 +1,153 @@
+# TTS 语音合成配置
+# active: 当前激活的预设名称
+# 为后续语音播报功能预留
+
+tts:
+  active: edge-tts
+
+  defaults:
+    speed: 1.0
+    output_dir: tmp/
+
+  presets:
+    # ── Edge TTS（推荐，完全免费）──────────────────────────
+    edge-tts:
+      type: edge
+      voice: zh-CN-XiaoxiaoNeural
+      description: "微软 Edge TTS，免费，音色丰富"
+      voices:
+        - id: zh-CN-XiaoxiaoNeural
+          name: 晓晓
+          gender: female
+        - id: zh-CN-YunxiNeural
+          name: 云希
+          gender: male
+        - id: zh-CN-YunjianNeural
+          name: 云健
+          gender: male
+        - id: zh-CN-XiaoyiNeural
+          name: 晓艺
+          gender: female
+        - id: zh-CN-liaoning-XiaobeiNeural
+          name: 晓北（东北）
+          gender: female
+        - id: zh-CN-shaanxi-XiaoniNeural
+          name: 晓妮（陕西）
+          gender: female
+        - id: zh-HK-HiuGaaiNeural
+          name: 曉佳（粤语）
+          gender: female
+
+    # ── 豆包 TTS（火山引擎）────────────────────────────────
+    doubao-tts:
+      type: doubao
+      api_url: https://openspeech.bytedance.com/api/v1/tts
+      appid: ${DOUBAO_APPID}
+      access_token: ${DOUBAO_ACCESS_TOKEN}
+      voice: BV001_streaming
+      cluster: volcano_tts
+      speed_ratio: 1.0
+      volume_ratio: 1.0
+      pitch_ratio: 1.0
+      description: "火山引擎豆包 TTS，音色自然"
+
+    # ── 火山双流 TTS 2.0 ──────────────────────────────────
+    huoshan-stream-v2:
+      type: huoshan_double_stream
+      ws_url: wss://openspeech.bytedance.com/api/v3/tts/bidirection
+      appid: ${DOUBAO_APPID}
+      access_token: ${DOUBAO_ACCESS_TOKEN}
+      resource_id: seed-tts-2.0
+      speaker: zh_female_xiaohe_uranus_bigtts
+      enable_ws_reuse: true
+      description: "豆包 TTS 2.0 双向流式，最低延迟"
+      audio_params:
+        speech_rate: 0
+        loudness_rate: 0
+
+    # ── 阿里 CosyVoice（硅基流动）──────────────────────────
+    cosyvoice-siliconflow:
+      type: siliconflow
+      model: FunAudioLLM/CosyVoice2-0.5B
+      voice: FunAudioLLM/CosyVoice2-0.5B:alex
+      access_token: ${SILICONFLOW_API_KEY}
+      response_format: wav
+      description: "硅基流动 CosyVoice，中文音色自然"
+
+    # ── 阿里云 CosyVoice 流式 ──────────────────────────────
+    aliyun-stream:
+      type: aliyun_stream
+      appkey: ${ALIYUN_APPKEY}
+      token: ${ALIYUN_TOKEN}
+      voice: longxiaochun
+      access_key_id: ${ALIYUN_ACCESS_KEY_ID}
+      access_key_secret: ${ALIYUN_ACCESS_KEY_SECRET}
+      host: nls-gateway-cn-beijing.aliyuncs.com
+      description: "阿里 CosyVoice 流式，龙系列音色"
+
+    # ── MiniMax TTS ────────────────────────────────────────
+    minimax-tts:
+      type: minimax_httpstream
+      group_id: ${MINIMAX_GROUP_ID}
+      api_key: ${MINIMAX_API_KEY}
+      model: speech-01-turbo
+      voice_id: female-shaonv
+      description: "MiniMax TTS，多音色可选"
+      voices:
+        - id: male-qn-qingse
+          name: 青涩青年
+        - id: male-qn-jingying
+          name: 精英青年
+        - id: female-shaonv
+          name: 少女
+        - id: female-yujie
+          name: 御姐
+
+    # ── 腾讯 TTS ───────────────────────────────────────────
+    tencent-tts:
+      type: tencent
+      appid: ${TENCENT_APPID}
+      secret_id: ${TENCENT_SECRET_ID}
+      secret_key: ${TENCENT_SECRET_KEY}
+      region: ap-guangzhou
+      voice: 101001
+      description: "腾讯云 TTS，企业级稳定"
+
+    # ── Fish Speech ────────────────────────────────────────
+    fish-speech:
+      type: fishspeech
+      response_format: wav
+      api_key: ${FISH_SPEECH_API_KEY}
+      api_url: http://127.0.0.1:8080/v1/tts
+      description: "Fish Speech，开源零样本声音克隆"
+      temperature: 0.7
+      top_p: 0.7
+      streaming: false
+
+    # ── GPT-SoVITS ─────────────────────────────────────────
+    gpt-sovits:
+      type: gpt_sovits_v2
+      url: http://127.0.0.1:9880/tts
+      text_lang: auto
+      ref_audio_path: demo.wav
+      prompt_lang: zh
+      description: "GPT-SoVITS，本地声音克隆"
+      speed_factor: 1.0
+
+  # ── 张雪峰语音风格 ────────────────────────────────────────
+  persona:
+    enabled: true
+    style: conversational
+
+  # ── 长文本分段 ────────────────────────────────────────────
+  long_text:
+    enabled: true
+    max_chunk_chars: 800
+    sentence_split_pattern: "[。！？.!?\\n]"
+
+  # ── 缓存 ──────────────────────────────────────────────────
+  cache:
+    enabled: true
+    max_cache_size_mb: 500
+    cache_ttl_hours: 168
+    cache_dir: data/tts_cache

@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import uuid
 import logging
+from datetime import datetime, timezone, timedelta
 from typing import AsyncGenerator
 
 from fastapi import APIRouter, Depends
@@ -25,10 +26,11 @@ router = APIRouter(prefix="/stream", tags=["stream"])
 class StreamRequest(BaseModel):
     query: str
     session_id: str = ""
+    conversation_role: str = "student"
 
 
 _AGENT_NODES = frozenset({
-    "profile_agent", "match_agent", "career_agent",
+    "profile_agent", "parent_agent", "family_agent", "match_agent", "career_agent",
     "web_search_agent", "sql_agent", "synthesis_agent", "supervisor_agent",
 })
 
@@ -38,12 +40,24 @@ async def _event_generator(
     query: str,
     session_id: str = "",
     turn_store=None,
+    conversation_role: str = "student",
 ) -> AsyncGenerator[dict, None]:
     sid = session_id or str(uuid.uuid4())
     turn_id = str(uuid.uuid4())
     cm = get_checkpoint_manager()
 
     init_state = cm.build_init_state(query, session_id=sid)
+    init_state["current_datetime"] = datetime.now(timezone(timedelta(hours=8))).isoformat()
+    init_state["conversation_role"] = conversation_role
+
+    # 情感分析（关键词模式，零成本）
+    from core.emotion_analyzer import get_emotion_analyzer
+    emotion_analyzer = get_emotion_analyzer(method="keyword")
+    emotion_result = await emotion_analyzer.analyze(query)
+    init_state["emotion_label"] = emotion_result.label
+    init_state["emotion_intensity"] = emotion_result.intensity
+    init_state["emotion_valence"] = emotion_result.valence
+
     config = cm.build_config(sid, recursion_limit=50)
 
     logger.info(f"[{sid}] turn={turn_id} 开始处理查询: {query[:80]}...")
@@ -98,12 +112,27 @@ async def _event_generator(
 
             # 发送 profile_update 事件，让前端侧边栏实时刷新画像
             if final_profile:
+                profile_event = {"type": "profile_update", "profile": final_profile}
+                parent_profile = values.get("parent_profile")
+                if parent_profile:
+                    profile_event["parent_profile"] = parent_profile
+                family_context = values.get("family_context")
+                if family_context:
+                    profile_event["family_context"] = family_context
+                subject_scores = values.get("subject_scores")
+                if subject_scores:
+                    profile_event["subject_scores"] = subject_scores
+                # 情绪数据（供前端 TTS 使用）
+                el = values.get("emotion_label")
+                if el:
+                    profile_event["emotion"] = {
+                        "label": el,
+                        "intensity": values.get("emotion_intensity", 0.5),
+                        "valence": values.get("emotion_valence", 0.0),
+                    }
                 yield {
                     "event": "message",
-                    "data": json.dumps(
-                        {"type": "profile_update", "profile": final_profile},
-                        ensure_ascii=False,
-                    ),
+                    "data": json.dumps(profile_event, ensure_ascii=False),
                 }
 
             messages = values.get("messages", [])
@@ -154,6 +183,21 @@ async def _event_generator(
         except Exception as e:
             logger.warning(f"[{sid}] save_turn 失败: {e}")
 
+    # 写入 Redis 对话历史（与 chat_router 共享）
+    try:
+        from api.dependencies import get_redis_client
+        redis = get_redis_client()
+        if redis:
+            import json as _json
+            user_record = {"role": "user", "content": query, "ts": datetime.now(timezone.utc).isoformat()}
+            ai_record = {"role": "assistant", "content": assistant_response, "ts": datetime.now(timezone.utc).isoformat()}
+            key = f"chat:session:{sid}"
+            await redis.rpush(key, _json.dumps(user_record, ensure_ascii=False))
+            await redis.rpush(key, _json.dumps(ai_record, ensure_ascii=False))
+            await redis.expire(key, 60 * 60 * 24 * 7)  # 7 天 TTL
+    except Exception as e:
+        logger.debug(f"[{sid}] Redis 对话历史写入失败（非致命）: {e}")
+
     yield {
         "event": "message",
         "data": json.dumps(
@@ -170,7 +214,10 @@ async def stream_advice(
     turn_store=Depends(get_conversation_turn_store),
 ):
     return EventSourceResponse(
-        _event_generator(graph, payload.query, payload.session_id, turn_store)
+        _event_generator(
+            graph, payload.query, payload.session_id, turn_store,
+            conversation_role=payload.conversation_role,
+        )
     )
 
 

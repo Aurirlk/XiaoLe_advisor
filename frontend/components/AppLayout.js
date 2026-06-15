@@ -5,7 +5,46 @@ export default {
       <header class="header">
         <div class="brand">
           <div class="icon">🎓</div>
-          <span>ZX AI Advisor</span>
+          <span>小乐AI · 高考志愿填报助手</span>
+        </div>
+        <div class="nav-buttons">
+          <button 
+            class="nav-btn" 
+            :class="{ active: currentView === 'chat' }"
+            @click="currentView = 'chat'"
+          >
+            <i class="fas fa-comments"></i> 对话
+          </button>
+          <button 
+            class="nav-btn" 
+            :class="{ active: currentView === 'ranking' }"
+            @click="currentView = 'ranking'"
+          >
+            <i class="fas fa-trophy"></i> 院校排名
+          </button>
+          <button 
+            class="nav-btn" 
+            :class="{ active: currentView === 'graph' }"
+            @click="currentView = 'graph'"
+          >
+            <i class="fas fa-project-diagram"></i> 知识图谱
+          </button>
+        </div>
+        <div class="role-switcher">
+          <button 
+            class="role-btn" 
+            :class="{ active: conversationRole === 'student' }"
+            @click="switchRole('student')"
+          >
+            <i class="fas fa-user-graduate"></i> 学生
+          </button>
+          <button 
+            class="role-btn" 
+            :class="{ active: conversationRole === 'parent' }"
+            @click="switchRole('parent')"
+          >
+            <i class="fas fa-user-tie"></i> 家长
+          </button>
         </div>
         <div class="service-dots" id="service-dots">
           <span class="dot" :class="{ off: !status.graph_ready }">
@@ -20,24 +59,54 @@ export default {
           <span class="dot" :class="{ off: !status.vector_ready }">
             <i class="fas fa-cube"></i> Vector
           </span>
+          <button class="settings-trigger" @click="showSettings = true">
+            <i class="fas fa-cog"></i> 设置
+          </button>
         </div>
       </header>
 
+      <!-- 设置抽屉 -->
+      <settings-drawer
+        :visible="showSettings"
+        @close="showSettings = false"
+        @save="onSettingsSave"
+        @switch-theme="applyTheme"
+        @switch-model="switchModel"
+      ></settings-drawer>
+
       <div class="app-layout" style="flex:1;min-height:0">
-        <chat-container 
-          :messages="messages" 
-          :is-sending="isSending"
-          @send-message="sendMessage"
-          @clear-chat="clearChat"
-          @submit-feedback="submitFeedback"
-        ></chat-container>
-        
-        <side-panel 
-          :status="status"
-          :profile="profile"
-          :message-count="messages.length"
-          @clear-chat="clearChat"
-        ></side-panel>
+        <!-- 对话视图 -->
+        <template v-if="currentView === 'chat'">
+          <chat-container 
+            :messages="messages" 
+            :is-sending="isSending"
+            :current-emotion="currentEmotion"
+            @send-message="sendMessage"
+            @clear-chat="clearChat"
+            @submit-feedback="submitFeedback"
+          ></chat-container>
+          
+          <side-panel 
+            :status="status"
+            :profile="profile"
+            :parent-profile="parentProfile"
+            :family-context="familyContext"
+            :subject-scores="subjectScores"
+            :message-count="messages.length"
+            @clear-chat="clearChat"
+            @image-analysis="onImageAnalysis"
+          ></side-panel>
+        </template>
+
+        <!-- 院校排名视图 -->
+        <template v-else-if="currentView === 'ranking'">
+          <university-ranking style="flex:1;overflow:auto;padding:20px"></university-ranking>
+        </template>
+
+        <!-- 知识图谱视图 -->
+        <template v-else-if="currentView === 'graph'">
+          <knowledge-graph style="flex:1;overflow:auto;padding:20px"></knowledge-graph>
+        </template>
       </div>
     </div>
   `,
@@ -46,6 +115,10 @@ export default {
       messages: [],
       isSending: false,
       profile: {},
+      parentProfile: {},
+      familyContext: {},
+      subjectScores: {},
+      currentEmotion: { label: 'neutral', intensity: 0.5 },
       status: {
         graph_ready: false,
         db_ready: false,
@@ -54,12 +127,44 @@ export default {
         rag_index_exists: false,
         uptime_seconds: 0
       },
-      sessionId: this.generateSessionId()
+      sessionId: this.generateSessionId(),
+      conversationRole: 'student',
+      showSettings: false,
+      currentView: 'chat'
     }
   },
   methods: {
     generateSessionId() {
       return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    },
+
+    switchRole(role) {
+      this.conversationRole = role;
+      this.clearChat();
+    },
+
+    applyTheme(themeId) {
+      document.documentElement.dataset.theme = themeId;
+      localStorage.setItem('xiaole_theme', themeId);
+    },
+
+    async switchModel(preset) {
+      try {
+        const resp = await fetch(window.API_BASE + '/settings/switch-model', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ preset })
+        });
+        if (resp.ok) {
+          console.log('模型已切换到:', preset);
+        }
+      } catch (e) {
+        console.warn('切换模型失败:', e);
+      }
+    },
+
+    onSettingsSave(settings) {
+      if (settings.theme) this.applyTheme(settings.theme);
     },
     
     lastAssistantMsg() {
@@ -107,7 +212,8 @@ export default {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
             query: query,
-            session_id: this.sessionId
+            session_id: this.sessionId,
+            conversation_role: this.conversationRole
           })
         });
         
@@ -147,6 +253,18 @@ export default {
               
               if (data.type === 'profile_update' && data.profile) {
                 this.profile = data.profile;
+              }
+              if (data.type === 'profile_update' && data.parent_profile) {
+                this.parentProfile = data.parent_profile;
+              }
+              if (data.type === 'profile_update' && data.family_context) {
+                this.familyContext = data.family_context;
+              }
+              if (data.type === 'profile_update' && data.subject_scores) {
+                this.subjectScores = data.subject_scores;
+              }
+              if (data.type === 'profile_update' && data.emotion) {
+                this.currentEmotion = data.emotion;
               }
 
               if (data.type === 'meta') {
@@ -198,6 +316,10 @@ export default {
     clearChat() {
       this.messages = [];
       this.profile = {};
+      this.parentProfile = {};
+      this.familyContext = {};
+      this.subjectScores = {};
+      this.currentEmotion = { label: 'neutral', intensity: 0.5 };
       this.sessionId = this.generateSessionId();
     },
 
@@ -217,12 +339,27 @@ export default {
       } catch (error) {
         console.error('Feedback submit failed:', error);
       }
+    },
+
+    onImageAnalysis(data) {
+      // 将图片分析结果添加为助手消息
+      this.messages.push({
+        id: Date.now(),
+        role: 'assistant',
+        content: `📷 **图片分析** (${data.model})\n\n${data.result}`,
+        timestamp: new Date(),
+        isLoading: false,
+        turnId: null
+      });
     }
   },
   
   mounted() {
     this.refreshStatus();
     this._statusInterval = setInterval(() => this.refreshStatus(), 30000);
+    // 初始化主题
+    const savedTheme = localStorage.getItem('xiaole_theme') || 'blue';
+    this.applyTheme(savedTheme);
   },
 
   beforeUnmount() {
