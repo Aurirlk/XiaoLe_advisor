@@ -5,6 +5,10 @@
 configs/.config.yaml
 configs/.config.local.yaml
 
+# AI 开发过程文件（作品集仓库不展示开发痕迹）
+.omo/
+.workbuddy/
+
 # Python
 __pycache__/
 *.py[cod]
