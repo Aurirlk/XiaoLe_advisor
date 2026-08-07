@@ -42,6 +42,8 @@ def build_graph(
     enable_result_fusion: bool = False,
     enable_write_agent: bool = False,
     xuefeng_store=None,
+    enable_agent_bus: bool = False,
+    enable_reflexion: bool = False,
 ):
     graph = StateGraph(GraphState)
     sql_tools = SQLTools(engine)
@@ -51,8 +53,56 @@ def build_graph(
     synthesis_agent = build_synthesis_agent(
         llm, feedback_store=feedback_store, xuefeng_store=xuefeng_store
     )
-    match_agent = build_match_agent(sql_tools)
-    career_agent = build_career_agent(rag_tools)
+
+    # 蓝图 Phase 3.1：Agent 通信总线（可选增强）
+    # 总线是节点间的"旁路通道"：match 完成后 publish 事件，career 通过
+    # request 向 match 订阅者请求录取数据（请求-响应），实现跨 worker 协作，
+    # 不干扰 LangGraph 的条件路由。
+    bus = None
+    if enable_agent_bus:
+        from core.agent_bus import AgentCommunicationBus
+        bus = AgentCommunicationBus()
+
+    # 蓝图 Phase 3.2：自我反思质量门（可选增强）
+    # match/career 输出后做规则评估；career 不满意时放宽 kb_scope 重查。
+    reflexion = None
+    if enable_reflexion:
+        from core.reflexion_agent import ReflexionAgent
+        reflexion = ReflexionAgent(max_reflections=1, llm=llm)
+
+    match_agent = build_match_agent(sql_tools, bus=bus, reflexion=reflexion)
+    career_agent = build_career_agent(rag_tools, bus=bus, reflexion=reflexion)
+
+    # 蓝图 Phase 3.1：match 订阅者 —— 应答 career 的 "match.admission" 请求
+    if bus is not None:
+        from datetime import datetime
+        from tools.sql_tools import QueryScoreArgs
+
+        async def _match_admission_handler(msg):
+            """请求-响应 handler：用 SQL 查"该分数能上的院校"，返回给 career。"""
+            payload = msg.payload or {}
+            major = payload.get("major_name") or ""
+            if not major:
+                return None
+            try:
+                args = QueryScoreArgs(
+                    province=payload.get("province", "广东省"),
+                    subject_type=payload.get("subject_type", "物理类"),
+                    major_name=major,
+                    year=int(datetime.now().year - 1),
+                    max_rows=5,
+                )
+                result = await sql_tools.query_scores(args)
+                if result.tier in ("error", "empty"):
+                    return None
+                return {"universities": [r.get("university_name") for r in result.data][:5]}
+            except Exception:
+                logger = __import__("logging").getLogger(__name__)
+                logger.warning("match.admission handler 查询失败", exc_info=True)
+                return None
+
+        bus.subscribe("match.admission", _match_admission_handler)
+
     web_search_agent = build_web_search_agent(
         web_search_service=web_search_service,
         web_search=web_search_tools,
@@ -75,7 +125,11 @@ def build_graph(
         write_agent = WriteAgent(vector_store=getattr(rag_tools, "_vector_store", None))
 
     async def _supervisor_node(state: GraphState) -> dict:
-        return await safe_node_call(supervisor_agent, state)
+        result = await safe_node_call(supervisor_agent, state)
+        # 蓝图 Phase 3.1：把总线协作统计写入 state（供 review / 面试展示）
+        if bus is not None:
+            result["bus_stats"] = bus.get_stats()
+        return result
 
     async def _chat_node(state: GraphState) -> dict:
         return await safe_node_call(chat_agent, state)

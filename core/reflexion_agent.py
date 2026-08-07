@@ -179,7 +179,7 @@ class ReflexionAgent:
             satisfied, issues = self._evaluate(query, current, context)
             if satisfied:
                 break
-            reflections = attempt + 1
+            # 无 regenerate（纯质量门）或已达上限 → 停止
             if regenerate is None or attempt >= self.max_reflections:
                 break
             suggestions = self._suggest(query, current, issues, topic)
@@ -187,6 +187,7 @@ class ReflexionAgent:
             logger.info("[Reflexion] %s 第 %d 次反思，问题=%s", topic, attempt + 1, issues)
             try:
                 current = await regenerate(query, reflection_hint, context)
+                reflections += 1  # 只在真正执行 regenerate 后计数
             except Exception:
                 logger.warning("[Reflexion] 重新生成失败，保留上一版输出", exc_info=True)
                 break

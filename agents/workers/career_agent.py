@@ -94,7 +94,7 @@ def _query_major_stats(major_name: str) -> str:
         return ""
 
 
-def build_career_agent(rag_tools: RAGTools):
+def build_career_agent(rag_tools: RAGTools, bus=None, reflexion=None):
     async def career_agent(state: GraphState) -> GraphState:
         profile = state.get("user_profile", {})
         major_name = profile.get("major_name", "")
@@ -148,6 +148,26 @@ def build_career_agent(rag_tools: RAGTools):
             _fetch_rag(), _fetch_neo4j(), _fetch_stats(), _fetch_ai_exposure()
         )
 
+        # ══════════════════════════════════════════════════════════
+        # 蓝图 Phase 3.1：Agent 通信总线请求-响应（可选增强）
+        # career 向 match 订阅者请求录取数据（"以我的分数能上哪些学校"），
+        # 拿到后并入就业上下文——Agent 间真正协作，不依赖 state 顺序。
+        # ══════════════════════════════════════════════════════════
+        bus_admission = None
+        if bus is not None:
+            try:
+                bus_admission = await bus.request(
+                    "match.admission",
+                    {"province": profile.get("province", ""),
+                     "subject_type": profile.get("subject_type", ""),
+                     "major_name": major_name,
+                     "score": profile.get("score") or state.get("extracted_score") or 0},
+                    sender="career_agent",
+                    timeout=2.0,
+                )
+            except Exception:
+                logger.warning("career_agent 总线请求失败（跳过）", exc_info=True)
+
         career_parts = []
 
         # 1. RAG经验库检索（现有功能）
@@ -162,6 +182,13 @@ def build_career_agent(rag_tools: RAGTools):
         # 3. 投研级专业数据
         if major_stats:
             career_parts.append("\n" + major_stats)
+
+        # 3.5 总线协作录取数据（match 订阅者应答）
+        if bus_admission:
+            unis = bus_admission.get("universities") or []
+            if unis:
+                career_parts.append("\n【可冲院校参考（Agent 总线协作）】")
+                career_parts.append("、".join(str(u) for u in unis[:5]))
 
         # 4. AI暴露度评估
         if ai_exposure:
@@ -180,6 +207,48 @@ def build_career_agent(rag_tools: RAGTools):
 
         career_context = "\n".join(career_parts) if career_parts else "暂无相关就业数据"
 
-        return {"career_context": career_context, "next_node": "synthesis_agent"}
+        # ══════════════════════════════════════════════════════════
+        # 蓝图 Phase 3.2：自我反思质量门（可选增强）
+        # 输出为空/缺关键要素时，用 regenerate 放宽 kb_scope 重查 RAG 一次。
+        # ══════════════════════════════════════════════════════════
+        reflexion_report = None
+        if reflexion is not None:
+            try:
+                async def _regenerate_career(q: str, hint: str, ctx: dict) -> str:
+                    """反思重试：放宽知识域范围再查一次（防分权漏检）"""
+                    try:
+                        return await rag_tools.query_zx_experience_async(
+                            query=q,
+                            top_k=4,
+                            kb_scope=None,  # 全库兜底
+                        )
+                    except Exception:
+                        return ""
+
+                reflection = await reflexion.reflect(
+                    query=query,
+                    output=career_context,
+                    context={"scene": "career", "sql_results": state.get("sql_results") or []},
+                    topic="career",
+                    regenerate=_regenerate_career,
+                )
+                reflexion_report = {
+                    "node": "career_agent",
+                    "satisfied": reflection.satisfied,
+                    "issues": reflection.issues,
+                    "suggestions": reflection.suggestions,
+                    "reflections": reflection.reflections,
+                }
+                # 反思重试过且拿到补充内容 → 追加到上下文（不覆盖 bus 协作等已有数据）
+                if reflection.reflections > 0 and reflection.output:
+                    if reflection.output not in career_context:
+                        career_context = career_context + "\n【反思补充】\n" + reflection.output
+            except Exception:
+                logger.warning("career_agent 反思评估失败（跳过）", exc_info=True)
+
+        payload = {"career_context": career_context, "next_node": "synthesis_agent"}
+        if reflexion_report is not None:
+            payload["reflexion_report"] = reflexion_report
+        return payload
 
     return career_agent

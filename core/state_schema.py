@@ -164,6 +164,10 @@ class GraphState(TypedDict, total=False):
     fusion_context: str
     # 蓝图 write_Agent：知识库写入结果统计（可选增强，2026-08-06）
     write_result: Dict[str, Any]
+    # 蓝图 Phase 3.1：Agent 通信总线协作统计（publish/request 次数，2026-08-07）
+    bus_stats: Dict[str, Any]
+    # 蓝图 Phase 3.2：自我反思质量门报告（match/career 输出反思结果，2026-08-07）
+    reflexion_report: Annotated[Dict[str, Any], _merge_dict]
     web_search_pages: Annotated[List[Dict[str, Any]], operator.add]  # 增量追加
     web_search_platform: str         # 搜索平台名（如 知乎/微博/全网）
     web_search_keywords: str         # LLM 提取后的搜索关键词

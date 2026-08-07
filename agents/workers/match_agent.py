@@ -61,7 +61,7 @@ def _parse_neo4j_result(neo4j_output: str) -> list[dict]:
     return results
 
 
-def build_match_agent(sql_tools: SQLTools):
+def build_match_agent(sql_tools: SQLTools, bus=None, reflexion=None):
     async def match_agent(state: GraphState) -> GraphState:
         profile = state.get("user_profile", {})
         missing_fields = [
@@ -187,11 +187,58 @@ def build_match_agent(sql_tools: SQLTools):
                 except (ValueError, TypeError):
                     pass
         
-        return {
+        result_payload = {
             "sql_results": sql_results,
             "risk_assessment": risk,
             "reality_check": reality,
             "next_node": "synthesis_agent",
         }
+
+        # ══════════════════════════════════════════════════════════
+        # 蓝图 Phase 3.2：自我反思质量门（可选增强）
+        # 对输出做规则评估；不满意时尝试 regenerate 重查一次。
+        # ══════════════════════════════════════════════════════════
+        if reflexion is not None:
+            try:
+                # 输出摘要：仅取非 _note 的真实院校行，用于质量评估
+                real_rows = [r for r in sql_results if isinstance(r, dict) and "_note" not in r]
+                output_summary = "\n".join(
+                    f"{r.get('university_name', '')} {r.get('min_score', '')}分/{r.get('lowest_rank', '')}位次"
+                    for r in real_rows[:3]
+                ) if real_rows else ""
+                reflection = await reflexion.reflect(
+                    query=query,
+                    output=output_summary,
+                    context={"scene": "match", "sql_results": sql_results},
+                    topic="match",
+                )
+                result_payload["reflexion_report"] = {
+                    "node": "match_agent",
+                    "satisfied": reflection.satisfied,
+                    "issues": reflection.issues,
+                    "suggestions": reflection.suggestions,
+                    "reflections": reflection.reflections,
+                }
+            except Exception:
+                logger.warning("match_agent 反思评估失败（跳过）", exc_info=True)
+
+        # ══════════════════════════════════════════════════════════
+        # 蓝图 Phase 3.1：Agent 通信总线发布（可选增强）
+        # match 查分完成后发布事件，供订阅方（如 career_agent）复用。
+        # ══════════════════════════════════════════════════════════
+        if bus is not None:
+            try:
+                await bus.publish(
+                    "match.completed",
+                    {"major_name": profile.get("major_name", ""),
+                     "province": profile.get("province", ""),
+                     "universities": [r.get("university_name") for r in sql_results
+                                      if isinstance(r, dict) and "_note" not in r][:5]},
+                    sender="match_agent",
+                )
+            except Exception:
+                logger.warning("match_agent 总线发布失败（跳过）", exc_info=True)
+
+        return result_payload
 
     return match_agent

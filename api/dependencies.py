@@ -176,6 +176,9 @@ def get_compiled_graph():
         on_conversation_end=_make_crm_callback(crm),
         web_search_service=get_web_search_service(),
         feedback_store=get_feedback_store(),
+        # 蓝图 Phase 3（2026-08-07）：Agent 通信总线 + 自我反思质量门
+        enable_agent_bus=True,
+        enable_reflexion=True,
     )
 
 
