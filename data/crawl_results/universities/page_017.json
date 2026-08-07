@@ -1,0 +1,23 @@
+{
+  "page": 17,
+  "count": 20,
+  "crawl_time": "2026-06-18T23:27:28.202838",
+  "universities": [
+    {
+      "name": "晋中健康学院",
+      "province": "山西",
+      "admin": "山西省教育厅",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "山西工商学院",
+      "province": "山西",
+      "admin": "山西省教育厅",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.5
+    }
+  ]
+}

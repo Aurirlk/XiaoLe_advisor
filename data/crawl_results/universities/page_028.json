@@ -1,0 +1,23 @@
+{
+  "page": 28,
+  "count": 19,
+  "crawl_time": "2026-06-18T23:45:18.252389",
+  "universities": [
+    {
+      "name": "吉林财经大学",
+      "province": "吉林",
+      "admin": "吉林省教育厅",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "吉林体育学院",
+      "province": "吉林",
+      "admin": "吉林省教育厅",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    }
+  ]
+}

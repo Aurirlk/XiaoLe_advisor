@@ -1,0 +1,1 @@
+<template><div class="questionnaire-page"><h2>问卷</h2></div></template><script>export default { name: 'QuestionnairePage' }</script>

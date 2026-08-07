@@ -1,20 +1,39 @@
 """JWT认证与密码哈希模块"""
 from __future__ import annotations
 
+import logging
 import os
-from datetime import datetime, timedelta
+import secrets
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 import jwt
-from passlib.context import CryptContext
-from fastapi import HTTPException, status
+import bcrypt
+from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-# 密码哈希上下文
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+logger = logging.getLogger(__name__)
+
+
+def _resolve_jwt_secret() -> str:
+    """解析 JWT 密钥：生产环境必须显式配置，禁止弱默认值。
+
+    - 生产环境（APP_ENV=production）未配置 JWT_SECRET → 直接启动失败（fail-fast）。
+    - 开发环境未配置 → 生成进程级随机密钥并告警（重启后旧 token 失效，属预期行为）。
+    """
+    secret = os.getenv("JWT_SECRET", "").strip()
+    if secret:
+        if len(secret) < 32:
+            logger.warning("JWT_SECRET 长度不足 32 字符，建议使用更强的密钥")
+        return secret
+    if os.getenv("APP_ENV", "development").lower() == "production":
+        raise RuntimeError("生产环境必须配置 JWT_SECRET 环境变量（不允许默认值）")
+    logger.warning("未配置 JWT_SECRET，开发环境使用进程级随机密钥（重启后所有 token 失效）")
+    return secrets.token_urlsafe(48)
+
 
 # JWT配置
-JWT_SECRET = os.getenv("JWT_SECRET", "xiaole-ai-secret-key-change-in-production")
+JWT_SECRET = _resolve_jwt_secret()
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRATION_HOURS = int(os.getenv("JWT_EXPIRATION_HOURS", "168"))  # 7天
 
@@ -24,22 +43,23 @@ security = HTTPBearer()
 
 def hash_password(password: str) -> str:
     """对密码进行bcrypt哈希"""
-    return pwd_context.hash(password)
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """验证密码与哈希是否匹配"""
-    return pwd_context.verify(plain_password, hashed_password)
+    return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
     """创建JWT访问令牌"""
     to_encode = data.copy()
+    now = datetime.now(timezone.utc)
     if expires_delta:
-        expire = datetime.utcnow() + expires_delta
+        expire = now + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(hours=JWT_EXPIRATION_HOURS)
-    to_encode.update({"exp": expire, "iat": datetime.utcnow()})
+        expire = now + timedelta(hours=JWT_EXPIRATION_HOURS)
+    to_encode.update({"exp": expire, "iat": now})
     encoded_jwt = jwt.encode(to_encode, JWT_SECRET, algorithm=JWT_ALGORITHM)
     return encoded_jwt
 
@@ -63,7 +83,7 @@ def decode_access_token(token: str) -> dict:
         )
 
 
-async def get_current_user(credentials: HTTPAuthorizationCredentials = security) -> dict:
+async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
     """从请求中获取当前用户（FastAPI依赖项）"""
     token = credentials.credentials
     payload = decode_access_token(token)
@@ -77,7 +97,7 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = security)
     return payload
 
 
-async def require_admin(credentials: HTTPAuthorizationCredentials = security) -> dict:
+async def require_admin(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
     """要求管理员权限的依赖项"""
     user = await get_current_user(credentials)
     if user.get("role") != "admin":

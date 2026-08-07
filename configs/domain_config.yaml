@@ -1,0 +1,73 @@
+# 小乐百宝箱 · 领域配置
+# 新增领域只需在此文件添加一项
+
+domains:
+  gaokao:
+    name: "高考志愿"
+    icon: "🎓"
+    description: "高考志愿填报、院校推荐、专业分析"
+    roles: [student, parent, admin]
+    enabled: true
+    # 对话提示词（注入 LLM system prompt）
+    chat_context: "当前为用户提供高考志愿填报咨询。需要关注：分数线匹配、院校档次、专业就业前景、志愿表策略（冲稳保）"
+    # 搜索偏好（自动加 site: 限定）
+    search_sites: ["edu.cn", "gaokao.chsi.com.cn"]
+    # RAG 文档目录
+    rag_dir: "data/documents/gaokao"
+    # 数据表前缀
+    db_table_prefix: ""
+
+  postgraduate:
+    name: "考研"
+    icon: "📚"
+    description: "考研择校、报录比、复试调剂、导师选择"
+    roles: [student]
+    enabled: true
+    chat_context: "当前为用户提供考研择校与备考咨询。需要关注：报录比、复试分数线、调剂机会、导师评价、学硕 vs 专硕选择"
+    search_sites: ["yz.chsi.com.cn", "kaoyan.com"]
+    rag_dir: "data/documents/postgraduate"
+    db_table_prefix: "pg_"
+
+  civil_service:
+    name: "考公"
+    icon: "🏛"
+    description: "国考省考职位筛选、行测申论备考、面试真题"
+    roles: [student]
+    enabled: true
+    chat_context: "当前为用户提供公务员考试咨询。需要关注：国考/省考区别、职位竞争比、行测申论备考方法、面试技巧"
+    search_sites: ["scs.gov.cn", "huatu.com", "fenbi.com"]
+    rag_dir: "data/documents/civil_service"
+    db_table_prefix: "cs_"
+
+  public_institution:
+    name: "考编"
+    icon: "🏢"
+    description: "事业单位岗位、考试科目、面试流程"
+    roles: [student]
+    enabled: true
+    chat_context: "当前为用户提供事业单位考试咨询。需要关注：事业单位招聘条件、考试科目（公基/职测/综应）、面试形式、岗位待遇"
+    search_sites: ["mohrss.gov.cn"]
+    rag_dir: "data/documents/public_institution"
+    db_table_prefix: "pi_"
+
+  associate_bachelor:
+    name: "专升本"
+    icon: "📖"
+    description: "专升本政策、院校推荐、考试科目"
+    roles: [student]
+    enabled: true
+    chat_context: "当前为用户提供专升本报考咨询。需要关注：各省专升本政策差异、院校招生计划、考试科目、录取率"
+    search_sites: ["eeafj.cn", "zsb.cn", "hebeea.edu.cn"]
+    rag_dir: "data/documents/associate_bachelor"
+    db_table_prefix: "ab_"
+
+  career:
+    name: "职业规划"
+    icon: "💼"
+    description: "职业发展、行业趋势、薪资分析"
+    roles: [student, parent]
+    enabled: true
+    chat_context: "当前为用户提供职业规划咨询。需要关注：行业发展趋势、岗位薪资、技能要求、职业路径"
+    search_sites: []
+    rag_dir: "data/documents/career"
+    db_table_prefix: "cr_"

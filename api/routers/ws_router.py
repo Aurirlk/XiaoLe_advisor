@@ -23,6 +23,11 @@ from api.dependencies import (
     get_compiled_graph,
     get_conversation_turn_store,
 )
+from api.security_utils import (
+    WS_IDLE_TIMEOUT,
+    authenticate_ws,
+    ws_semaphore,
+)
 from core.web_search_status import drain_status
 from core.emotion_analyzer import get_emotion_analyzer
 
@@ -32,6 +37,8 @@ router = APIRouter(tags=["websocket"])
 
 # VAD 实例（延迟初始化）
 _vad_detector = None
+# ASR 实例（P1-17：单例复用，保留熔断器状态）
+_asr_provider = None
 
 
 def _get_vad():
@@ -42,10 +49,21 @@ def _get_vad():
     return _vad_detector
 
 
+def _get_asr():
+    global _asr_provider
+    if _asr_provider is None:
+        from core.providers.asr_factory import ASRFactory
+        _asr_provider = ASRFactory.create_from_config()
+    return _asr_provider
+
+
 AGENT_NODES = frozenset({
     "profile_agent", "parent_agent", "family_agent", "match_agent", "career_agent",
     "web_search_agent", "sql_agent", "synthesis_agent", "supervisor_agent",
 })
+
+# 真流式只放行「最终回复节点」的 token（synthesis 与 chat 是回复出口）
+_STREAM_TOKEN_NODES = frozenset({"synthesis_agent", "chat_agent"})
 
 
 async def _process_text_query(
@@ -75,17 +93,35 @@ async def _process_text_query(
 
     route_path: list[str] = []
     assistant_response = ""
+    streamed_tokens = False
 
     # 推送 status
     await _send_json(ws, {"type": "status", "msg": "正在思考..."})
 
     try:
-        async for chunk in graph.astream(init_state, config=config):
+        # ── 真流式（P1-1 修复）：双流模式，messages 流逐 token 推送 ──
+        async for mode_val in graph.astream(
+            init_state,
+            config=config,
+            stream_mode=["updates", "messages"],
+        ):
+            mode, value = mode_val
+            if mode == "messages":
+                msg_chunk, meta = value
+                node = (meta or {}).get("langgraph_node", "") if isinstance(meta, dict) else ""
+                # 只推送逐 token 增量（AIMessageChunk），跳过节点返回的完整 AIMessage
+                if node in _STREAM_TOKEN_NODES and type(msg_chunk).__name__ == "AIMessageChunk":
+                    content = getattr(msg_chunk, "content", "") or ""
+                    if content:
+                        streamed_tokens = True
+                        await _send_json(ws, {"type": "token", "msg": str(content)})
+                continue
+
             # 推送搜索状态
             for status_msg in drain_status(session_id):
                 await _send_json(ws, {"type": "status", "msg": status_msg})
 
-            for node_name in chunk:
+            for node_name in value:
                 if node_name in AGENT_NODES and (not route_path or route_path[-1] != node_name):
                     route_path.append(node_name)
                     await _send_json(ws, {"type": "status", "msg": f"经过 {node_name}..."})
@@ -96,7 +132,7 @@ async def _process_text_query(
 
     # 获取最终状态
     try:
-        final_state = graph.get_state(config)
+        final_state = await graph.aget_state(config)
         if final_state and final_state.values:
             values = final_state.values
 
@@ -130,8 +166,9 @@ async def _process_text_query(
         logger.warning("[WS] get_state 异常: %s", e)
         assistant_response = "服务暂时不可用，请稍后重试。"
 
-    # 推送回复 token
-    await _send_json(ws, {"type": "token", "msg": assistant_response})
+    # 推送回复 token（未走真流式时兜底整段；真流式已推送则跳过避免重复）
+    if not streamed_tokens:
+        await _send_json(ws, {"type": "token", "msg": assistant_response})
 
     # 保存对话轮次
     if turn_store:
@@ -164,6 +201,9 @@ async def _process_audio_stream(
     vad = _get_vad()
     audio_buffer = bytearray()
     speech_started = False
+    # P1-17：缓冲上限（16kHz/16bit/mono ≈ 32KB/s），5MB ≈ 160s 语音，
+    # 防止 VAD 误判持续语音时无限增长拖垮内存
+    MAX_AUDIO_BUFFER = 5 * 1024 * 1024
 
     await _send_json(ws, {"type": "status", "msg": "VAD 监听中..."})
 
@@ -211,6 +251,13 @@ async def _process_audio_stream(
 
             if speech_started:
                 audio_buffer.extend(chunk)
+                # P1-17：缓冲超限即视为异常长语音，放弃本次累积（防 OOM）
+                if len(audio_buffer) > MAX_AUDIO_BUFFER:
+                    logger.warning("[WS] 音频缓冲超限（%d 字节），重置本次语音", len(audio_buffer))
+                    speech_started = False
+                    audio_buffer.clear()
+                    vad.reset()
+                    await _send_json(ws, {"type": "status", "msg": "音频过长已重置，请重新说话..."})
 
             if is_endpoint and speech_started:
                 # 语音端点检测到，开始识别
@@ -223,13 +270,11 @@ async def _process_audio_stream(
                     await _send_json(ws, {"type": "status", "msg": "音频太短，继续监听..."})
                     continue
 
-                # ASR 识别
-                from core.providers.asr_factory import ASRFactory
-                asr = ASRFactory.create_from_config()
+                # ASR 识别（P1-17：复用模块级单例，保留熔断器状态，避免每次重建）
                 try:
                     # PCM → WAV 转换
                     wav_bytes = _pcm_to_wav(bytes(audio_buffer))
-                    text = await asr.transcribe(wav_bytes)
+                    text = await _get_asr().transcribe(wav_bytes)
                 except Exception as e:
                     logger.warning("[WS] ASR 失败: %s", e)
                     text = ""
@@ -294,51 +339,67 @@ async def websocket_chat(websocket: WebSocket):
       {"type": "done"}
       {"type": "error", "msg": "..."}
     """
-    await websocket.accept()
-    turn_store = get_conversation_turn_store()
-    session_id = ""
+    # 先鉴权（失败会关闭 4401），再检查连接配额
+    user = await authenticate_ws(websocket)
+    if user is None:
+        return
 
-    logger.info("[WS] 客户端连接")
+    sem = ws_semaphore()
+    if sem.locked():
+        await websocket.close(code=1013, reason="服务繁忙，请稍后重试")
+        return
 
-    try:
-        while True:
-            data = await websocket.receive()
+    async with sem:
+        await websocket.accept()
+        turn_store = get_conversation_turn_store()
+        session_id = ""
 
-            # 二进制消息（音频 chunk，仅在 audio_start 后有效）
-            if "bytes" in data:
-                # 不在音频模式下忽略
-                continue
+        logger.info("[WS] 客户端连接（user=%s）", user.get("sub", "?"))
 
-            if "text" not in data:
-                continue
+        try:
+            while True:
+                try:
+                    data = await asyncio.wait_for(websocket.receive(), timeout=WS_IDLE_TIMEOUT)
+                except asyncio.TimeoutError:
+                    logger.info("[WS] 空闲超时，主动断开: %s", session_id)
+                    await websocket.close(code=1000, reason="空闲超时")
+                    return
 
-            try:
-                msg = json.loads(data["text"])
-            except json.JSONDecodeError:
-                await _send_json(websocket, {"type": "error", "msg": "无效 JSON"})
-                continue
-
-            msg_type = msg.get("type", "")
-            session_id = msg.get("session_id", "") or str(uuid.uuid4())
-            role = msg.get("role", "student")
-
-            if msg_type == "text":
-                query = msg.get("query", "").strip()
-                if not query:
-                    await _send_json(websocket, {"type": "error", "msg": "查询为空"})
+                # 二进制消息（音频 chunk，仅在 audio_start 后有效）
+                if "bytes" in data:
+                    # 不在音频模式下忽略
                     continue
-                await _process_text_query(websocket, query, session_id, turn_store, role)
 
-            elif msg_type == "audio_start":
-                await _process_audio_stream(websocket, session_id, turn_store, role)
+                if "text" not in data:
+                    continue
 
-            elif msg_type == "ping":
-                await _send_json(websocket, {"type": "pong"})
+                try:
+                    msg = json.loads(data["text"])
+                except json.JSONDecodeError:
+                    await _send_json(websocket, {"type": "error", "msg": "无效 JSON"})
+                    continue
 
-            else:
-                await _send_json(websocket, {"type": "error", "msg": f"未知消息类型: {msg_type}"})
+                msg_type = msg.get("type", "")
+                session_id = msg.get("session_id", "") or str(uuid.uuid4())
+                role = msg.get("role", "student")
 
-    except WebSocketDisconnect:
-        logger.info("[WS] 客户端断开: %s", session_id)
-    except Exception as e:
-        logger.warning("[WS] 异常: %s", e)
+                if msg_type == "text":
+                    query = msg.get("query", "").strip()
+                    if not query:
+                        await _send_json(websocket, {"type": "error", "msg": "查询为空"})
+                        continue
+                    await _process_text_query(websocket, query, session_id, turn_store, role)
+
+                elif msg_type == "audio_start":
+                    await _process_audio_stream(websocket, session_id, turn_store, role)
+
+                elif msg_type == "ping":
+                    await _send_json(websocket, {"type": "pong"})
+
+                else:
+                    await _send_json(websocket, {"type": "error", "msg": f"未知消息类型: {msg_type}"})
+
+        except WebSocketDisconnect:
+            logger.info("[WS] 客户端断开: %s", session_id)
+        except Exception as e:
+            logger.warning("[WS] 异常: %s", e)

@@ -1,0 +1,990 @@
+{
+  "province": "河北",
+  "count": 123,
+  "universities": [
+    {
+      "name": "河北大学",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "河北工程大学",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "河北地质大学",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "华北电力大学(保定)",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "华北理工大学",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "河北科技大学",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "河北建筑工程学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "河北水利电力学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "河北农业大学",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "河北医科大学",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "河北北方学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "承德医学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "河北师范大学",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "保定学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "河北民族师范学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "唐山师范学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "廊坊师范学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "衡水学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "石家庄学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "邯郸学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "邢台学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "沧州师范学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "石家庄铁道大学",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "燕山大学",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "河北科技师范学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "唐山学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "邯郸职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "应急管理大学",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "中国人民警察大学",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.2
+    },
+    {
+      "name": "河北体育学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "石家庄职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "河北金融学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "张家口职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "北华航天工业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "河北经贸大学",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "中央司法警官学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "邢台医学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "河北软件职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "河北建材职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "河北政法职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "沧州职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "河北能源职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "石家庄铁路职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "保定职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "秦皇岛职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "石家庄工程职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "石家庄城市经济职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "河北传媒学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "唐山职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "衡水职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "唐山工业职业技术大学",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "河北工程技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "河北艺术职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "河北旅游职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "石家庄财经职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "河北交通职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "河北化工医药职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "石家庄信息工程职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "河北对外经贸职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "河北美术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "河北科技学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "保定电力职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "河北机电职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "廊坊职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "唐山科技职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "石家庄邮电职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "河北公安警察职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "石家庄工商职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "石家庄理工职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "河北外国语学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "石家庄科技信息职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.0
+    },
+    {
+      "name": "华北理工大学轻工学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "河北师范大学汇华学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "河北经贸大学经济管理学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "河北医科大学临床学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "河北工程大学科信学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "燕山大学里仁学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "石家庄铁道大学四方学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "河北地质大学华信学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "河北农业大学现代科技学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "华北理工大学冀唐学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "河北司法警官职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "河北女子职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "保定理工学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "燕京理工学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "北京中医药大学东方学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.2
+    },
+    {
+      "name": "石家庄经济职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "冀中职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.8
+    },
+    {
+      "name": "沧州交通学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "河北劳动关系职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "石家庄科技职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "河北东方学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.3
+    },
+    {
+      "name": "宣化科技职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "廊坊燕京职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "承德护理职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.8
+    },
+    {
+      "name": "廊坊卫生职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "河北轨道运输职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "河北中医药大学",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "张家口学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.0
+    },
+    {
+      "name": "河北工艺美术职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.0
+    },
+    {
+      "name": "渤海理工职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "曹妃甸职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.3
+    },
+    {
+      "name": "承德应用技术职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 5.0
+    },
+    {
+      "name": "邯郸科技职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "唐山海运职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "邢台应用技术职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "衡水健康科技职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "沧州航空职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "邯郸应用技术职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "秦皇岛工业职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "邢台新能源职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "石家庄金融职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "石家庄农林职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "张家口应用技术职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "石家庄康养职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "辛集应用技术职业学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "河北石油职业技术大学",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "河北科技工程职业技术大学",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "河北工业职业技术大学",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "东北大学秦皇岛分校",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 0
+    },
+    {
+      "name": "河北资源环境职业技术学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.0
+    },
+    {
+      "name": "河北环境工程学院",
+      "province": "河北",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "河北青年管理干部学院",
+      "province": "河北",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    }
+  ]
+}

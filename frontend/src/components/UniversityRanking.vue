@@ -1,0 +1,1 @@
+<template><div class="university-ranking"><h2>排名</h2></div></template><script>export default { name: 'UniversityRanking' }</script>

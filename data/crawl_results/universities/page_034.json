@@ -1,0 +1,23 @@
+{
+  "page": 34,
+  "count": 17,
+  "crawl_time": "2026-06-18T23:51:54.004615",
+  "universities": [
+    {
+      "name": "黑龙江民族职业学院",
+      "province": "黑龙江",
+      "admin": "黑龙江省教育厅",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "黑龙江交通职业技术学院",
+      "province": "黑龙江",
+      "admin": "黑龙江省教育厅",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    }
+  ]
+}

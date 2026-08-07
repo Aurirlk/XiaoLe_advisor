@@ -1,0 +1,23 @@
+{
+  "page": 16,
+  "count": 21,
+  "crawl_time": "2026-06-18T23:26:20.957703",
+  "universities": [
+    {
+      "name": "晋城职业技术学院",
+      "province": "山西",
+      "admin": "山西省教育厅",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4
+    },
+    {
+      "name": "山西药科职业学院",
+      "province": "山西",
+      "admin": "山西省教育厅",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    }
+  ]
+}

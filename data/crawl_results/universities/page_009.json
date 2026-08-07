@@ -1,0 +1,23 @@
+{
+  "page": 9,
+  "count": 21,
+  "crawl_time": "2026-06-18T23:20:09.657395",
+  "universities": [
+    {
+      "name": "保定学院",
+      "province": "河北",
+      "admin": "河北省教育厅",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "河北民族师范学院",
+      "province": "河北",
+      "admin": "河北省教育厅",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    }
+  ]
+}

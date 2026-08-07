@@ -1,0 +1,694 @@
+{
+  "province": "福建",
+  "count": 86,
+  "universities": [
+    {
+      "name": "厦门大学",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "华侨大学",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "福州大学",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "福建理工大学",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "福建农林大学",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "集美大学",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "福建医科大学",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "福建中医药大学",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "福建师范大学",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "闽江大学",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "武夷学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "宁德师范学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "泉州师范学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "闽南师范大学",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "福建船政交通职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "厦门理工学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "三明学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "龙岩学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "福建商学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "漳州职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "闽西职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "黎明职业大学",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "福建警察学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "莆田学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "福建华南女子职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "福州职业技术大学",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "仰恩大学",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "福建林业职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "福建信息职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "福建水利电力职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "福建电力职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "厦门海洋职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "福建农业职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "厦门医学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "福建卫生职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "福州英华职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "厦门华厦学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "闽南理工学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "泉州纺织服装职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "泉州华光职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "泉州职业技术大学",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "闽南科技学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "福州工商学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "厦门工学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "阳光学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.8
+    },
+    {
+      "name": "厦门大学嘉庚学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "福州大学至诚学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "集美大学诚毅学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "福建师范大学协和学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "福州外语外贸学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.8
+    },
+    {
+      "name": "福建江夏学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "闽北职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "福州黎明职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.3
+    },
+    {
+      "name": "泉州信息工程学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "厦门演艺职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "厦门华天涉外职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "福州科技职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "泉州经贸职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "湄洲湾职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "福州理工学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "福建生物工程职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "福建艺术职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "厦门城市职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "泉州工艺美术职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "三明医学科技职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "宁德职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "福州软件职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "厦门兴才职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "福建农林大学金山学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "厦门软件职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "福建体育职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "漳州城市职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "厦门南洋职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "厦门东海职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "漳州科技职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "漳州理工职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "武夷山职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.2
+    },
+    {
+      "name": "漳州卫生职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "泉州海洋职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.2
+    },
+    {
+      "name": "泉州轻工职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "厦门安防科技职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "泉州工程职业技术学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "福建技术师范学院",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "福建福耀科技大学",
+      "province": "福建",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "集美工业职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "福州墨尔本理工职业学院",
+      "province": "福建",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.3
+    }
+  ]
+}

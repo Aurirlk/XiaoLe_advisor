@@ -1,0 +1,1 @@
+<template><slot v-if="!error" /><div v-else class="err"><i class="fas fa-exclamation-triangle" /><p>组件加载出错</p></div></template><script>export default { name: 'ErrorBoundary', data(){return{error:false}}, errorCaptured(){this.error=true;return false} }</script>

@@ -5,7 +5,7 @@
 <h1 align="center">小乐AI · 高考志愿填报助手</h1>
 
 <p align="center">
-  <strong>张雪峰风格 · 智能高考志愿填报顾问系统</strong>
+  <strong>张雪峰风格 · 多智能体协同高考志愿决策系统</strong>
 </p>
 
 <p align="center">
@@ -13,62 +13,154 @@
   <img src="https://img.shields.io/badge/vue-3.3.4-brightgreen" alt="Vue 3" />
   <img src="https://img.shields.io/badge/langgraph-multi--agent-orange" alt="LangGraph" />
   <img src="https://img.shields.io/badge/deepseek-v4--flash-purple" alt="DeepSeek" />
-  <img src="https://img.shields.io/badge/tests-125%2B%20passed-27ae60" alt="Tests" />
+  <img src="https://img.shields.io/badge/version-v0.4.0-darkgreen" alt="Version" />
   <img src="https://img.shields.io/badge/license-MIT-green" alt="License" />
 </p>
 
 <p align="center">
   基于 <strong>LangGraph + FastAPI + Vue 3</strong> 的 Supervisor-Worker 多智能体架构<br/>
-  十万级录取数据 × AI 智能分析 × 确定性风控引擎 × 语音交互 × 多模态视觉
-</p>
+  十万级录取数据 × 多 Agent 协同 × RAG/Neo4j/GraphRAG 知识库 × Harness 学习协作机制 × 确定性风控引擎</p>
 
 ---
 
 ## 目录
 
-- [项目介绍](#项目介绍)
+- [一句话介绍](#一句话介绍)
+- [项目简介](#项目简介)
+- [项目思路](#项目思路)
 - [功能清单](#功能清单)
 - [技术栈](#技术栈)
 - [架构概览](#架构概览)
 - [快速开始](#快速开始)
 - [配置说明](#配置说明)
-- [API 参考](#api-参考)
 - [项目结构](#项目结构)
-- [测试](#测试)
-- [部署指南](#部署指南)
-- [设计笔记](#设计笔记)
-- [技术问答](#技术问答)
-- [常见问题](#常见问题)
-- [版本历史](#版本历史)
-- [版权声明](#版权声明)
-- [许可证](#许可证)
 - [文档目录](#文档目录)
 
 ---
 
-## 项目介绍
+## 一句话介绍
 
-小乐AI 是一个智能高考志愿填报顾问系统，采用**张雪峰老师的咨询风格**——用数据说话、重现实轻幻想、该劝退绝不端水。
+**小乐AI 是一个"多 Agent 协同 + RAG 知识库"驱动的高考志愿填报决策系统：Supervisor 中枢像指挥员一样调度 8+ 个专业员工 Agent（画像/匹配/就业/联网/写库），用十万级录取数据、张雪峰咨询风格和确定性风控引擎，帮"一家人"吵出共识、做出不后悔的志愿选择。**
 
-系统基于 **LangGraph Supervisor-Worker 多智能体架构**，通过 Supervisor 路由中枢智能调度多个专业 Worker 智能体，配合确定性技能层和防端水约束引擎，为用户提供精准、安全、可控的报考建议。
+## 项目简介
 
-### 核心亮点
+### 项目背景
 
-| 能力 | 说明 |
+高考志愿填报是"高信息差 + 高决策风险 + 全家参与"的典型场景：家长看稳定、学生看兴趣、分数看位次、就业看趋势，四者经常冲突（"一家人吵架"）。传统填报工具只给分数线查询，无法完成"从数据到决策"的完整链路；通用大模型又会"端水"——给不出明确建议。小乐AI 针对这一场景，用多 Agent 系统还原"专业顾问团队"的工作方式：先收集画像，再分路查证数据，最后给出有立场、有依据、敢劝退的建议。
+
+### 项目实现功能
+
+- **多 Agent 协同决策**：Supervisor 路由中枢（场景/路径/决心度三层意图识别）→ 8+ Worker 员工（profile/parent/family/match/career/web_search/sql/write）→ Synthesis 合成，Agent 间可经通信总线协作、反思循环自纠、结果融合去冲突
+- **RAG 知识库 + 图谱**：ChromaDB 向量检索 + FTS5 全文检索 + 知识域分权（kb_scope）+ Neo4j 知识图谱（院校-专业-职业-城市-政策）+ GraphRAG 多跳查询 + 张雪峰对话语料库（Milvus，风格锚点注入）
+- **确定性风控**：SynthesisGuard 防端水引擎 + 红线审计 + 反方审计 + 硬编码过滤（体检/预算/地域），回复不越界、不编数据
+- **write_Agent 学习闭环**：联网搜到但知识库没有的内容，由唯一写权限 worker 校验去重后自动写入知识库，实现"越用越懂"
+- **全模态交互**：文字对话（SSE 真流式）/ 语音（VAD→ASR→TTS 情绪合成）/ 图片理解（VLLM）/ WebSocket 全双工
+- **Harness 数据引导**：数据缺失时引导用户上传 CSV/Excel/PDF/图片，自动解析入库更新
+- **工程化能力**：用户画像 CRM 断点续传、RAG 评估体系（Recall@3=0.567）、意图追踪、成本控制、重试熔断、评测与反馈闭环
+
+### 项目思路
+
+1. **中枢-员工（Sisyphus）模式**：不做"对话式多 Agent 互相聊天"，而是 Supervisor 作为指挥中枢，把任务拆解下发给专业 Worker"员工"，员工采集信息后交回中枢汇总——架构清晰、职责单一、可 review
+2. **数据分层治理**：确定性数据（分数线/风控规则）走 SQL/硬编码，经验知识走 RAG，关系知识走图谱，对话风格走雪峰语料库——各层各司其职，互相降级兜底
+3. **可解释可问责**：每个推荐都带数据理由 + 风险提示 + 审计报告，风控信号不被 LLM 篡改
+4. **学习协作机制**：write_Agent 写库 + Harness 引导用户补数据 + 反馈闭环优化，让系统在真实使用中持续进化
+
+## V0.4.0 新增功能
+
+### 🤝 多 Agent 协作体系（蓝图 Phase 3 落地）
+
+```
+用户输入
+    │
+    ▼
+┌─────────────────────────────────────────┐
+│  Supervisor Agent（三层路由 + 通信总线）   │
+│  AgentCommunicationBus 订阅/发布/请求响应  │
+└─────────────────────────────────────────┘
+    │
+    ├─→ profile_agent / parent_agent / family_agent（画像采集）
+    ├─→ match_agent（分数线/位次，Neo4j→SQLite 降级）
+    ├─→ career_agent（RAG 四源并行，kb_scope 知识域分权）
+    ├─→ web_search_agent（联网搜索）
+    ├─→ write_agent（唯一写权限：搜索结果校验去重后写入知识库）
+    ├─→ sql_agent / decision_detector
+    └─→ result_fusion（多源结果融合 → synthesis）
+                 │
+                 ▼
+    Synthesis Agent（+ 雪峰语料风格锚点注入 + 风控）
+```
+
+### 🛠️ 新增模块
+
+| 模块 | 文件 | 功能 |
+|------|------|------|
+| **Agent 通信总线** | `core/agent_bus.py` | 订阅/发布 + 请求-响应 + 广播，asyncio 友好 |
+| **自我反思 Agent** | `core/reflexion_agent.py` | 输出质量评估 → 建议 → 重试循环 → 反思记忆沉淀/复用 |
+| **结果融合器** | `core/result_fusion.py` | sql/career/web 多源结果融合（合并/投票/加权/专家） |
+| **write_Agent** | `agents/workers/write_agent.py` | 唯一写权限 worker，搜索结果校验/去重/双写入库 |
+| **雪峰语料库** | `tools/xuefeng_store.py` | Milvus+学科 embedding 对话检索，不可达降级 Chroma |
+| **语料构建脚本** | `scripts/build_xuefeng_corpus.py` | 雪峰对话切块入库（轮次边界/专业关键字窗口词） |
+| **RAG 知识域分权** | `tools/rag_tools.py` | `kb_scope` 参数按知识域限定检索 + 跨库兜底标记 |
+
+### 🎯 多维意图识别系统
+
+```
+用户输入
+    │
+    ▼
+┌─────────────────────────────────────────┐
+│  Supervisor Agent（三层路由）             │
+│  Layer 1: 场景识别（chat/gaokao/postgrad）│
+│  Layer 2: 路径识别（postgrad/employment） │
+│  Layer 3: 决心度检测（firm/hesitant/lost）│
+└─────────────────────────────────────────┘
+    │
+    ├─→ chat_agent（普通聊天 + 情感支持）
+    ├─→ profile_agent（渐进询问 + 信息差弥合）
+    ├─→ match_agent（决策框架 + 现实映射）
+    ├─→ career_agent（路径规划 + 现实映射）
+    ├─→ decision_detector（回退引导 + 情感支持）
+    └─→ synthesis_agent（集成所有增强模块）
+```
+
+### 🛠️ 新增模块
+
+| 模块 | 文件 | 功能 |
+|------|------|------|
+| **信息差弥合** | `skills/info_gap_bridger.py` | 主动告知用户该知道的事 |
+| **决策框架** | `skills/decision_framework.py` | 教用户用什么标准做决定 |
+| **家庭协调** | `agents/workers/family_agent.py` | 帮助家长和学生达成共识 |
+| **情感支持** | `skills/emotional_support.py` | 承认焦虑、提供支持 |
+| **意图追踪** | `core/intent_tracker.py` | 记录意图日志、决策旅程 |
+| **聊天Agent** | `agents/chat_agent.py` | 普通聊天 + 情感支持 |
+| **决心度检测** | `agents/decision_detector.py` | 犹豫检测 + 回退引导 |
+
+### 🎨 前端增强
+
+| 组件 | 功能 |
 |------|------|
-| 智能路由 | LLM 意图识别 + 关键词兜底 + 家长/学生双角色分流 |
-| 分层工具 | SQL 四级降级 → ChromaDB 向量检索 → FTS5 全文检索 → 关键词混合召回 |
-| 防端水引擎 | 三层防线：信号检测 → Prompt 注入 → 输出校验与强制修正 |
-| 多轮对话 | LangGraph Checkpoint 持久化状态，会话隔离，变更可追溯 |
-| 用户画像 | 学生画像 + 家长画像 + 家庭背景三维度，CRM 持久化 |
-| 语音交互 | ASR → LLM → TTS 全链路，VAD 端点检测，意图打断 |
-| 情感分析 | 关键词/LLM 双方案，7 种情绪标签，情绪 TTS 自适应 |
-| 多模态视觉 | VLLM 视觉模型图片分析（GLM-4V / Qwen-VL / GPT-4o） |
-| 流式输出 | SSE 事件驱动 + WebSocket 全双工，Token 级打字机效果 |
-| 服务工厂 | LLM/ASR/TTS 工厂模式，运行时切换，自动回退，熔断保护 |
-| 成本控制 | Token 用量追踪，日/月限额，定价表内置 |
-| 个性化主题 | 6 套全组件级别主题（深蓝/橙/绿/紫/红/青），边框/背景/按钮全覆盖 |
-| 设置界面 | 右侧抽屉式设置面板，6 个 Tab 分类管理 |
+| `IntentIndicator.js` | 意图指示器（实时显示场景/路径/决心度） |
+| `ProgressiveQuestions.js` | 渐进询问卡片 |
+| `FallbackCard.js` | 回退引导卡片 |
+| `RecommendationReason.js` | 推荐理由展示 |
+| `ComparisonPage.js` | 多校/多专业对比分析 |
+| `ApplicationFormPage.js` | 冲稳保志愿表生成 |
+| `QuestionnaireResult.js` | 问卷结果可视化 |
+| `ProfileEditor.js` | 用户画像编辑 |
+| `design-system.css` | 设计系统原子类 |
+| `animations.css` | 过渡动画库 |
+| `dark-mode.css` | 暗色模式 |
+| `accessibility.css` | 无障碍优化 |
+
+### 📊 数据增强
+
+| 数据源 | 数据量 | 说明 |
+|--------|--------|------|
+| 阳光高考网 | 2,817 所院校 | 全国 32 个省份 |
+| 阳光高考网 | 883 个专业 | 13 个门类 |
+| 国家统计局 | 15 个行业 | 平均工资数据 |
+| 国家统计局 | 31 个省份 | 平均工资数据 |
+| RAG 索引 | 1,998 条文档 | 389KB |
 
 ---
 
@@ -82,34 +174,42 @@
 | AI CRM | ✅ | 学生+家长+家庭三维度画像，跨会话断点续传 |
 | 服务工厂 | ✅ | LLMFactory/ASRFactory/TTSFactory/VLLMFactory，自动回退 |
 | 重试熔断 | ✅ | 指数退避 + 三态熔断器，全 Provider 集成 |
-| 成本控制 | ✅ | Token 用量追踪，内置 10+ 模型定价表 |
-| 向量数据库 RAG | ✅ | ChromaDB 向量检索 + SQLite FTS5 全文检索 |
+| 成本控制 | ✅ | Token 用量追踪，内嵌 10+ 模型定价表 |
+| 向量数据库RAG | ✅ | ChromaDB 向量检索 + SQLite FTS5 全文检索 |
 | VAD 流式输入 | ✅ | Silero VAD 实时端点检测（前端 RMS + 后端 ONNX） |
 | 意图打断 | ✅ | TTS 播放时支持语音打断（AudioManager 单例） |
 | 情感分析 | ✅ | 关键词规则 + LLM 提取双方案，7 种情绪标签 |
-| 情绪 TTS | ✅ | 根据情绪调整语速/风格（Edge TTS / CosyVoice） |
+| 情绪 TTS | ✅ | 根据情绪调整语音语调（Edge TTS / CosyVoice） |
 | VLLM 视觉 | ✅ | GLM-4V / Qwen-VL / GPT-4o 图片分析 |
 | Redis 会话 | ✅ | 分布式会话管理，7 天 TTL |
 | 流式 TTS | ✅ | WebSocket 边合成边推送 + HTTP 整段模式 |
 | WebSocket | ✅ | 全双工 /ws/chat 端点 |
-| Celery 消息队列 | ✅ | RAG 索引构建、CRM 分析、成本报告异步任务 |
-| 统一配置 | ✅ | .config.yaml 一行切换模型，${ENV_VAR} 环境变量 |
-| 个性化主题 | ✅ | 6 套全组件级别 CSS 变量主题 |
-| 设置界面 | ✅ | 右侧抽屉 6 Tab（个性化/网络/AI/语音/情感/高级） |
 | 用户认证 | ✅ | JWT Token + bcrypt 密码哈希 + 多角色（学生/家长/管理员） |
-| 咕咕数据API | ✅ | 院校分数线/专业分数线/录取概率预测/批次线 |
-| RRF混合搜索 | ✅ | ChromaDB + FTS5 + 关键词并行检索 + Reciprocal Rank Fusion |
-| B端管理后台 | ✅ | 知识库管理/数据同步/系统管理/成本统计 |
-| 调查问卷系统 | ✅ | 三类混合问卷（画像采集/排雷问卷/意向探索）+ MBTI性格测试 |
-| 家庭冲突检测 | ✅ | 双向约束矩阵 + 7类冲突检测 + 熔断机制 |
-| 反方审计引擎 | ✅ | 5个视角挑刺（招生办/HR/家长/学生/应届生） |
-| AI暴露度评估 | ✅ | 专业入门岗位被AI替代风险评估 |
-| 量化评分框架 | ✅ | 100分制7维度评分（录取风险/专业适配/就业钱景等） |
-| 硬编码过滤器 | ✅ | Python规则引擎（黑名单/体检/预算/地域/偏远校区） |
-| Neo4j知识图谱 | ✅ | 院校-专业-职业-产业集群-就业政策多跳查询 |
-| 院校排名页面 | ✅ | QS/US News/泰晤士/自然指数/软科排名查询 |
-| 知识图谱可视化 | ✅ | Canvas渲染图谱节点关系，支持拖拽缩放 |
-| 高考录取数据 | ✅ | 283,653条2016-2020年全国29省录取数据 |
+| Neo4j 知识图谱 | ✅ | 院校-专业-职业-产业集群-就业政策多跳查询 |
+| 院校排名页面 | ✅ | QS/US News/泰晤士/软科/校友会/武书连排名查询 |
+| 知识图谱可视化 | ✅ | Canvas 渲染图谱节点关系，支持拖拽缩放，真实 API 查询 |
+| 高考录取数据 | ✅ | 283,653 条（2016-2020年全国 29 省录取数据） |
+| **多维意图识别** | ✅ | **三层路由（场景/路径/决心度）** |
+| **渐进询问** | ✅ | **基于 RAG/图谱/CRM 生成引导问题** |
+| **信息差弥合** | ✅ | **主动告知用户该知道的事** |
+| **决策框架** | ✅ | **教用户用什么标准做决定** |
+| **现实映射** | ✅ | **把选择和后果直接关联** |
+| **家庭调解** | ✅ | **帮助家长和学生达成共识** |
+| **情感支持** | ✅ | **承认焦虑、提供支持** |
+| **推荐理由** | ✅ | **分数匹配 + 就业前景 + 城市优势 + 数据支撑** |
+| **对比分析** | ✅ | **多校/多专业多维度对比** |
+| **志愿表生成** | ✅ | **冲稳保策略 + 录取概率 + 注意事项** |
+| **意图追踪** | ✅ | **意图日志 + 决策旅程 + 犹豫模式检测** |
+| **暗色模式** | ✅ | **跟随系统 + 手动切换** |
+| **PWA 支持** | ✅ | **Service Worker + 离线缓存 + 添加到主屏幕** |
+| **真流式输出** | ✅ | **SSE/WS 双流并行（updates+messages），token 级增量推送** |
+| **RAG 评估体系** | ✅ | **30 条领域标注集 + Recall@k/MRR/NDCG@k 评估脚本** |
+| **RAG 知识域分权** | ✅ | **kb_scope 按知识域限定检索 + 跨库兜底标记** |
+| **Agent 通信总线** | ✅ | **订阅/发布 + 请求-响应 + 广播（蓝图 Phase 3）** |
+| **自我反思循环** | ✅ | **ReflexionAgent 评估→建议→重试→反思记忆（蓝图 Phase 3）** |
+| **结果融合** | ✅ | **ResultFusion 多源融合节点（蓝图 Phase 3，开关可控）** |
+| **write_Agent** | ✅ | **唯一写权限 worker：搜索内容校验去重后自动入库** |
+| **雪峰语料库** | ✅ | **Milvus+学科 embedding 对话检索，风格锚点注入合成** |
 
 ---
 
@@ -122,15 +222,11 @@
 | Python | 3.10+ | 主语言 |
 | FastAPI | latest | 异步 API 框架 |
 | LangGraph | latest | 多智能体编排 |
-| LangChain | latest | LLM 工具链集成 |
 | DeepSeek | V4 | 默认大语言模型 |
-| SQLAlchemy | latest | ORM 框架 |
 | SQLite | 3 | 本地嵌入式数据库 |
+| Neo4j | 5.x | 知识图谱数据库 |
 | Redis | 7 | 缓存与会话 |
-| Celery | latest | 异步任务队列 |
 | ChromaDB | latest | 向量数据库 |
-| edge-tts | latest | 免费语音合成 |
-| httpx | latest | 异步 HTTP 客户端 |
 
 ### 前端
 
@@ -139,6 +235,9 @@
 | Vue 3 | 3.3.4 | 前端框架 |
 | Tailwind CSS | 2.2.19 | 原子化 CSS |
 | Font Awesome | 6.4.0 | 图标库 |
+| Marked | latest | Markdown 渲染 |
+| Highlight.js | 11.8.0 | 代码高亮 |
+| DOMPurify | 3.0.6 | XSS 防护 |
 
 ---
 
@@ -149,51 +248,53 @@
     │
     ▼
 ┌──────────────────────────────────────────────┐
-│          Supervisor Agent (路由中枢)           │
-│   ├─ LLM 结构化意图识别                        │
-│   ├─ 家长/学生角色分流                         │
-│   └─ _fallback_route (确定性关键词兜底)         │
+│         Supervisor Agent (路由中枢)           │
+│   ├─ LLM 结构化意图识别                       │
+│   ├─ 三层路由（场景/路径/决心度）              │
+│   ├─ AgentCommunicationBus（订阅/发布）        │
+│   └─ _fallback_route (确定性关键词兜底)        │
 └───┬───┬───┬───┬───┬───┬───┬───┬──────────────┘
     │   │   │   │   │   │   │   │
     ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼
- Profile Match Career Web  SQL  Parent Family
- Agent   Agent Agent  Search Agent Agent  Agent
- (学生)  (查分) (就业) (搜索) (SQL) (家长) (融合)
-    │   │   │   │   │   │   │
-    └───┴───┴───┴───┴───┴───┘
+ Profile Match Career Web  SQL  Parent Family Chat
+ Agent   Agent Agent  Search Agent Agent  Agent Agent
+    │   │   │   │   │   │   │   │   │
+    │   │   │   └──→ write_agent（唯一写权限）   │
+    │   │   │        (校验/去重/双写入库)        │
+    └───┴───┴───┴───┴───┴───┴───┴──────────────┘
+                 │
+                 ▼
+    ┌────────────────────────┐
+    │   Result Fusion        │   ← 多源结果融合（sql/career/web）
+    │   (可选开关)            │
+    └────────────────────────┘
                  │
                  ▼
     ┌────────────────────────┐
     │   Synthesis Agent      │
+    │   + 雪峰语料风格锚点     │ ← XuefengStore（Milvus/Chroma）
     │   + 情感分析            │
     │   + 时间感知注入         │
     │   + SynthesisGuard     │
-    │   (防端水硬约束引擎)     │
-    └────────────────────────┘
-                 │
-                 ▼
-    ┌────────────────────────┐
-    │   TTS 语音合成          │
-    │   (Edge/CosyVoice)     │
-    │   + 情绪语调调整         │
+    │   + 信息差弥合          │
+    │   + 决策框架            │
+    │   + 现实映射            │
+    │   + 家庭调解            │
+    │   + 情感支持            │
     └────────────────────────┘
                  │
                  ▼
          SSE/WebSocket → Vue 3 前端
+                 │
+                 ▼
+    ┌────────────────────────┐
+    │   前端增强              │
+    │   + 意图指示器          │
+    │   + 渐进询问卡片        │
+    │   + 回退引导卡片        │
+    │   + 推荐理由展示        │
+    └────────────────────────┘
 ```
-
-### 路由分支
-
-| 条件 | 目标节点 | 数据通路 |
-|------|---------|---------|
-| 缺省份/选科/专业 | `profile_agent` | 回路补齐学生画像 |
-| 家长在说话 | `parent_agent` | 提取家长画像 |
-| 学生+家长画像齐全 | `family_agent` | 融合家庭背景 |
-| 分数/位次/录取门槛 | `match_agent` | SQL 硬数据 |
-| 就业/考公/薪资/前景 | `career_agent` | RAG 经验库 |
-| 政策/官网/最新信息 | `web_search_agent` | 外部搜索 |
-| 复杂数据查询 | `sql_agent` | Function Calling |
-| 纯框架/价值观 | `synthesis_agent` | 直接合成 |
 
 ---
 
@@ -209,7 +310,7 @@
 
 ```bash
 git clone <repo-url>
-cd zx_ai_advisor
+cd 小乐高考志愿填报助手
 ```
 
 ### 2. 创建环境
@@ -231,23 +332,29 @@ pip install -r requirements.txt
 copy .env.example .env
 ```
 
-编辑 `.env`，填写 API Key：
-
+编辑 `.env`，填入 API Key：
 ```ini
 DEEPSEEK_API_KEY=sk-xxxxxxxxxxxxxxxx
 ```
 
-编辑 `configs/.config.yaml`，选择模型：
+### 5. 初始化数据库
 
-```yaml
-selected_module:
-  LLM: deepseek-v4-flash    # 切换模型只需改这一行
-  ASR: FunASR
-  TTS: EdgeTTS
-  VLLM: glm-4v-flash
+```bash
+python scripts/init_sqlite.py
+python scripts/migrate_intent_tables.py
+python scripts/migrate_questionnaire_fields.py
 ```
 
-### 5. 启动
+### 6. 构建知识库
+
+```bash
+python scripts/crawl_majors.py
+python scripts/crawl_universities_auto.py
+python scripts/generate_real_knowledge_docs.py
+python scripts/build_rag_index.py
+```
+
+### 7. 启动
 
 ```bash
 python -m api.main
@@ -265,36 +372,15 @@ python -m api.main
 
 ## 配置说明
 
-### 配置文件结构
-
-```
-configs/
-├── .config.yaml              # 用户配置（改这里就行）
-├── llm_config.yaml           # LLM 模型库（11 个预设）
-├── asr_config.yaml           # ASR 引擎库（10 个预设）
-├── tts_config.yaml           # TTS 引擎库（9 个预设）
-├── vllm_config.yaml          # 视觉模型库（6 个预设）
-├── web_search_config.yaml    # 联网搜索配置
-├── db_config.yaml            # 数据库配置
-├── vector_config.yaml        # 向量库配置
-└── prompts/                  # 提示词模板
-```
-
-### .config.yaml — 用户配置（只需改这个）
+### 模型选择
 
 ```yaml
-# 模块选择（改名字即可切换）
+# configs/.config.yaml
 selected_module:
-  LLM: deepseek-v4-flash
+  LLM: deepseek-v4-flash    # 切换模型只需改这一行
   ASR: FunASR
   TTS: EdgeTTS
   VLLM: glm-4v-flash
-
-# API Key（支持 ${ENV_VAR} 或直接填写）
-api_keys:
-  DEEPSEEK_API_KEY: "${DEEPSEEK_API_KEY}"
-  DASHSCOPE_API_KEY: "${DASHSCOPE_API_KEY}"
-  # ...
 ```
 
 ### 可用 LLM 模型
@@ -302,401 +388,73 @@ api_keys:
 | 系列 | 预设名 | 模型 |
 |------|--------|------|
 | DeepSeek V4 | `deepseek-v4-flash` | deepseek-v4-flash（默认） |
-| DeepSeek V4 | `deepseek-v4-pro` | deepseek-v4-pro |
-| DeepSeek R1 | `deepseek-r1` | deepseek-r1（深度推理） |
-| 通义千问 3.7 | `qwen3.7-plus` / `qwen3.7-max` / `qwen3.7-flash` | qwen3.7 系列 |
+| 通义千问 3.7 | `qwen3.7-plus` / `qwen3.7-max` | qwen3.7 系列 |
 | 智谱 GLM 5.1 | `glm-5.1-flash` / `glm-5.1-pro` | glm-5.1 系列 |
-| 豆包 Seed 2.0 | `doubao-seed-2.0-pro` | doubao-seed-2.0-pro |
+| 豆包 Seed 2.0 | `doubao-seed-2.1-pro` | doubao-seed-2.1-pro |
 | Kimi | `kimi-k2.6` | kimi-k2.6 |
 | Ollama 本地 | `local-qwen` | qwen2.5:14b（零成本离线） |
-
-### 切换模型
-
-```bash
-# 方式一：改配置文件
-# 编辑 .config.yaml 的 selected_module.LLM
-
-# 方式二：运行时切换（无需重启）
-curl -X POST http://127.0.0.1:8000/settings/switch-model \
-  -H "Content-Type: application/json" \
-  -d '{"preset": "qwen3.7-flash"}'
-
-# 方式三：设置界面
-# 点击右上角 ⚙️ 设置 → AI Tab → 下拉选择模型
-```
-
----
-
-## API 参考
-
-### 核心端点
-
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| `POST` | `/stream/advice` | SSE 流式对话（核心接口） |
-| `WS` | `/ws/chat` | WebSocket 全双工对话 |
-| `POST` | `/voice/asr` | 语音识别 |
-| `POST` | `/voice/tts` | 语音合成 |
-| `WS` | `/voice/tts-stream` | WebSocket 流式语音合成 |
-| `POST` | `/vision/analyze` | 图片分析 |
-| `POST` | `/feedback` | 提交反馈 |
-| `GET` | `/status` | 服务状态 |
-
-### 设置端点
-
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| `GET` | `/settings` | 获取 UI 设置 |
-| `POST` | `/settings` | 保存 UI 设置 |
-| `GET` | `/settings/models` | 列出所有可用模型预设 |
-| `POST` | `/settings/switch-model` | 运行时切换 LLM 模型 |
-
-### 管理端点
-
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| `POST` | `/admin/import` | 上传 CSV/JSON 导入数据 |
-| `GET` | `/admin/data/stats` | 数据覆盖统计 |
-| `GET` | `/admin/cost-stats` | Token 成本统计 |
-
-### RAG 端点
-
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| `POST` | `/rag/ingest` | 增量入库文档 |
-| `POST` | `/rag/upload` | 上传文件自动解析 |
-| `POST` | `/rag/scan-documents` | 扫描目录重建索引 |
-| `GET` | `/rag/stats` | 向量库统计 |
 
 ---
 
 ## 项目结构
 
 ```
-zx_ai_advisor/
-├── agents/                         # 智能体层
-│   ├── supervisor_agent.py         # 主控路由（8路分流 + 家长识别）
-│   ├── synthesis_agent.py          # 终点合成（张雪峰口吻 + 情感 + 时间感知）
-│   └── workers/
-│       ├── profile_agent.py        # 学生画像（九门学科评分 + 兴趣 + 目标院校）
-│       ├── parent_agent.py         # 家长画像（职业/行业/期望/担忧）
-│       ├── family_agent.py         # 家庭融合（收入/决策人/一致性）
-│       ├── match_agent.py          # 分数院校匹配
-│       ├── career_agent.py         # 就业趋势研判
-│       ├── sql_agent.py            # Function Calling 数据查询
-│       └── web_search_agent.py     # 联网搜索 + 正文抓取
-│
-├── core/                           # 核心引擎
-│   ├── providers/                  # 服务工厂
-│   │   ├── base.py                 # CircuitBreaker + RetryMixin
-│   │   ├── llm_factory.py          # LLM 工厂（含自动回退）
-│   │   ├── asr_factory.py          # ASR 工厂
-│   │   ├── tts_factory.py          # TTS 工厂（支持情绪参数 + 流式）
-│   │   └── vllm_factory.py         # VLLM 视觉工厂
-│   ├── state_schema.py             # 全局状态机（含家长/家庭/情绪字段）
-│   ├── graph_builder.py            # LangGraph 拓扑编排（9 Agent）
-│   ├── synthesis_guard.py          # 防端水三层防线
-│   ├── emotion_analyzer.py         # 情感分析（关键词 + LLM 双方案）
-│   ├── cost_tracker.py             # Token 成本追踪
-│   ├── vad_detector.py             # Silero VAD 语音活动检测
-│   ├── crm_manager.py              # CRM 用户画像持久化
+小乐高考志愿填报助手/
+├── agents/                    # Agent 定义
+│   ├── supervisor_agent.py    # 路由中枢（三层意图识别）
+│   ├── synthesis_agent.py     # 综合回答生成
+│   ├── chat_agent.py          # 普通聊天 Agent
+│   ├── decision_detector.py   # 决心度检测 + 回退引导
+│   └── workers/               # 工作 Agent
+├── api/                       # API 层
+│   ├── main.py                # FastAPI 应用入口
+│   ├── module_manager.py      # 模块管理
+│   └── routers/               # API 路由
+├── core/                      # 核心模块
+│   ├── state_schema.py        # LangGraph 状态定义
+│   ├── graph_builder.py       # Agent 图构建
+│   ├── crm_manager.py         # CRM 画像管理
+│   ├── intent_tracker.py      # 意图追踪
 │   └── ...
-│
-├── tools/                          # 工具层
-│   ├── sql_tools.py                # SQL 四级降级链
-│   ├── rag_tools.py                # RAG 三级检索（向量 → FTS5 → 关键词）
-│   ├── web_search_tools.py         # 联网搜索（DuckDuckGo / Metaso / Tavily）
-│   ├── vector_store.py             # ChromaDB 封装
-│   ├── page_fetcher.py             # 网页正文抓取
-│   └── function_tools.py           # 4 个 Function Calling 工具
-│
-├── skills/                         # 确定性技能层（纯 Python）
-│   ├── risk_assessor.py            # 风险评估
-│   ├── reality_checker.py          # 现实校验
-│   ├── decision_heuristics.py      # 决策清单
-│   ├── roi_calculator.py           # ROI 计算
-│   ├── hard_filter.py              # 硬编码过滤器（黑名单/体检/预算/地域）
-│   ├── conflict_detector.py        # 家庭冲突检测器
-│   ├── red_team_auditor.py         # 反方审计引擎
-│   ├── ai_exposure_checker.py      # AI暴露度评估
-│   ├── quantitative_scorer.py      # 量化评分框架
-│   └── questionnaire_service.py    # 调查问卷服务
-│
-├── api/                            # 接口层
-│   ├── main.py                     # FastAPI 入口（10 个 router）
-│   ├── dependencies.py             # 依赖注入
-│   └── routers/
-│       ├── stream_router.py        # SSE 流式对话
-│       ├── ws_router.py            # WebSocket 全双工
-│       ├── voice_router.py         # ASR/TTS（含流式 TTS WebSocket）
-│       ├── vision_router.py        # 图片分析
-│       ├── settings_router.py      # 设置管理
-│       ├── feedback_router.py      # 用户反馈
-│       ├── chat_router.py          # Redis 会话
-│       ├── admin_router.py         # 管理后台
-│       ├── rag_router.py           # RAG 管理
-│       └── web_router.py           # 联网搜索管理
-│
-├── frontend/                       # Vue 3 前端
-│   ├── index.html                  # 主入口
-│   ├── components/
-│   │   ├── AppLayout.js            # 主布局（导航 + 设置 + 主题 + 角色切换）
-│   │   ├── ChatContainer.js        # 聊天容器
-│   │   ├── MessageBubble.js        # 消息气泡（含 TTS 播放 + 反馈）
-│   │   ├── SidePanel.js            # 侧边栏（状态 + 画像 + 图片分析）
-│   │   ├── ProfileCard.js          # 三段式画像卡片（学生+家长+家庭）
-│   │   ├── VoiceInput.js           # 语音录入（VAD + 按住 + 连续对话）
-│   │   ├── VoiceOutput.js          # 语音播放（HTTP + WebSocket 流式）
-│   │   ├── SettingsDrawer.js       # 设置抽屉（6 Tab）
-│   │   ├── ImageAnalyzer.js        # 图片分析（拖拽/粘贴/点击）
-│   │   ├── LoginPage.js            # 登录/注册页面
-│   │   ├── QuestionnairePage.js    # 调查问卷页面
-│   │   ├── UniversityRanking.js    # 院校排名页面（QS/US News/泰晤士等）
-│   │   ├── KnowledgeGraph.js       # 知识图谱可视化页面
-│   │   └── admin/                  # B端管理后台
-│   │       ├── AdminLayout.js      # 管理后台布局
-│   │       ├── KnowledgeManagement.js
-│   │       ├── DataSync.js
-│   │       ├── SystemManagement.js
-│   │       └── DataStatistics.js
-│   ├── assets/
-│   │   ├── styles.css              # 主样式（含院校排名/知识图谱样式）
-│   │   └── themes.css              # 6 套主题变量
-│   └── utils/
-│       ├── apiClient.js            # 带Token注入的HTTP客户端
-│       ├── AudioManager.js         # 全局音频管理（barge-in）
-│       └── WebSocketClient.js      # WebSocket SDK
-│
-├── configs/                        # 配置文件
-│   ├── .config.yaml                # 用户配置（选择 + API Key）
-│   ├── llm_config.yaml             # LLM 模型库（11 预设）
-│   ├── asr_config.yaml             # ASR 引擎库（10 预设）
-│   ├── tts_config.yaml             # TTS 引擎库（9 预设）
-│   ├── vllm_config.yaml            # 视觉模型库（6 预设）
-│   ├── neo4j_config.yaml           # Neo4j知识图谱配置
-│   ├── questionnaire_config.yaml   # 调查问卷配置（三类问卷+MBTI映射）
+├── skills/                    # 技能模块
+│   ├── info_gap_bridger.py    # 信息差弥合
+│   ├── decision_framework.py  # 决策框架生成
+│   ├── emotional_support.py   # 情感支持
 │   └── ...
-│
-├── data/
-│   ├── sql_schema/                 # SQL DDL（01-11，含投研级数据表）
-│   ├── documents/                  # 用户文档（自动索引）
-│   ├── vector_store/               # 向量库数据
-│   ├── raw/                        # 原始数据（283,653条录取数据）
-│   └── zx_advisor.db               # SQLite数据库
-│
-├── scripts/                        # 脚本工具
-│   ├── init_sqlite.py              # 数据库初始化
-│   ├── import_neo4j.py             # Neo4j数据导入
-│   ├── import_gaokao_from_xlsx.py  # 高考数据导入
-│   ├── download_gaokao_data.py     # 数据下载
-│   └── build_rag_index.py          # RAG索引构建
-│
-├── tasks/                          # Celery 异步任务
-│   ├── rag_tasks.py                # RAG 索引构建
-│   ├── crm_tasks.py                # CRM 画像分析
-│   ├── cost_tasks.py               # 成本报告
-│   └── cache_tasks.py              # 缓存清理
-│
-├── tests/                          # 测试（125+ 用例）
-├── docker-compose.yml              # Docker 编排（api + redis + celery-worker + celery-beat）
-├── celery_app.py                   # Celery 配置
-├── requirements.txt                # Python 依赖
-└── .env.example                    # 环境变量模板
+├── tools/                     # 工具层
+│   ├── rag_tools.py           # RAG 检索
+│   ├── sql_tools.py           # SQL 查询
+│   ├── web_search_tools.py    # 联网搜索
+│   ├── graph_rag.py           # GraphRAG
+│   └── ...
+├── frontend/                  # 前端（Vue 3 CDN）
+│   ├── index.html             # 主入口
+│   ├── assets/                # CSS 样式
+│   │   ├── base.css           # 基础变量
+│   │   ├── design-system.css  # 设计系统原子类
+│   │   ├── animations.css     # 动画库
+│   │   ├── dark-mode.css      # 暗色模式
+│   │   └── ...
+│   ├── components/            # Vue 组件
+│   │   ├── core/              # 核心组件
+│   │   ├── IntentIndicator.js # 意图指示器
+│   │   ├── ProgressiveQuestions.js # 渐进询问卡片
+│   │   ├── FallbackCard.js   # 回退引导卡片
+│   │   └── ...
+│   └── utils/                 # 前端工具
+├── scripts/                   # 脚本
+│   ├── init_sqlite.py         # 数据库初始化
+│   ├── import_neo4j.py        # Neo4j 导入
+│   ├── build_rag_index.py     # RAG 索引构建
+│   ├── generate_real_knowledge_docs.py # 知识库生成
+│   └── ...
+├── docs/                      # 文档
+│   ├── DELIVERY.md            # 交付手册
+│   ├── OPERATIONS.md          # 运维手册
+│   └── DEVELOPMENT.md         # 开发者文档
+└── tests/                     # 测试
+    └── e2e_frontend.spec.js   # 前端 E2E 测试
 ```
-
----
-
-## 测试
-
-```bash
-# 运行核心测试
-python -m pytest tests/ -v
-
-# 运行特定测试
-python -m pytest tests/test_synthesis_guard.py -v
-```
-
-测试覆盖：
-
-| 测试文件 | 覆盖内容 |
-|----------|---------|
-| `test_tool_retry.py` | 工具容错 + 省名标准化 + SQL 降级 |
-| `test_anti_hallucination.py` | 防幻觉 + 注入安全 + Skills 防穿透 |
-| `test_synthesis_guard.py` | 防端水约束引擎（信号/Prompt/输出） |
-| `test_skills_edge_cases.py` | 风险评估 + 现实校验 + 决策启发式 |
-| `test_checkpoint_state.py` | 多轮对话状态 + 画像合并 + 冲突检测 |
-| `test_supervisor_routing.py` | 路由精准度（30 条黄金用例） |
-| `test_supervisor_fuzzing.py` | 路由模糊测试（720+ 组合） |
-| `test_data_validators.py` | CSV 导入校验 |
-| `test_feedback_store.py` | 反馈存储 |
-| `test_routing_tuner.py` | 路由关键词调优 |
-
----
-
-## 部署指南
-
-### Docker Compose
-
-```bash
-export DEEPSEEK_API_KEY=sk-xxx
-docker-compose up -d
-```
-
-服务拓扑：
-
-| 服务 | 端口 | 说明 |
-|------|------|------|
-| api | 8000 | FastAPI 主服务 |
-| redis | 6379 | 缓存 + Celery broker |
-| celery-worker | - | 异步任务处理 |
-| celery-beat | - | 定时任务调度 |
-
-### Systemd
-
-```ini
-[Service]
-ExecStart=/opt/zx_ai_advisor/venv/bin/python -m api.main
-Restart=always
-```
-
----
-
-## 设计笔记
-
-> 完整内容见 [docs/architecture.md](docs/architecture.md)
-
-记录了项目从构思到落地的完整过程——踩过的坑、做过的取舍、以及每个版本为什么这样演进。
-
-**核心痛点**：检索边界越权、控制流僵化、状态爆炸、同步阻塞、泛LLM依赖。
-
-**解决方案**：Supervisor 路由 + Worker 工具链 + Skills 硬约束 + SynthesisGuard 防端水。
-
-**十一条硬纪律**：数值逻辑不进向量库、规则引擎不交给大模型、服务挂了不阻断启动、LLM不能篡改风控信号、多轮对话不丢状态、工具查不到不直接报错、路由不能因噪音失效。
-
----
-
-## 技术问答
-
-> 完整内容见 [docs/technical-notes.md](docs/technical-notes.md)
-
-| 问题 | 主题 |
-|------|------|
-| Q1 | 如何用工程手段建立基于大模型的评测标准？ |
-| Q2 | 如何强制约束 Synthesis 节点不篡改硬规则严重程度？ |
-| Q3 | 多轮对话的状态继承与覆盖 |
-| Q4 | 工具异常的重试策略颗粒度 |
-| Q5 | CRM 用户画像与断点续传 |
-| Q6 | Supervisor 路由关键词混合测试 — Prompt Fuzzing |
-| Q7 | 现代化可视化界面重设计 |
-| Q8 | Vue 3 现代化前端架构升级 |
-
----
-
-## 常见问题
-
-**Q: 首次启动时长时间卡住不动？**
-
-首次启动需要下载 `paraphrase-multilingual-MiniLM-L12-v2` 嵌入模型（约 420MB）。国内用户设置 `HF_ENDPOINT=https://hf-mirror.com`。
-
-**Q: 报错 "DeepSeek API Key 未配置"？**
-
-在 `.env` 文件中设置 `DEEPSEEK_API_KEY=sk-xxx`。
-
-**Q: PostgreSQL 连接不上怎么办？**
-
-系统会自动降级到 SQLite 本地数据库。不配置 PostgreSQL 不影响核心功能。
-
-**Q: 如何更新知识库？**
-
-```bash
-curl -X POST http://127.0.0.1:8000/rag/upload -F "file=@your_document.pdf"
-curl -X POST http://127.0.0.1:8000/rag/scan-documents
-```
-
-**Q: 前端界面如何自定义？**
-
-编辑 `frontend/` 目录下的 Vue 3 组件即可。修改后刷新浏览器生效。
-
----
-
-## 版本历史
-
-> 完整内容见 [docs/version-history.md](docs/version-history.md)
-
-### V5.0 (2026-06) — 投研级志愿系统
-
-- 调查问卷系统（三类混合问卷：画像采集/排雷问卷/意向探索 + MBTI性格测试）
-- 家庭冲突检测（双向约束矩阵 + 7类冲突检测 + 熔断机制）
-- 反方审计引擎（5个视角挑刺：招生办/HR/家长/学生/应届生）
-- AI暴露度评估（专业入门岗位被AI替代风险评估）
-- 量化评分框架（100分制7维度：录取风险/专业适配/就业钱景/城市产业/学校平台/AI暴露/家庭共识）
-- 硬编码过滤器（Python规则引擎：黑名单/体检/预算/地域/偏远校区）
-- Neo4j知识图谱（院校-专业-职业-产业集群-就业政策多跳查询）
-- 院校排名页面（QS/US News/泰晤士/自然指数/软科/中国大学排名）
-- 知识图谱可视化（Canvas渲染图谱节点关系，支持拖拽缩放）
-- 高考录取数据（283,653条2016-2020年全国29省录取数据）
-
-### V4.5 (2026-06) — Commercial Ready 商业化就绪
-
-- 用户认证系统（JWT Token + bcrypt 密码哈希 + 学生/家长/管理员多角色）
-- 咕咕数据API集成（院校分数线/专业分数线/录取概率预测/批次线/院校信息）
-- Function Calling 工具扩展（+4个新工具：专业录取、录取概率、批次线、院校信息）
-- RRF混合搜索（ChromaDB向量 + FTS5全文 + 关键词 并行检索 + Reciprocal Rank Fusion排序）
-- B端管理后台（知识库CRUD / API数据同步 / 系统状态 / 成本统计大屏）
-- 前端登录页面 + Token自动注入拦截器
-
-### V4.0 (2026-06) — 全栈能力升级
-
-- 服务工厂（LLM/ASR/TTS/VLLM 四工厂 + 自动回退 + 熔断保护）
-- 成本控制（Token 用量追踪 + 日/月限额）
-- 情感分析 + 情绪 TTS（7 种情绪标签 + 语速/风格自适应）
-- 流式 TTS（WebSocket 边合成边推送）
-- WebSocket 全双工对话 + VAD 集成
-- VLLM 视觉（GLM-4V / Qwen-VL / GPT-4o 图片分析）
-- Celery 消息队列（异步 RAG/CRM/成本任务）
-- 学科评分数组 + 家长画像 + 家庭融合
-- 设置界面（6 Tab 右侧抽屉）+ 6 套个性化主题
-- 配置重构（.config.yaml 精简 + 预设库分离 + 最新模型库）
-- 联网搜索多源（DuckDuckGo / Metaso / Tavily）
-
-### V3.7 (2026-05)
-
-- 联网查询 + 本地落库（DuckDuckGo → SQLite + ChromaDB 双写）
-- 24h 查询缓存 + REST API
-
-### V3.1 (2026-05)
-
-- RAG 多格式支持（csv/pdf/txt）
-- 文档管理 API + 前端架构优化
-
-### V3.0 (2026-05)
-
-- Vue 3 组件化前端架构重建
-
-### V2.6 — V2.0
-
-- HuggingFace 国内镜像适配
-- CRM 用户画像 + 路由模糊测试
-- 工具多级容错降级
-- Function Calling + ChromaDB + SQLite
-
-### V2.1 — SynthesisGuard 防端水引擎
-
-补上了 Agentic 系统中最危险的缺口——确定性风控信号在 LLM 生成阶段的保真传递。
-
----
-
-## 版权声明
-
-> 完整内容见 [docs/copyright.md](docs/copyright.md)
-
-本项目为**纪念张雪峰老师**而创建，属于**非商业性、文化传承与技术研究**用途。代码采用 MIT 许可证开源，但数据来源声明与使用限制优先于 MIT 许可。
-
----
-
-## 许可证
-
-MIT License
 
 ---
 
@@ -704,23 +462,70 @@ MIT License
 
 | 文档 | 说明 |
 |------|------|
-| [docs/faq.md](docs/faq.md) | **常见问题**（环境/语音/模型/知识库/画像/部署） |
-| [docs/config-guide.md](docs/config-guide.md) | **配置指南**（.config.yaml / LLM / ASR / TTS / VLLM / 搜索） |
-| [docs/providers.md](docs/providers.md) | **服务工厂**（LLM/ASR/TTS/VLLM 工厂 + 熔断 + 重试 + 自动回退） |
-| [docs/voice-guide.md](docs/voice-guide.md) | **语音交互指南**（ASR / TTS / VAD / 意图打断 / WebSocket） |
-| [docs/crm.md](docs/crm.md) | **CRM 用户画像系统**（学生+家长+家庭三维度） |
-| [docs/knowledge-graph-guide.md](docs/knowledge-graph-guide.md) | **知识图谱指南**（Neo4j部署/图模型/查询工具/可视化） |
-| [docs/questionnaire-guide.md](docs/questionnaire-guide.md) | **问卷系统指南**（三类问卷/MBTI/冲突检测/排雷机制） |
-| [docs/data-import-guide.md](docs/data-import-guide.md) | **数据导入指南**（高考数据/院校数据/Neo4j导入） |
-| [docs/test-plan.md](docs/test-plan.md) | **测试方案**（单元测试 / 集成测试 / 边界测试） |
-| [docs/test-report.md](docs/test-report.md) | **测试报告**（125+ 用例全部通过） |
-| [docs/v5.0-changelog.md](docs/v5.0-changelog.md) | **V5.0更新日志**（投研级系统完整变更记录） |
-| [docs/architecture.md](docs/architecture.md) | 架构设计笔记（初衷/痛点/方案/十一条硬纪律） |
-| [docs/technical-notes.md](docs/technical-notes.md) | 技术问答（Q1-Q8，8 个关键技术问题详解） |
-| [docs/deployment.md](docs/deployment.md) | 部署指南（本地/Docker/生产环境/Nginx/Systemd） |
-| [docs/api-reference.md](docs/api-reference.md) | API 参考（全部端点 + SSE/WebSocket 协议） |
-| [docs/version-history.md](docs/version-history.md) | 版本历史（V2.0 至 V5.0 完整演进记录） |
-| [docs/copyright.md](docs/copyright.md) | 版权声明与使用限制 |
+| [docs/DELIVERY.md](docs/DELIVERY.md) | 交付手册（部署/验证/功能清单） |
+| [docs/OPERATIONS.md](docs/OPERATIONS.md) | 运维手册（监控/备份/故障排查） |
+| [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) | 开发者文档（架构/规范/API） |
+
+---
+
+## 版本历史
+
+### v0.4.0 (2026-08-06) — 多 Agent 协作体系 + write_Agent + 雪峰语料库
+
+**核心功能：**
+- RAG 知识库分权（`kb_scope` 知识域限定检索 + 跨库兜底）
+- Agent 通信总线（AgentCommunicationBus：订阅/发布/请求响应/广播）
+- 自我反思 Agent（ReflexionAgent：评估→建议→重试→反思记忆）
+- 结果融合器激活（ResultFusion：多源结果融合节点）
+- write_Agent（唯一写权限：搜索结果校验/去重/双写入库，学习闭环）
+- 张雪峰对话语料库（Milvus+学科 embedding，风格锚点注入 synthesis）
+- 蓝图 Phase 3 核心落地（`.omo/plans/xiaole-ai-master-plan.md`）
+
+### v0.3.0 (2026-07-31) — 真流式 + Embedding 统一 + RAG 评估
+
+**核心功能：**
+- 真流式输出（SSE/WS 双流并行，token 级增量）
+- Embedding 模型统一（单一真源配置，本地优先离线可用）
+- RAG 评估体系（30 条标注集，Recall@3=0.567 / MRR=0.666）
+- FTS5 死路修复（trigram tokenizer + 幂等灌入 2287 条）
+- Chroma 同步修复（按条数比对重灌）
+- 中文分词修复（CJK 字符级 + 英文单词级混合）
+- intent_tracker 写入链路接线
+
+### V7.0 (2026-06-24) — 多维意图识别 + 决策引导系统
+
+**核心功能：**
+- 多维意图识别系统（三层路由：场景/路径/决心度）
+- 渐进询问引擎（基于 RAG/图谱/CRM 生成引导问题）
+- 信息差弥合（主动告知用户该知道的事）
+- 决策框架生成（教用户用什么标准做决定）
+- 现实映射（把选择和后果直接关联）
+- 家庭调解（帮助家长和学生达成共识）
+- 情感支持（承认焦虑、提供支持）
+- 意图追踪（意图日志 + 决策旅程 + 犹豫模式检测）
+
+**前端增强：**
+- 意图指示器（实时显示场景/路径/决心度）
+- 渐进询问卡片（基于 RAG/图谱/CRM）
+- 回退引导卡片（智能引导 + 接受/跳过）
+- 推荐理由展示（数据支撑 + 风险提示）
+- 对比分析页面（多校/多专业对比 + 雷达图）
+- 志愿表生成页面（冲稳保策略 + 录取概率）
+- 问卷结果可视化（雷达图 + MBTI 分析）
+- 用户画像编辑（手动编辑 + 从对话分析）
+- 暗色模式（跟随系统 + 手动切换）
+- PWA 支持（Service Worker + 离线缓存）
+
+**数据增强：**
+- 从阳光高考网爬取 2,817 所院校数据
+- 从阳光高考网爬取 883 个专业数据
+- 从国家统计局获取就业/薪资数据
+- RAG 索引重建（1,998 条文档，389KB）
+
+**可维护性：**
+- 文件拆分（5 个大文件拆分）
+- 运维手册 + 开发者文档 + 交付手册
+- E2E 测试脚本
 
 ---
 

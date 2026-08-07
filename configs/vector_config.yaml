@@ -1,3 +1,13 @@
+# Embedding 模型统一配置（P1-9）
+#
+# embedding_model 是全项目唯一真源：vector_store（Chroma）与
+# multi_embedding_store（Dense/Sparse/ColBERT）都从这里读取，
+# 杜绝双向量空间不互通。支持 ${ENV_VAR} 占位符。
+#
+# 切换模型（如统一到 BGE-M3 1024 维）：
+#   1. 本文件 embedding_model 改为 BAAI/bge-m3
+#   2. python scripts/rebuild_embedding_index.py   # 重灌 Chroma 索引（维度变化必须重灌）
+# 注意：更换 embedding 模型会使已有向量索引失效，必须重灌后再查询。
 vector:
   persist_dir: data/chroma_db
   collection_name: zx_experience

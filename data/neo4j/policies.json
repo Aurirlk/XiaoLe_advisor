@@ -1,0 +1,33 @@
+{
+  "policies": [
+    {"name": "深圳孔雀计划", "city": "深圳", "province": "广东省", "type": "人才", "description": "海外高层次人才引进计划", "eligibility": "硕士及以上", "amount": 1600000},
+    {"name": "深圳新引进人才补贴", "city": "深圳", "province": "广东省", "type": "补贴", "description": "新引进人才生活补贴", "eligibility": "本科及以上", "amount": 30000},
+    {"name": "深圳落户政策", "city": "深圳", "province": "广东省", "type": "落户", "description": "全日制本科及以上可直接落户", "eligibility": "本科及以上", "amount": 0},
+    {"name": "广州人才绿卡", "city": "广州", "province": "广东省", "type": "人才", "description": "人才绿卡制度", "eligibility": "符合产业需求", "amount": 0},
+    {"name": "广州租房补贴", "city": "广州", "province": "广东省", "type": "补贴", "description": "新就业无房职工住房补贴", "eligibility": "本科及以上", "amount": 24000},
+    {"name": "北京积分落户", "city": "北京", "province": "北京市", "type": "落户", "description": "积分落户政策", "eligibility": "综合积分", "amount": 0},
+    {"name": "北京人才引进", "city": "北京", "province": "北京市", "type": "人才", "description": "高层次人才引进", "eligibility": "博士/高级职称", "amount": 0},
+    {"name": "上海居转户", "city": "上海", "province": "上海市", "type": "落户", "description": "居住证转户口", "eligibility": "7年社保", "amount": 0},
+    {"name": "上海应届生落户", "city": "上海", "province": "上海市", "type": "落户", "description": "应届毕业生直接落户", "eligibility": "双一流/研究生", "amount": 0},
+    {"name": "杭州人才补贴", "city": "杭州", "province": "浙江省", "type": "补贴", "description": "应届毕业生生活补贴", "eligibility": "硕士及以上", "amount": 100000},
+    {"name": "杭州落户政策", "city": "杭州", "province": "浙江省", "type": "落户", "description": "大专以上可直接落户", "eligibility": "大专及以上", "amount": 0},
+    {"name": "成都蓉漂计划", "city": "成都", "province": "四川省", "type": "人才", "description": "蓉漂青年人才驿站", "eligibility": "毕业5年内", "amount": 0},
+    {"name": "成都人才补贴", "city": "成都", "province": "四川省", "type": "补贴", "description": "青年人才驿站7天免费住宿", "eligibility": "本科及以上", "amount": 0},
+    {"name": "武汉百万大学生留汉", "city": "武汉", "province": "湖北省", "type": "人才", "description": "大学生可八折买房租房", "eligibility": "全日制大学生", "amount": 0},
+    {"name": "武汉落户政策", "city": "武汉", "province": "湖北省", "type": "落户", "description": "大学生可直接落户", "eligibility": "大专及以上", "amount": 0},
+    {"name": "南京人才安居", "city": "南京", "province": "江苏省", "type": "住房", "description": "人才安居办法", "eligibility": "硕士及以上", "amount": 0},
+    {"name": "西安人才新政", "city": "西安", "province": "陕西省", "type": "人才", "description": "西安人才新政23条", "eligibility": "全日制大学生", "amount": 0},
+    {"name": "西安落户政策", "city": "西安", "province": "陕西省", "type": "落户", "description": "大学生可直接落户", "eligibility": "全日制大学", "amount": 0},
+    {"name": "长沙人才新政45条", "city": "长沙", "province": "湖南省", "type": "人才", "description": "长沙人才新政45条", "eligibility": "大专及以上", "amount": 0},
+    {"name": "长沙租房和生活补贴", "city": "长沙", "province": "湖南省", "type": "补贴", "description": "租房和生活补贴", "eligibility": "本科及以上", "amount": 12000},
+    {"name": "合肥人才新政", "city": "合肥", "province": "安徽省", "type": "人才", "description": "养人之城人才政策", "eligibility": "大专及以上", "amount": 0},
+    {"name": "郑州人才新政", "city": "郑州", "province": "河南省", "type": "人才", "description": "智汇郑州人才政策", "eligibility": "大专及以上", "amount": 0},
+    {"name": "强基计划", "city": "全国", "province": "全国", "type": "招生", "description": "基础学科招生改革试点", "eligibility": "高考成绩优异", "amount": 0},
+    {"name": "国家专项计划", "city": "全国", "province": "全国", "type": "招生", "description": "贫困地区定向招生", "eligibility": "贫困地区考生", "amount": 0},
+    {"name": "高校专项计划", "city": "全国", "province": "全国", "type": "招生", "description": "农村学生单独招生", "eligibility": "农村户籍", "amount": 0},
+    {"name": "新高考选科指引", "city": "全国", "province": "全国", "type": "选科", "description": "高校招生选科要求指引", "eligibility": "全体高中生", "amount": 0},
+    {"name": "综合评价招生", "city": "全国", "province": "全国", "type": "招生", "description": "综合评价录取改革", "eligibility": "综合素质优秀", "amount": 0},
+    {"name": "公费师范生", "city": "全国", "province": "全国", "type": "招生", "description": "公费师范生政策", "eligibility": "师范生", "amount": 0},
+    {"name": "免费医学生", "city": "全国", "province": "全国", "type": "招生", "description": "农村订单定向免费医学生", "eligibility": "农村考生", "amount": 0}
+  ]
+}

@@ -1,0 +1,238 @@
+{
+  "province": "海南",
+  "count": 29,
+  "universities": [
+    {
+      "name": "海南大学",
+      "province": "海南",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "海南热带海洋学院",
+      "province": "海南",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "海南师范大学",
+      "province": "海南",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "海南医科大学",
+      "province": "海南",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "海南职业技术学院",
+      "province": "海南",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "海口经济学院",
+      "province": "海南",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "三亚城市职业学院",
+      "province": "海南",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.3
+    },
+    {
+      "name": "海南软件职业技术学院",
+      "province": "海南",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "海南政法职业学院",
+      "province": "海南",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "海南外国语职业学院",
+      "province": "海南",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "琼台师范学院",
+      "province": "海南",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "海南经贸职业大学",
+      "province": "海南",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "海南工商职业学院",
+      "province": "海南",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "三亚学院",
+      "province": "海南",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "三亚航空旅游职业学院",
+      "province": "海南",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "海南科技职业大学",
+      "province": "海南",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.1
+    },
+    {
+      "name": "三亚理工职业学院",
+      "province": "海南",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.3
+    },
+    {
+      "name": "海南体育职业技术学院",
+      "province": "海南",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "三亚中瑞酒店管理职业学院",
+      "province": "海南",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "海南健康管理职业技术学院",
+      "province": "海南",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "海南卫生健康职业学院",
+      "province": "海南",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "海南比勒费尔德应用科学大学",
+      "province": "海南",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "海南东方新丝路职业学院",
+      "province": "海南",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "海口旅游职业学院",
+      "province": "海南",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "海南艺术职业学院",
+      "province": "海南",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "三亚护理职业学院",
+      "province": "海南",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "海南警察学院",
+      "province": "海南",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "海南洛桑旅游大学",
+      "province": "海南",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "海南万宁食品药品职业学院",
+      "province": "海南",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    }
+  ]
+}

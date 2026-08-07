@@ -1,0 +1,124 @@
+{
+  "qs": {
+    "name": "QS世界大学排名",
+    "description": "QS世界大学排名是由英国Quacquarelli Symonds公司发布的年度世界大学排名，是历史第二悠久的全球大学排名。",
+    "url": "https://www.topuniversities.com/world-university-rankings",
+    "universities": [
+      {"rank": 1, "name": "麻省理工学院", "nameEn": "MIT", "country": "美国", "flag": "🇺🇸", "score": 100, "type": "理工", "website": "https://www.mit.edu"},
+      {"rank": 2, "name": "剑桥大学", "nameEn": "Cambridge", "country": "英国", "flag": "🇬🇧", "score": 99.5, "type": "综合", "website": "https://www.cam.ac.uk"},
+      {"rank": 3, "name": "牛津大学", "nameEn": "Oxford", "country": "英国", "flag": "🇬🇧", "score": 99.2, "type": "综合", "website": "https://www.ox.ac.uk"},
+      {"rank": 4, "name": "哈佛大学", "nameEn": "Harvard", "country": "美国", "flag": "🇺🇸", "score": 99.0, "type": "综合", "website": "https://www.harvard.edu"},
+      {"rank": 5, "name": "斯坦福大学", "nameEn": "Stanford", "country": "美国", "flag": "🇺🇸", "score": 98.8, "type": "综合", "website": "https://www.stanford.edu"},
+      {"rank": 6, "name": "帝国理工学院", "nameEn": "Imperial College", "country": "英国", "flag": "🇬🇧", "score": 98.5, "type": "理工", "website": "https://www.imperial.ac.uk"},
+      {"rank": 7, "name": "苏黎世联邦理工", "nameEn": "ETH Zurich", "country": "瑞士", "flag": "🇨🇭", "score": 98.2, "type": "理工", "website": "https://ethz.ch"},
+      {"rank": 8, "name": "新加坡国立大学", "nameEn": "NUS", "country": "新加坡", "flag": "🇸🇬", "score": 98.0, "type": "综合", "website": "https://www.nus.edu.sg"},
+      {"rank": 9, "name": "伦敦大学学院", "nameEn": "UCL", "country": "英国", "flag": "🇬🇧", "score": 97.8, "type": "综合", "website": "https://www.ucl.ac.uk"},
+      {"rank": 10, "name": "加州大学伯克利", "nameEn": "UC Berkeley", "country": "美国", "flag": "🇺🇸", "score": 97.5, "type": "综合", "website": "https://www.berkeley.edu"},
+      {"rank": 11, "name": "清华大学", "nameEn": "Tsinghua", "country": "中国", "flag": "🇨🇳", "score": 97.2, "type": "综合", "website": "https://www.tsinghua.edu.cn"},
+      {"rank": 12, "name": "北京大学", "nameEn": "Peking", "country": "中国", "flag": "🇨🇳", "score": 97.0, "type": "综合", "website": "https://www.pku.edu.cn"},
+      {"rank": 13, "name": "复旦大学", "nameEn": "Fudan", "country": "中国", "flag": "🇨🇳", "score": 96.5, "type": "综合", "website": "https://www.fudan.edu.cn"},
+      {"rank": 14, "name": "浙江大学", "nameEn": "Zhejiang", "country": "中国", "flag": "🇨🇳", "score": 96.2, "type": "综合", "website": "https://www.zju.edu.cn"},
+      {"rank": 15, "name": "上海交通大学", "nameEn": "SJTU", "country": "中国", "flag": "🇨🇳", "score": 96.0, "type": "综合", "website": "https://www.sjtu.edu.cn"},
+      {"rank": 16, "name": "中国科学技术大学", "nameEn": "USTC", "country": "中国", "flag": "🇨🇳", "score": 95.8, "type": "理工", "website": "https://www.ustc.edu.cn"},
+      {"rank": 17, "name": "南京大学", "nameEn": "Nanjing", "country": "中国", "flag": "🇨🇳", "score": 95.5, "type": "综合", "website": "https://www.nju.edu.cn"},
+      {"rank": 18, "name": "武汉大学", "nameEn": "Wuhan", "country": "中国", "flag": "🇨🇳", "score": 95.2, "type": "综合", "website": "https://www.whu.edu.cn"},
+      {"rank": 19, "name": "中山大学", "nameEn": "Sun Yat-sen", "country": "中国", "flag": "🇨🇳", "score": 95.0, "type": "综合", "website": "https://www.sysu.edu.cn"},
+      {"rank": 20, "name": "华中科技大学", "nameEn": "HUST", "country": "中国", "flag": "🇨🇳", "score": 94.8, "type": "理工", "website": "https://www.hust.edu.cn"}
+    ]
+  },
+  "usnews": {
+    "name": "US News世界大学排名",
+    "description": "US News世界大学排名由美国《美国新闻与世界报道》发布，侧重于学术研究和全球声誉。",
+    "url": "https://www.usnews.com/education/best-global-universities",
+    "universities": [
+      {"rank": 1, "name": "哈佛大学", "nameEn": "Harvard", "country": "美国", "flag": "🇺🇸", "score": 100, "type": "综合", "website": "https://www.harvard.edu"},
+      {"rank": 2, "name": "麻省理工学院", "nameEn": "MIT", "country": "美国", "flag": "🇺🇸", "score": 99.8, "type": "理工", "website": "https://www.mit.edu"},
+      {"rank": 3, "name": "斯坦福大学", "nameEn": "Stanford", "country": "美国", "flag": "🇺🇸", "score": 99.5, "type": "综合", "website": "https://www.stanford.edu"},
+      {"rank": 4, "name": "加州大学伯克利", "nameEn": "UC Berkeley", "country": "美国", "flag": "🇺🇸", "score": 99.2, "type": "综合", "website": "https://www.berkeley.edu"},
+      {"rank": 5, "name": "牛津大学", "nameEn": "Oxford", "country": "英国", "flag": "🇬🇧", "score": 99.0, "type": "综合", "website": "https://www.ox.ac.uk"},
+      {"rank": 6, "name": "华盛顿大学", "nameEn": "UW", "country": "美国", "flag": "🇺🇸", "score": 98.8, "type": "综合", "website": "https://www.washington.edu"},
+      {"rank": 7, "name": "哥伦比亚大学", "nameEn": "Columbia", "country": "美国", "flag": "🇺🇸", "score": 98.5, "type": "综合", "website": "https://www.columbia.edu"},
+      {"rank": 8, "name": "剑桥大学", "nameEn": "Cambridge", "country": "英国", "flag": "🇬🇧", "score": 98.2, "type": "综合", "website": "https://www.cam.ac.uk"},
+      {"rank": 9, "name": "加州理工学院", "nameEn": "Caltech", "country": "美国", "flag": "🇺🇸", "score": 98.0, "type": "理工", "website": "https://www.caltech.edu"},
+      {"rank": 10, "name": "约翰霍普金斯大学", "nameEn": "JHU", "country": "美国", "flag": "🇺🇸", "score": 97.8, "type": "综合", "website": "https://www.jhu.edu"},
+      {"rank": 11, "name": "清华大学", "nameEn": "Tsinghua", "country": "中国", "flag": "🇨🇳", "score": 97.5, "type": "综合", "website": "https://www.tsinghua.edu.cn"},
+      {"rank": 12, "name": "北京大学", "nameEn": "Peking", "country": "中国", "flag": "🇨🇳", "score": 97.2, "type": "综合", "website": "https://www.pku.edu.cn"},
+      {"rank": 13, "name": "浙江大学", "nameEn": "Zhejiang", "country": "中国", "flag": "🇨🇳", "score": 96.8, "type": "综合", "website": "https://www.zju.edu.cn"},
+      {"rank": 14, "name": "上海交通大学", "nameEn": "SJTU", "country": "中国", "flag": "🇨🇳", "score": 96.5, "type": "综合", "website": "https://www.sjtu.edu.cn"},
+      {"rank": 15, "name": "复旦大学", "nameEn": "Fudan", "country": "中国", "flag": "🇨🇳", "score": 96.2, "type": "综合", "website": "https://www.fudan.edu.cn"}
+    ]
+  },
+  "times": {
+    "name": "泰晤士高等教育排名",
+    "description": "泰晤士高等教育世界大学排名是全球最具影响力的大学排名之一，由英国《泰晤士高等教育》发布。",
+    "url": "https://www.timeshighereducation.com/world-university-rankings",
+    "universities": [
+      {"rank": 1, "name": "牛津大学", "nameEn": "Oxford", "country": "英国", "flag": "🇬🇧", "score": 100, "type": "综合", "website": "https://www.ox.ac.uk"},
+      {"rank": 2, "name": "斯坦福大学", "nameEn": "Stanford", "country": "美国", "flag": "🇺🇸", "score": 99.5, "type": "综合", "website": "https://www.stanford.edu"},
+      {"rank": 3, "name": "哈佛大学", "nameEn": "Harvard", "country": "美国", "flag": "🇺🇸", "score": 99.2, "type": "综合", "website": "https://www.harvard.edu"},
+      {"rank": 4, "name": "加州理工学院", "nameEn": "Caltech", "country": "美国", "flag": "🇺🇸", "score": 99.0, "type": "理工", "website": "https://www.caltech.edu"},
+      {"rank": 5, "name": "麻省理工学院", "nameEn": "MIT", "country": "美国", "flag": "🇺🇸", "score": 98.8, "type": "理工", "website": "https://www.mit.edu"},
+      {"rank": 6, "name": "剑桥大学", "nameEn": "Cambridge", "country": "英国", "flag": "🇬🇧", "score": 98.5, "type": "综合", "website": "https://www.cam.ac.uk"},
+      {"rank": 7, "name": "清华大学", "nameEn": "Tsinghua", "country": "中国", "flag": "🇨🇳", "score": 98.2, "type": "综合", "website": "https://www.tsinghua.edu.cn"},
+      {"rank": 8, "name": "北京大学", "nameEn": "Peking", "country": "中国", "flag": "🇨🇳", "score": 98.0, "type": "综合", "website": "https://www.pku.edu.cn"},
+      {"rank": 9, "name": "帝国理工学院", "nameEn": "Imperial College", "country": "英国", "flag": "🇬🇧", "score": 97.8, "type": "理工", "website": "https://www.imperial.ac.uk"},
+      {"rank": 10, "name": "芝加哥大学", "nameEn": "UChicago", "country": "美国", "flag": "🇺🇸", "score": 97.5, "type": "综合", "website": "https://www.uchicago.edu"}
+    ]
+  },
+  "nature": {
+    "name": "自然指数排名",
+    "description": "自然指数由《自然》杂志发布，追踪全球高校和科研机构在顶级自然科学期刊上的论文发表情况。",
+    "url": "https://www.nature.com/nature-index",
+    "universities": [
+      {"rank": 1, "name": "中国科学院大学", "nameEn": "UCAS", "country": "中国", "flag": "🇨🇳", "score": 100, "type": "综合", "website": "https://www.ucas.ac.cn"},
+      {"rank": 2, "name": "中国科学技术大学", "nameEn": "USTC", "country": "中国", "flag": "🇨🇳", "score": 99.5, "type": "理工", "website": "https://www.ustc.edu.cn"},
+      {"rank": 3, "name": "北京大学", "nameEn": "Peking", "country": "中国", "flag": "🇨🇳", "score": 99.2, "type": "综合", "website": "https://www.pku.edu.cn"},
+      {"rank": 4, "name": "清华大学", "nameEn": "Tsinghua", "country": "中国", "flag": "🇨🇳", "score": 99.0, "type": "综合", "website": "https://www.tsinghua.edu.cn"},
+      {"rank": 5, "name": "南京大学", "nameEn": "Nanjing", "country": "中国", "flag": "🇨🇳", "score": 98.8, "type": "综合", "website": "https://www.nju.edu.cn"},
+      {"rank": 6, "name": "浙江大学", "nameEn": "Zhejiang", "country": "中国", "flag": "🇨🇳", "score": 98.5, "type": "综合", "website": "https://www.zju.edu.cn"},
+      {"rank": 7, "name": "上海交通大学", "nameEn": "SJTU", "country": "中国", "flag": "🇨🇳", "score": 98.2, "type": "综合", "website": "https://www.sjtu.edu.cn"},
+      {"rank": 8, "name": "复旦大学", "nameEn": "Fudan", "country": "中国", "flag": "🇨🇳", "score": 98.0, "type": "综合", "website": "https://www.fudan.edu.cn"},
+      {"rank": 9, "name": "中山大学", "nameEn": "Sun Yat-sen", "country": "中国", "flag": "🇨🇳", "score": 97.8, "type": "综合", "website": "https://www.sysu.edu.cn"},
+      {"rank": 10, "name": "南开大学", "nameEn": "Nankai", "country": "中国", "flag": "🇨🇳", "score": 97.5, "type": "综合", "website": "https://www.nankai.edu.cn"}
+    ]
+  },
+  "arwu": {
+    "name": "软科世界大学学术排名",
+    "description": "软科世界大学学术排名（ARWU）由上海交通大学发布，是全球首个综合性世界大学排名。",
+    "url": "https://www.shanghairanking.com",
+    "universities": [
+      {"rank": 1, "name": "哈佛大学", "nameEn": "Harvard", "country": "美国", "flag": "🇺🇸", "score": 100, "type": "综合", "website": "https://www.harvard.edu"},
+      {"rank": 2, "name": "斯坦福大学", "nameEn": "Stanford", "country": "美国", "flag": "🇺🇸", "score": 99.5, "type": "综合", "website": "https://www.stanford.edu"},
+      {"rank": 3, "name": "麻省理工学院", "nameEn": "MIT", "country": "美国", "flag": "🇺🇸", "score": 99.2, "type": "理工", "website": "https://www.mit.edu"},
+      {"rank": 4, "name": "剑桥大学", "nameEn": "Cambridge", "country": "英国", "flag": "🇬🇧", "score": 99.0, "type": "综合", "website": "https://www.cam.ac.uk"},
+      {"rank": 5, "name": "加州大学伯克利", "nameEn": "UC Berkeley", "country": "美国", "flag": "🇺🇸", "score": 98.8, "type": "综合", "website": "https://www.berkeley.edu"},
+      {"rank": 6, "name": "普林斯顿大学", "nameEn": "Princeton", "country": "美国", "flag": "🇺🇸", "score": 98.5, "type": "综合", "website": "https://www.princeton.edu"},
+      {"rank": 7, "name": "牛津大学", "nameEn": "Oxford", "country": "英国", "flag": "🇬🇧", "score": 98.2, "type": "综合", "website": "https://www.ox.ac.uk"},
+      {"rank": 8, "name": "哥伦比亚大学", "nameEn": "Columbia", "country": "美国", "flag": "🇺🇸", "score": 98.0, "type": "综合", "website": "https://www.columbia.edu"},
+      {"rank": 9, "name": "加州理工学院", "nameEn": "Caltech", "country": "美国", "flag": "🇺🇸", "score": 97.8, "type": "理工", "website": "https://www.caltech.edu"},
+      {"rank": 10, "name": "芝加哥大学", "nameEn": "UChicago", "country": "美国", "flag": "🇺🇸", "score": 97.5, "type": "综合", "website": "https://www.uchicago.edu"}
+    ]
+  },
+  "cuhk": {
+    "name": "中国大学排名",
+    "description": "中国大学排名由国内权威机构发布，针对中国内地高校进行综合评价。",
+    "url": "https://www.shanghairanking.cn",
+    "universities": [
+      {"rank": 1, "name": "清华大学", "nameEn": "Tsinghua", "country": "中国", "flag": "🇨🇳", "score": 100, "type": "综合", "website": "https://www.tsinghua.edu.cn"},
+      {"rank": 2, "name": "北京大学", "nameEn": "Peking", "country": "中国", "flag": "🇨🇳", "score": 99.5, "type": "综合", "website": "https://www.pku.edu.cn"},
+      {"rank": 3, "name": "浙江大学", "nameEn": "Zhejiang", "country": "中国", "flag": "🇨🇳", "score": 99.0, "type": "综合", "website": "https://www.zju.edu.cn"},
+      {"rank": 4, "name": "上海交通大学", "nameEn": "SJTU", "country": "中国", "flag": "🇨🇳", "score": 98.5, "type": "综合", "website": "https://www.sjtu.edu.cn"},
+      {"rank": 5, "name": "复旦大学", "nameEn": "Fudan", "country": "中国", "flag": "🇨🇳", "score": 98.0, "type": "综合", "website": "https://www.fudan.edu.cn"},
+      {"rank": 6, "name": "南京大学", "nameEn": "Nanjing", "country": "中国", "flag": "🇨🇳", "score": 97.5, "type": "综合", "website": "https://www.nju.edu.cn"},
+      {"rank": 7, "name": "中国科学技术大学", "nameEn": "USTC", "country": "中国", "flag": "🇨🇳", "score": 97.0, "type": "理工", "website": "https://www.ustc.edu.cn"},
+      {"rank": 8, "name": "华中科技大学", "nameEn": "HUST", "country": "中国", "flag": "🇨🇳", "score": 96.5, "type": "理工", "website": "https://www.hust.edu.cn"},
+      {"rank": 9, "name": "中山大学", "nameEn": "Sun Yat-sen", "country": "中国", "flag": "🇨🇳", "score": 96.0, "type": "综合", "website": "https://www.sysu.edu.cn"},
+      {"rank": 10, "name": "哈尔滨工业大学", "nameEn": "HIT", "country": "中国", "flag": "🇨🇳", "score": 95.5, "type": "理工", "website": "https://www.hit.edu.cn"},
+      {"rank": 11, "name": "北京航空航天大学", "nameEn": "BUAA", "country": "中国", "flag": "🇨🇳", "score": 95.0, "type": "理工", "website": "https://www.buaa.edu.cn"},
+      {"rank": 12, "name": "四川大学", "nameEn": "SCU", "country": "中国", "flag": "🇨🇳", "score": 94.5, "type": "综合", "website": "https://www.scu.edu.cn"},
+      {"rank": 13, "name": "武汉大学", "nameEn": "Wuhan", "country": "中国", "flag": "🇨🇳", "score": 94.0, "type": "综合", "website": "https://www.whu.edu.cn"},
+      {"rank": 14, "name": "西安交通大学", "nameEn": "XJTU", "country": "中国", "flag": "🇨🇳", "score": 93.5, "type": "综合", "website": "https://www.xjtu.edu.cn"},
+      {"rank": 15, "name": "同济大学", "nameEn": "Tongji", "country": "中国", "flag": "🇨🇳", "score": 93.0, "type": "综合", "website": "https://www.tongji.edu.cn"}
+    ]
+  }
+}

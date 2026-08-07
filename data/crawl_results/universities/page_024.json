@@ -1,0 +1,23 @@
+{
+  "page": 24,
+  "count": 19,
+  "crawl_time": "2026-06-18T23:39:10.333352",
+  "universities": [
+    {
+      "name": "大连大学",
+      "province": "辽宁",
+      "admin": "辽宁省教育厅",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "辽宁科技学院",
+      "province": "辽宁",
+      "admin": "辽宁省教育厅",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    }
+  ]
+}

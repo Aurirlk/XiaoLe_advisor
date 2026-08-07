@@ -75,10 +75,9 @@ class TestSafeNodeCall:
         assert result["next_node"] == "synthesis_agent"
 
     def test_all_errors_route_to_synthesis(self):
-        """任何异常都必须将 next_node 设为 synthesis_agent，避免流程死锁"""
+        """业务异常必须兜底到 synthesis_agent，避免流程死锁"""
         error_types = [
             (lambda _: 1 / 0, "ZeroDivisionError"),
-            (lambda _: {}["missing"], "KeyError"),
             (lambda _: int("abc"), "ValueError"),
             (lambda _: [][0], "IndexError"),
         ]
@@ -86,6 +85,35 @@ class TestSafeNodeCall:
             result = asyncio.run(safe_node_call(node, {}))
             assert result["next_node"] == "synthesis_agent", f"{label}: next_node 应兜底"
             assert result["error"] == FALLBACK_MESSAGE, f"{label}: error 应为兜底消息"
+
+    def test_code_defect_exceptions_are_not_masked(self):
+        """代码缺陷异常（KeyError 等）必须暴露而非伪装成「服务繁忙」（P0-4）：
+        吞掉的结果是核心功能坏了却长期无人发现。"""
+        defect_nodes = [
+            (lambda _: {}["missing"], "KeyError"),
+            (lambda _: getattr(None, "nope"), "AttributeError"),
+            (lambda _: "abc" + 1, "TypeError"),
+        ]
+        for node, label in defect_nodes:
+            with self._raises_or_masked(node, label):
+                asyncio.run(safe_node_call(node, {}))
+
+    @staticmethod
+    def _raises_or_masked(node, label):
+        """开发环境（APP_ENV != production）应 re-raise；生产环境才兜底。"""
+        import os
+        import pytest
+        if os.getenv("APP_ENV", "development").lower() == "production":
+            result = asyncio.run(safe_node_call(node, {}))
+            assert result["next_node"] == "synthesis_agent", label
+            return _NullContext()
+        return pytest.raises(Exception)
+
+class _NullContext:
+    def __enter__(self):
+        return None
+    def __exit__(self, *exc):
+        return False
 
     def test_fallback_message_not_empty(self):
         assert len(FALLBACK_MESSAGE) > 10, "兜底消息不应为空"

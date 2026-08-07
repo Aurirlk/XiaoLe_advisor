@@ -1,0 +1,54 @@
+{
+  "province": "西藏",
+  "count": 6,
+  "universities": [
+    {
+      "name": "西藏农牧大学",
+      "province": "西藏",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "西藏大学",
+      "province": "西藏",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "西藏民族大学",
+      "province": "西藏",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "西藏藏医药大学",
+      "province": "西藏",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "拉萨师范学院",
+      "province": "西藏",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "西藏职业技术学院",
+      "province": "西藏",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    }
+  ]
+}

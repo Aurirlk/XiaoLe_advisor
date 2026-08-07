@@ -2,6 +2,8 @@
 .env
 .env.*
 !.env.example
+configs/.config.yaml
+configs/.config.local.yaml
 
 # Python
 __pycache__/
@@ -31,8 +33,19 @@ logs/
 data/zx_advisor.db
 data/zx_advisor.db-*
 data/chroma_db/
+data/chroma_db_broken_*/
+data/college_admission.db
 data/checkpoints.db
 data/checkpoints.db-*
+core/data/
+Cache/
+data/raw/gaokao_data/*.zip
+
+# 前端依赖与构建产物
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
 
 # 可选：体积较大的完整 RAG 索引（仓库内保留 data/seeds/ 即可重建）
 # data/vector_store/zx_experience.json

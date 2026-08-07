@@ -1,0 +1,23 @@
+{
+  "page": 11,
+  "count": 21,
+  "crawl_time": "2026-06-18T23:21:45.635977",
+  "universities": [
+    {
+      "name": "河北旅游职业学院",
+      "province": "河北",
+      "admin": "河北省教育厅",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "石家庄财经职业学院",
+      "province": "河北",
+      "admin": "河北省教育厅",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    }
+  ]
+}

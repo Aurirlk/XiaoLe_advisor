@@ -1,0 +1,167 @@
+{
+  "page": 1,
+  "count": 21,
+  "crawl_time": "2026-06-18T23:11:58.144356",
+  "universities": [
+    {
+      "name": "北京大学",
+      "province": "北京",
+      "admin": "教育部",
+      "level": "本科",
+      "tags": "双一流建设高校",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "中国人民大学",
+      "province": "北京",
+      "admin": "教育部",
+      "level": "本科",
+      "tags": "双一流建设高校",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "清华大学",
+      "province": "北京",
+      "admin": "教育部",
+      "level": "本科",
+      "tags": "双一流建设高校",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "北京交通大学",
+      "province": "北京",
+      "admin": "教育部",
+      "level": "本科",
+      "tags": "双一流建设高校",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "北京工业大学",
+      "province": "北京",
+      "admin": "北京市教育委员会",
+      "level": "本科",
+      "tags": "双一流建设高校",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "北京航空航天大学",
+      "province": "北京",
+      "admin": "工业和信息化部",
+      "level": "本科",
+      "tags": "双一流建设高校",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "北京理工大学",
+      "province": "北京",
+      "admin": "工业和信息化部",
+      "level": "本科",
+      "tags": "双一流建设高校",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "北京科技大学",
+      "province": "北京",
+      "admin": "教育部",
+      "level": "本科",
+      "tags": "双一流建设高校",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "北方工业大学",
+      "province": "北京",
+      "admin": "北京市教育委员会",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "北京化工大学",
+      "province": "北京",
+      "admin": "教育部",
+      "level": "本科",
+      "tags": "双一流建设高校",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "北京工商大学",
+      "province": "北京",
+      "admin": "北京市教育委员会",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "北京服装学院",
+      "province": "北京",
+      "admin": "北京市教育委员会",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "北京邮电大学",
+      "province": "北京",
+      "admin": "教育部",
+      "level": "本科",
+      "tags": "双一流建设高校",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "北京印刷学院",
+      "province": "北京",
+      "admin": "北京市教育委员会",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "北京建筑大学",
+      "province": "北京",
+      "admin": "北京市教育委员会",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "北京石油化工学院",
+      "province": "北京",
+      "admin": "北京市教育委员会",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "北京电子科技学院",
+      "province": "北京",
+      "admin": "中共中央办公厅",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "中国农业大学",
+      "province": "北京",
+      "admin": "教育部",
+      "level": "本科",
+      "tags": "双一流建设高校",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "北京农学院",
+      "province": "北京",
+      "admin": "北京市教育委员会",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "北京林业大学",
+      "province": "北京",
+      "admin": "教育部",
+      "level": "本科",
+      "tags": "双一流建设高校",
+      "satisfaction": 4.3
+    }
+  ]
+}

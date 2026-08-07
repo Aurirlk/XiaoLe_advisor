@@ -1,0 +1,110 @@
+{
+  "province": "青海",
+  "count": 13,
+  "universities": [
+    {
+      "name": "青海大学",
+      "province": "青海",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "青海师范大学",
+      "province": "青海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "青海民族大学",
+      "province": "青海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "青海卫生职业技术学院",
+      "province": "青海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "青海警官职业学院",
+      "province": "青海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "青海农牧科技职业学院",
+      "province": "青海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "青海职业技术大学",
+      "province": "青海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "青海建筑职业技术学院",
+      "province": "青海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "青海大学昆仑学院",
+      "province": "青海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.2
+    },
+    {
+      "name": "西宁城市职业技术学院",
+      "province": "青海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "青海高等职业技术学院",
+      "province": "青海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "青海柴达木职业技术学院",
+      "province": "青海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "青海理工学院",
+      "province": "青海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    }
+  ]
+}

@@ -106,6 +106,59 @@ async def admin_import(
         tmp_path.unlink(missing_ok=True)
 
 
+@router.post("/import/upload")
+async def admin_import_upload(
+    file: UploadFile = File(...),
+    kind: str = Query("", description="数据类型: universities/admission_scores/majors"),
+    source: str = Query("", description="数据来源标识"),
+    dry_run: bool = Query(False, description="仅校验不写入"),
+    _: None = Depends(_verify_admin_key),
+):
+    """向导式文件上传导入，返回预览和校验结果"""
+    suffix = Path(file.filename or "upload.csv").suffix or ".csv"
+    with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+        content = await file.read()
+        tmp.write(content)
+        tmp_path = Path(tmp.name)
+
+    conn = _connect()
+    try:
+        from core.data_importer.pipeline import load_rows, detect_kind, validate_rows
+
+        rows = load_rows(tmp_path)
+        if not rows:
+            return {"ok": False, "message": "文件为空或格式错误", "errors": [], "preview": [], "records": 0}
+
+        detected_kind = kind if kind in ("universities", "admission_scores", "majors") else detect_kind(tmp_path, rows)
+
+        # 校验
+        errors = validate_rows(detected_kind, rows)
+
+        # 预览前 5 行
+        preview = rows[:5]
+
+        if dry_run:
+            return {
+                "ok": len(errors) == 0,
+                "kind": detected_kind,
+                "message": f"校验完成: {len(rows)} 条记录, {len(errors)} 个错误",
+                "errors": errors[:20],
+                "preview": preview,
+                "records": len(rows),
+            }
+
+        # 正式导入
+        report = import_file(tmp_path, conn, dry_run=False, default_source=source)
+        return {
+            **_report_to_response(report).model_dump(),
+            "preview": preview,
+            "records": len(rows),
+        }
+    finally:
+        conn.close()
+        tmp_path.unlink(missing_ok=True)
+
+
 @router.get("/import/batches", response_model=List[BatchItem])
 async def list_batches(
     limit: int = Query(20, ge=1, le=100),
@@ -288,3 +341,59 @@ async def sync_knowledge_from_api(
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"API同步失败: {str(e)}")
+
+
+@router.post("/restart-service/{service_key}")
+async def restart_service(
+    service_key: str,
+    _: None = Depends(_verify_admin_key),
+):
+    """重启指定服务（Neo4j / Redis / Vector 等）"""
+    try:
+        if service_key == "neo4j":
+            from core.kg_client import kg_client
+            try:
+                kg_client.close()
+            except Exception:
+                pass
+            # 测试重新连接
+            connected = kg_client.test_connection()
+            return {
+                "ok": connected,
+                "message": "Neo4j 重连成功" if connected else "Neo4j 重连失败，请检查数据库是否运行",
+            }
+        elif service_key == "rag":
+            # 重建 RAG 索引
+            from scripts.build_rag_index import main as build_rag_index
+            build_rag_index()
+            return {"ok": True, "message": "RAG 索引重建完成"}
+        else:
+            raise HTTPException(status_code=400, detail=f"不支持重启的服务: {service_key}")
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"重启失败: {str(e)}")
+
+
+@router.get("/service-health")
+async def service_health():
+    """获取所有服务健康状态（无需管理员密钥，供前端监控使用）"""
+    from api.main import MODULE_STATUS
+    
+    # 检查 Neo4j
+    neo4j_ok = False
+    neo4j_info = {}
+    try:
+        from core.kg_client import kg_client
+        neo4j_ok = kg_client.test_connection()
+        if neo4j_ok:
+            stats = kg_client.get_stats()
+            neo4j_info = {"nodes": stats.get("total_nodes", 0), "edges": stats.get("total_edges", 0)}
+    except Exception as e:
+        neo4j_info = {"error": str(e)}
+    
+    return {
+        "ok": True,
+        "neo4j": {"connected": neo4j_ok, **neo4j_info},
+        "modules": MODULE_STATUS,
+    }

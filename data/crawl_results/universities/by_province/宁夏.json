@@ -1,0 +1,190 @@
+{
+  "province": "宁夏",
+  "count": 23,
+  "universities": [
+    {
+      "name": "宁夏大学",
+      "province": "宁夏",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "宁夏医科大学",
+      "province": "宁夏",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "宁夏师范大学",
+      "province": "宁夏",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "北方民族大学",
+      "province": "宁夏",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "宁夏理工学院",
+      "province": "宁夏",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "宁夏民族职业技术学院",
+      "province": "宁夏",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "宁夏工业职业学院",
+      "province": "宁夏",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "宁夏职业技术大学",
+      "province": "宁夏",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "宁夏工商职业技术大学",
+      "province": "宁夏",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "宁夏财经职业技术学院",
+      "province": "宁夏",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "宁夏警官职业学院",
+      "province": "宁夏",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "宁夏建设职业技术学院",
+      "province": "宁夏",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "宁夏大学新华学院",
+      "province": "宁夏",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.3
+    },
+    {
+      "name": "银川能源学院",
+      "province": "宁夏",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "银川科技学院",
+      "province": "宁夏",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "宁夏葡萄酒与防沙治沙职业技术学院",
+      "province": "宁夏",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "宁夏艺术职业学院",
+      "province": "宁夏",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "宁夏体育职业学院",
+      "province": "宁夏",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "石嘴山工贸职业技术学院",
+      "province": "宁夏",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "宁夏卫生健康职业技术学院",
+      "province": "宁夏",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "宁夏交通职业技术学院",
+      "province": "宁夏",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "固原农林职业技术学院",
+      "province": "宁夏",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "宁夏应用技术学院",
+      "province": "宁夏",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    }
+  ]
+}

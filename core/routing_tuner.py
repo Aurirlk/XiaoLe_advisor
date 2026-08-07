@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import os
 import re
+import tempfile
 from collections import Counter
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -19,7 +22,10 @@ DEFAULT_TUNING: Dict[str, List[str]] = {
 }
 
 
+@lru_cache(maxsize=1)
 def load_tuning() -> Dict[str, List[str]]:
+    """读取路由调优关键词（P2-8：进程内缓存，避免 supervisor 每请求读盘；
+    文件修改后调用 clear_tuning_cache()）"""
     if not TUNING_PATH.exists():
         return dict(DEFAULT_TUNING)
     data = yaml.safe_load(TUNING_PATH.read_text(encoding="utf-8")) or {}
@@ -29,6 +35,10 @@ def load_tuning() -> Dict[str, List[str]]:
         if isinstance(words, list):
             result[agent] = [str(w) for w in words]
     return result
+
+
+def clear_tuning_cache() -> None:
+    load_tuning.cache_clear()
 
 
 def merge_keywords(base: List[str], extra: List[str]) -> List[str]:
@@ -80,8 +90,14 @@ def apply_tuning(suggested: Dict[str, List[str]], approve: bool = False) -> Dict
 
     TUNING_PATH.parent.mkdir(parents=True, exist_ok=True)
     payload = {"fallback_keywords": preview}
-    TUNING_PATH.write_text(
-        yaml.dump(payload, allow_unicode=True, default_flow_style=False),
-        encoding="utf-8",
-    )
+    # P2-8：原子写（同目录临时文件 + os.replace），避免 supervisor 读到半截文件
+    fd, tmp_path = tempfile.mkstemp(dir=str(TUNING_PATH.parent), suffix=".tmp")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            yaml.dump(payload, f, allow_unicode=True, default_flow_style=False)
+        os.replace(tmp_path, TUNING_PATH)
+    finally:
+        if os.path.exists(tmp_path):
+            os.unlink(tmp_path)
+    clear_tuning_cache()
     return {"applied": True, "preview": preview, "path": str(TUNING_PATH)}

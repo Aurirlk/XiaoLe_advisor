@@ -1,0 +1,606 @@
+{
+  "province": "黑龙江",
+  "count": 75,
+  "universities": [
+    {
+      "name": "黑龙江大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "哈尔滨工业大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "哈尔滨理工大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "哈尔滨工程大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "黑龙江科技大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "东北石油大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "佳木斯大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "黑龙江八一农垦大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "东北农业大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "东北林业大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "哈尔滨医科大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "黑龙江中医药大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "牡丹江医科大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "哈尔滨师范大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "齐齐哈尔大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "牡丹江师范学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "哈尔滨学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "大庆师范学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "绥化学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "哈尔滨商业大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "哈尔滨体育学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "哈尔滨金融学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "伊春职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "牡丹江大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "齐齐哈尔医学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "黑龙江工业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "黑龙江东方学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "黑龙江职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "哈尔滨信息工程学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "黑龙江工程学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "哈尔滨建筑科技职业大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "黑龙江艺术职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "大庆职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "黑龙江林业职业技术学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "黑龙江农业职业技术学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "黑龙江农业工程职业技术大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "黑龙江农垦职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "黑龙江司法警官职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "齐齐哈尔工程学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "哈尔滨电力职业技术学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "哈尔滨铁道职业技术学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "大兴安岭职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "黑龙江农业经济职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "哈尔滨职业技术大学",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "黑龙江外国语学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "黑龙江财经学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "哈尔滨石油学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "黑龙江工商学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "哈尔滨远东理工学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "哈尔滨传媒职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "哈尔滨剑桥学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "黑龙江工程学院昆仑旅游学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.2
+    },
+    {
+      "name": "哈尔滨广厦学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "哈尔滨华德学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "黑龙江商业职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "黑龙江公安警官职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "哈尔滨城市职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "黑龙江旅游职业技术学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "黑龙江三江美术职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.0
+    },
+    {
+      "name": "黑龙江生态工程职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "黑龙江能源职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "黑河学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "七台河职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "黑龙江民族职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "黑龙江交通职业技术学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "哈尔滨应用职业技术学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "哈尔滨科学技术职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "佳木斯职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.3
+    },
+    {
+      "name": "齐齐哈尔理工职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "黑龙江冰雪体育职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "哈尔滨音乐学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "哈尔滨北方航空职业技术学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "哈尔滨商贸职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "齐齐哈尔立德健康职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "哈尔滨健康职业学院",
+      "province": "黑龙江",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    }
+  ]
+}

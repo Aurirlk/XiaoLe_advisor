@@ -1,0 +1,23 @@
+{
+  "page": 12,
+  "count": 17,
+  "crawl_time": "2026-06-18T23:22:35.248504",
+  "universities": [
+    {
+      "name": "河北经贸大学经济管理学院",
+      "province": "河北",
+      "admin": "河北省教育厅",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "河北医科大学临床学院",
+      "province": "河北",
+      "admin": "河北省教育厅",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    }
+  ]
+}

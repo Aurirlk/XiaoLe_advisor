@@ -1,4 +1,6 @@
+import asyncio
 import logging
+
 from core.state_schema import GraphState
 from skills.ai_exposure_checker import assess_ai_exposure, get_major_exposure_summary
 from tools.rag_tools import RAGTools
@@ -93,54 +95,91 @@ def _query_major_stats(major_name: str) -> str:
 
 
 def build_career_agent(rag_tools: RAGTools):
-    def career_agent(state: GraphState) -> GraphState:
+    async def career_agent(state: GraphState) -> GraphState:
         profile = state.get("user_profile", {})
         major_name = profile.get("major_name", "")
         query = state.get("user_query", "")
-        
+
         # ══════════════════════════════════════════════════════════
-        # 多源数据融合
+        # 多源数据融合（P0-7：async + 并行，避免串行阻塞事件循环）
         # ══════════════════════════════════════════════════════════
-        
+
+        async def _fetch_rag() -> str:
+            try:
+                # 知识库分权（2026-08-06）：career_agent 只查就业/专业/政策/指南域，
+                # 不查院校库（那是 match_agent 的地盘）；跨域兜底由检索层处理并打标记。
+                return await rag_tools.query_zx_experience_async(
+                    query=query,
+                    top_k=3,
+                    kb_scope=["user:employment/", "user:majors/", "user:policies/", "user:guides/"],
+                )
+            except Exception:
+                logger.warning("RAG 经验库检索失败", exc_info=True)
+                return ""
+
+        async def _fetch_neo4j() -> str:
+            if not major_name:
+                return ""
+            try:
+                return await asyncio.to_thread(_query_career_path_from_neo4j, major_name)
+            except Exception:
+                logger.warning("Neo4j 职业路径查询失败", exc_info=True)
+                return ""
+
+        async def _fetch_stats() -> str:
+            if not major_name:
+                return ""
+            try:
+                return await asyncio.to_thread(_query_major_stats, major_name)
+            except Exception:
+                logger.warning("投研级数据查询失败", exc_info=True)
+                return ""
+
+        async def _fetch_ai_exposure() -> dict | None:
+            if not major_name:
+                return None
+            try:
+                return await asyncio.to_thread(assess_ai_exposure, major_name)
+            except Exception:
+                logger.warning("AI 暴露度评估失败", exc_info=True)
+                return None
+
+        rag_context, neo4j_career, major_stats, ai_exposure = await asyncio.gather(
+            _fetch_rag(), _fetch_neo4j(), _fetch_stats(), _fetch_ai_exposure()
+        )
+
         career_parts = []
-        
+
         # 1. RAG经验库检索（现有功能）
-        rag_context = rag_tools.query_zx_experience(query=query, top_k=3)
         if rag_context:
             career_parts.append("【经验库语录】")
             career_parts.append(rag_context)
-        
+
         # 2. Neo4j职业路径查询
-        if major_name:
-            neo4j_career = _query_career_path_from_neo4j(major_name)
-            if neo4j_career:
-                career_parts.append("\n" + neo4j_career)
-        
+        if neo4j_career:
+            career_parts.append("\n" + neo4j_career)
+
         # 3. 投研级专业数据
-        if major_name:
-            major_stats = _query_major_stats(major_name)
-            if major_stats:
-                career_parts.append("\n" + major_stats)
-        
+        if major_stats:
+            career_parts.append("\n" + major_stats)
+
         # 4. AI暴露度评估
-        if major_name:
-            ai_exposure = assess_ai_exposure(major_name)
-            if ai_exposure:
-                exposure_emoji = {"high": "🔴", "medium": "🟡", "low": "🟢"}
-                emoji = exposure_emoji.get(ai_exposure["risk_level"], "⚪")
-                
-                career_parts.append(f"\n{emoji} AI暴露度评估:")
-                career_parts.append(f"  - 风险分: {ai_exposure['ai_exposure_risk']:.0%} ({ai_exposure['risk_level']})")
-                
-                if ai_exposure["high_risk_tasks"]:
-                    career_parts.append(f"  - 高风险任务: {', '.join(ai_exposure['high_risk_tasks'][:2])}")
-                if ai_exposure["high_barrier_tasks"]:
-                    career_parts.append(f"  - 高壁垒任务: {', '.join(ai_exposure['high_barrier_tasks'][:2])}")
-                if ai_exposure["enhancement_suggestions"]:
-                    career_parts.append(f"  - 建议增强: {', '.join(ai_exposure['enhancement_suggestions'][:2])}")
-        
+        if ai_exposure:
+            exposure_emoji = {"high": "🔴", "medium": "🟡", "low": "🟢"}
+            emoji = exposure_emoji.get(ai_exposure["risk_level"], "⚪")
+
+            career_parts.append(f"\n{emoji} AI暴露度评估:")
+            career_parts.append(f"  - 风险分: {ai_exposure['ai_exposure_risk']:.0%} ({ai_exposure['risk_level']})")
+
+            if ai_exposure["high_risk_tasks"]:
+                career_parts.append(f"  - 高风险任务: {', '.join(ai_exposure['high_risk_tasks'][:2])}")
+            if ai_exposure["high_barrier_tasks"]:
+                career_parts.append(f"  - 高壁垒任务: {', '.join(ai_exposure['high_barrier_tasks'][:2])}")
+            if ai_exposure["enhancement_suggestions"]:
+                career_parts.append(f"  - 建议增强: {', '.join(ai_exposure['enhancement_suggestions'][:2])}")
+
         career_context = "\n".join(career_parts) if career_parts else "暂无相关就业数据"
-        
+
         return {"career_context": career_context, "next_node": "synthesis_agent"}
 
     return career_agent

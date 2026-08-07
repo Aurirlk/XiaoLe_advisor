@@ -1,5 +1,6 @@
 from functools import lru_cache
 from pathlib import Path
+import logging
 import os
 
 from redis.asyncio import Redis
@@ -18,6 +19,7 @@ from tools.rag_tools import RAGTools
 from tools.vector_store import ChromaVectorStore, DEFAULT_EMBEDDING_MODEL, DEFAULT_PERSIST_DIR
 
 ROOT = Path(__file__).resolve().parents[1]
+logger = logging.getLogger(__name__)
 
 _crm_manager: CRMProfileManager | None = None
 
@@ -151,6 +153,11 @@ def get_compiled_graph():
         base_url=llm_cfg.get("base_url") or None,
         api_key=llm_cfg.get("api_key", ""),
         timeout=llm_cfg["timeout"],
+        # P1-1 真流式：必须开启 streaming。ainvoke 内部走流式聚合（返回内容不变），
+        # 同时触发 on_llm_new_token 回调，LangGraph `stream_mode="messages"` 才能
+        # 逐 token 捕获；否则默认 streaming=False 时 ainvoke 走非流式路径，
+        # 真流式在生产静默失效（只剩末尾整段兜底）。
+        streaming=True,
     )
     rag_cfg_path = ROOT / "configs" / "rag_config.yaml"
     rag_cfg = None
@@ -189,11 +196,59 @@ def _make_crm_callback(crm: CRMProfileManager):
     async def _on_conversation_end(state) -> None:
         phone = (state.get("phone_number") or "").strip()
         profile = state.get("user_profile") or {}
-        if not phone:
-            return
         last_intent = state.get("next_node", "")
         last_query = state.get("user_query", "")
-        await crm.save_profile(phone, profile, last_query, last_intent)
+        if phone:
+            # 落库画像（断点续传）
+            await crm.save_profile(phone, profile, last_query, last_intent)
+
+        # ── 离线意图沉淀（P1-9 接线：log_intent 此前零调用方，写入链路断裂）──
+        # supervisor 在线识别的 scene/path/decision_state 现在落库到
+        # user_intent_log / user_decision_journey，供犹豫模式检测、相似决策推荐、
+        # 运营分析使用。所有异常兜底（写库失败不影响主链路）。
+        session_id = (state.get("session_id") or "").strip()
+        scene = state.get("scene_type") or ""
+        if not scene:
+            return  # 无场景信息（例如未走 supervisor 的路径），不写意图
+        try:
+            # 提取最终 assistant 回复（合成后的 messages 最后一条 ai 消息）
+            response = ""
+            messages = state.get("messages") or []
+            for msg in reversed(messages):
+                if getattr(msg, "type", "") == "ai":
+                    response = str(getattr(msg, "content", "") or "")
+                    break
+            signals = state.get("hesitation_signals") or []
+            # turn 近似为会话中 user 消息数（callback 无 router 层 turn_id，用消息计数兜底）
+            turn = sum(1 for m in (state.get("messages") or []) if getattr(m, "type", "") == "human")
+            await crm.log_intent(
+                phone=phone or "anonymous",
+                session=session_id or "unknown",
+                turn=0,
+                scene=scene,
+                scene_conf=float(state.get("scene_confidence") or 0.0),
+                path=state.get("path_type"),
+                path_conf=state.get("path_confidence"),
+                decision=state.get("decision_state", "firm"),
+                signals=[str(s) for s in signals],
+                query=last_query,
+                response=response,
+            )
+            # 决策旅程里程碑：路由到的 agent 即一次决策事件
+            await crm.log_decision_journey(
+                phone=phone or "anonymous",
+                session=session_id or "unknown",
+                stage=scene,
+                milestone=last_intent or "synthesis_agent",
+                data={
+                    "decision_state": state.get("decision_state", "firm"),
+                    "path": state.get("path_type"),
+                    "route": last_intent,
+                },
+            )
+        except Exception:
+            logger.warning("意图沉淀 log_intent/log_decision_journey 失败（非致命）", exc_info=True)
+
     return _on_conversation_end
 
 
@@ -318,13 +373,20 @@ def get_neo4j_driver():
         
         if not cfg:
             return None
-        
+
+        # 密码支持 ${ENV_VAR} 占位符；未配置则拒绝用弱默认值连接
+        password = _resolve_api_key(str(cfg.get("password", "")))
+        if not password:
+            logger.warning("NEO4J_PASSWORD 未配置，跳过 Neo4j 连接（知识图谱功能不可用）")
+            return None
+
         _neo4j_driver = GraphDatabase.driver(
             cfg.get("uri", "bolt://localhost:7687"),
-            auth=(cfg.get("username", "neo4j"), cfg.get("password", "password")),
+            auth=(cfg.get("username", "neo4j"), password),
             max_connection_lifetime=cfg.get("max_connection_lifetime", 3600),
             max_connection_pool_size=cfg.get("max_connection_pool_size", 50),
         )
         return _neo4j_driver
     except Exception:
+        logger.exception("Neo4j 驱动初始化失败")
         return None

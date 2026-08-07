@@ -1,0 +1,23 @@
+{
+  "page": 32,
+  "count": 20,
+  "crawl_time": "2026-06-18T23:49:28.592159",
+  "universities": [
+    {
+      "name": "齐齐哈尔医学院",
+      "province": "黑龙江",
+      "admin": "黑龙江省教育厅",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "黑龙江工业学院",
+      "province": "黑龙江",
+      "admin": "黑龙江省教育厅",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    }
+  ]
+}

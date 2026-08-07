@@ -220,8 +220,8 @@ def get_emotion_tts_params(emotion: EmotionResult, tts_type: str) -> dict:
             params["rate"] = "+5%"
         return params
 
-    if tts_type in ("siliconflow", "aliyun_stream"):
-        # CosyVoice 支持 style 参数
+    if tts_type in ("siliconflow", "aliyun_stream", "mimo"):
+        # CosyVoice / MiniMax(T2A) 支持 style 参数
         style_map = {
             "happy": "happy",
             "excited": "excited",

@@ -3,6 +3,20 @@ from __future__ import annotations
 from pathlib import Path
 import sqlite3
 
+from core.crm_manager import (
+    _CRM_TABLE_DDL as _CRM_USER_PROFILES_DDL,   # 单一 schema 真相源（P0-13）
+    _MIGRATION_COLUMNS as _CRM_MIGRATION_COLUMNS,
+    _PHONE_RE,
+    hash_phone,
+)
+from core.intent_tracker import (
+    INTENT_LOG_TABLE_DDL,
+    INTENT_LOG_INDEX_PHONE,
+    INTENT_LOG_INDEX_SESSION,
+    DECISION_JOURNEY_TABLE_DDL,
+    DECISION_JOURNEY_INDEX_PHONE,
+)
+
 ROOT = Path(__file__).resolve().parents[1]
 DB_PATH = ROOT / "data" / "zx_advisor.db"
 
@@ -37,29 +51,7 @@ CREATE INDEX IF NOT EXISTS idx_scores_lookup
     ON admission_scores (province, subject_type, year, major_name);
 """
 
-USER_PROFILES_SQL = """
-CREATE TABLE IF NOT EXISTS user_profiles (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    phone_number TEXT NOT NULL UNIQUE,
-    username TEXT DEFAULT '',
-    password_hash TEXT DEFAULT '',
-    role TEXT DEFAULT 'student',
-    province TEXT DEFAULT '',
-    subject_type TEXT DEFAULT '',
-    major_name TEXT DEFAULT '',
-    score INTEGER DEFAULT 0,
-    rank INTEGER DEFAULT 0,
-    budget INTEGER DEFAULT 0,
-    target_city TEXT DEFAULT '',
-    postgraduate_plan TEXT DEFAULT '',
-    extra_tags TEXT DEFAULT '{}',
-    session_count INTEGER NOT NULL DEFAULT 0,
-    first_seen_at TEXT DEFAULT (datetime('now')),
-    last_seen_at TEXT DEFAULT (datetime('now')),
-    last_query TEXT DEFAULT '',
-    last_intent TEXT DEFAULT ''
-);
-"""
+USER_PROFILES_SQL = _CRM_USER_PROFILES_DDL  # 单一真相源：见 core/crm_manager.py（P0-13）
 
 CRM_INDEX_PHONE = """
 CREATE INDEX IF NOT EXISTS idx_crm_profiles_phone ON user_profiles (phone_number);
@@ -184,8 +176,15 @@ FEEDBACK_INDEXES = [
 
 RAG_FTS_SQL = """
 CREATE VIRTUAL TABLE IF NOT EXISTS rag_fts USING fts5(
-    source, text, tokenize='unicode61'
+    source, text, tokenize='trigram'
 );
+"""
+
+# P1-7 修复：旧 rag_fts 使用 unicode61（对中文近乎无效——整句被当作一个 token，
+# FTS5 路实际永远返回空）。检测并迁移到 trigram（中文 3 字符子串可检索）。
+RAG_FTS_TRIGRAM_MIGRATE_SQL = """
+INSERT INTO rag_fts(rag_fts, rank, source, text)
+SELECT 'rebuild', rank, source, text FROM rag_fts;
 """
 
 COST_TRACKING_SQL = """
@@ -258,27 +257,22 @@ def _migrate_admission_scores_columns(conn: sqlite3.Connection) -> None:
 
 
 def _migrate_user_profiles_columns(conn: sqlite3.Connection) -> None:
-    """为 user_profiles 表添加新画像字段和认证字段"""
+    """为 user_profiles 表补齐画像/认证字段（列清单来自 crm_manager 单一真相源）"""
     cols = {row[1] for row in conn.execute("PRAGMA table_info(user_profiles)").fetchall()}
-    new_cols = {
-        "username": "TEXT DEFAULT ''",
-        "password_hash": "TEXT DEFAULT ''",
-        "role": "TEXT DEFAULT 'student'",
-        "gender": "TEXT DEFAULT ''",
-        "gaokao_city": "TEXT DEFAULT ''",
-        "strong_subjects": "TEXT DEFAULT '[]'",
-        "weak_subjects": "TEXT DEFAULT '[]'",
-        "major_preferences": "TEXT DEFAULT '[]'",
-        "interests": "TEXT DEFAULT '[]'",
-        "personality": "TEXT DEFAULT ''",
-        "target_universities": "TEXT DEFAULT '[]'",
-        "risk_tolerance": "TEXT DEFAULT ''",
-        "special_notes": "TEXT DEFAULT ''",
-        "subject_scores_json": "TEXT DEFAULT '{}'",
-    }
-    for col_name, col_type in new_cols.items():
+    for col_name, col_type in _CRM_MIGRATION_COLUMNS.items():
         if col_name not in cols:
             conn.execute(f"ALTER TABLE user_profiles ADD COLUMN {col_name} {col_type}")
+
+
+def _hash_existing_phone_numbers(conn: sqlite3.Connection) -> None:
+    """存量明文手机号 → 确定性哈希（PIPL 脱敏；幂等，已哈希的行不受影响）"""
+    rows = conn.execute("SELECT id, phone_number FROM user_profiles").fetchall()
+    for row_id, raw in rows:
+        if raw and _PHONE_RE.match(raw.strip()):
+            conn.execute(
+                "UPDATE user_profiles SET phone_number = ? WHERE id = ?",
+                (hash_phone(raw), row_id),
+            )
 
 SEED_UNIVERSITIES = [
     ("清华大学", "顶尖985", "北京", "211,985,双一流", 65.0),
@@ -356,6 +350,31 @@ def init_sqlite(db_path: str | Path | None = None) -> str:
         conn.execute(stmt)
 
     conn.execute(RAG_FTS_SQL)
+    # ── P1-7 修复：rag_fts 两大致命缺陷 ──
+    #  1) 旧表用 unicode61 tokenizer，中文整句被当单 token → FTS5 路永远空
+    #  2) 表建了但从未灌数据
+    # 修复：DDL 非 trigram 则 DROP 重建；空表则从 zx_experience.json 幂等灌入。
+    try:
+        fts_ddl = conn.execute(
+            "SELECT sql FROM sqlite_master WHERE type='table' AND name='rag_fts'"
+        ).fetchone()
+        if fts_ddl and "trigram" not in (fts_ddl[0] or ""):
+            conn.execute("DROP TABLE rag_fts")
+            conn.execute(RAG_FTS_SQL)
+            print("[INFO] rag_fts 已迁移到 trigram tokenizer")
+
+        fts_count = conn.execute("SELECT COUNT(*) FROM rag_fts").fetchone()[0]
+        fts_json = ROOT / "data" / "vector_store" / "zx_experience.json"
+        if fts_count == 0 and fts_json.exists():
+            import json as _json
+            fts_docs = _json.loads(fts_json.read_text(encoding="utf-8"))
+            conn.executemany(
+                "INSERT INTO rag_fts (source, text) VALUES (?, ?)",
+                [(d.get("source", ""), d.get("text", "")) for d in fts_docs if d.get("text")],
+            )
+            print(f"[INFO] rag_fts 已灌入 {len(fts_docs)} 条语料")
+    except Exception as exc:
+        print(f"[WARN] rag_fts 灌数据失败（非致命）: {exc}")
     conn.execute(COST_TRACKING_SQL)
     for stmt in COST_INDEXES:
         conn.execute(stmt)
@@ -365,7 +384,15 @@ def init_sqlite(db_path: str | Path | None = None) -> str:
     for stmt in FAMILY_INDEXES:
         conn.execute(stmt)
 
+    # ── V6.0 意图追踪表（P1-9 接线：DDL 单一真相源来自 core/intent_tracker.py）──
+    conn.execute(INTENT_LOG_TABLE_DDL)
+    conn.execute(INTENT_LOG_INDEX_PHONE)
+    conn.execute(INTENT_LOG_INDEX_SESSION)
+    conn.execute(DECISION_JOURNEY_TABLE_DDL)
+    conn.execute(DECISION_JOURNEY_INDEX_PHONE)
+
     _migrate_user_profiles_columns(conn)
+    _hash_existing_phone_numbers(conn)
     
     # 在迁移后创建索引（确保字段存在）
     conn.execute(CRM_INDEX_USERNAME)

@@ -1,0 +1,23 @@
+{
+  "page": 2,
+  "count": 21,
+  "crawl_time": "2026-06-18T23:13:53.845781",
+  "universities": [
+    {
+      "name": "北京协和医学院",
+      "province": "北京",
+      "admin": "国家卫生健康委员会",
+      "level": "本科",
+      "tags": "双一流建设高校",
+      "satisfaction": 0
+    },
+    {
+      "name": "首都医科大学",
+      "province": "北京",
+      "admin": "北京市教育委员会",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    }
+  ]
+}

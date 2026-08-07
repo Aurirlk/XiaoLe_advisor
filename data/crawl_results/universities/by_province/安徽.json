@@ -1,0 +1,958 @@
+{
+  "province": "安徽",
+  "count": 119,
+  "universities": [
+    {
+      "name": "安徽大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "中国科学技术大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "合肥工业大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "安徽工业大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "安徽理工大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "安徽工程大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "安徽农业大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "安徽医科大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.3
+    },
+    {
+      "name": "蚌埠医科大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "皖南医科大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "安徽中医药大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "安徽师范大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "阜阳师范大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "安庆师范大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "淮北师范大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "黄山学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "皖西学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "滁州学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "安徽财经大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "宿州学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "巢湖学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "淮南师范学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "铜陵学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "安徽职业技术大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "安徽建筑大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "安徽科技工程大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "安徽三联学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "淮北职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "合肥大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "芜湖职业技术大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "蚌埠学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "池州学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "淮南联合大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "安徽第二医学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "安徽应用技术职业大学",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "安徽水利水电职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "阜阳职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "安徽新华学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "铜陵职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "民办万博科技职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "安徽警官职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "淮南职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "安徽工业经济职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "合肥通用职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "安徽文达信息工程学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "安徽工贸职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "宿州职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "六安职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "安徽电子信息职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "民办合肥经济技术职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.2
+    },
+    {
+      "name": "安徽交通职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "安徽体育运动职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "亳州学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "合肥职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "滁州职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "池州职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "宣城职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "安徽广播影视职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "民办合肥滨湖职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "安徽外国语学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "安徽电气工程职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "安徽冶金科技职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "安徽城市管理职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "安徽工商职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "安徽中澳科技职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "阜阳科技职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "亳州职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "安徽国防科技职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "安庆职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "安徽艺术职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "蚌埠工商学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "合肥理工学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "安徽信息工程学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "马鞍山学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "合肥城市学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "合肥经济学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "芜湖学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "安徽医科大学临床医学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "阜阳理工学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "淮北理工学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "安徽财贸职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "安徽国际商务职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "安徽公安职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "安徽林业职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "安徽审计职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "安徽新闻出版职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "安徽邮电职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "安徽工业职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "民办合肥财经职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "合肥师范学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "安徽绿海商务职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "合肥共达职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "蚌埠经济技术职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "徽商职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "马鞍山职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "皖江工学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "安徽现代信息工程职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "安徽矿业职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "合肥信息技术职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "黄山职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "安徽汽车职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.3
+    },
+    {
+      "name": "皖西卫生职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "安徽扬子职业技术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.0
+    },
+    {
+      "name": "安徽黄梅戏艺术职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "安徽粮食工程职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "安徽卫生健康职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "合肥科技职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "皖北卫生职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "安徽艺术学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "黄山健康职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "宿州航空职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "芜湖医药健康职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "芜湖航空职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "蚌埠城市轨道交通职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "六安应用科技职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "安徽特殊教育职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "安徽公安学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "合肥工业大学(宣城校区)",
+      "province": "安徽",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 0
+    },
+    {
+      "name": "滁州城市职业学院",
+      "province": "安徽",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    }
+  ]
+}

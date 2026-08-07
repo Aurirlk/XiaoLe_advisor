@@ -209,7 +209,8 @@ def _generate_mixed_cases() -> List[Dict[str, Any]]:
             "id": "mixed_005",
             "query": "我妈非让我学医",
             "profile": {"province": "广东省", "subject_type": "物理类", "major_name": "临床医学"},
-            "expected_route": "synthesis_agent",
+            # 包含"妈"→触发 parent_agent 路由（检测到家长角色关键词）
+            "expected_route": "parent_agent",
         },
     ]
 
@@ -443,7 +444,8 @@ class TestRouteDecisionStructure:
         import inspect
         allowed = inspect.get_annotations(RouteDecision)["next"].__args__
         expected = {
-            "profile_agent", "match_agent", "career_agent",
+            "profile_agent", "parent_agent", "family_agent",
+            "match_agent", "career_agent",
             "web_search_agent", "sql_agent", "synthesis_agent",
         }
         assert set(allowed) == expected, f"RouteDecision 允许节点集不匹配: {set(allowed)}"

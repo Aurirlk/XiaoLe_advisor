@@ -1,0 +1,534 @@
+{
+  "province": "新疆",
+  "count": 66,
+  "universities": [
+    {
+      "name": "新疆大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "塔里木大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "新疆农业大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "石河子大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "新疆医科大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "新疆师范大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "喀什大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "伊犁师范大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "新疆和田学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "新疆财经大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "新疆艺术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "新疆工程学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "新疆农业职业技术大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "昌吉学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "乌鲁木齐职业大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "克拉玛依职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "新疆工业职业技术大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "新疆能源职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "新疆警察学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "昌吉职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.3
+    },
+    {
+      "name": "伊犁职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "阿克苏职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "巴音郭楞职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "新疆理工学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "新疆第二医学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.0
+    },
+    {
+      "name": "新疆科技学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "新疆建设职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "新疆政法学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "新疆现代职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.2
+    },
+    {
+      "name": "新疆天山职业技术大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "新疆交通职业技术大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "石河子职业技术大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "新疆职业大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "新疆体育职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "新疆应用职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "新疆能源铁道职业技术大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.0
+    },
+    {
+      "name": "新疆工程职业大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "新疆科技职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "吐鲁番职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "博尔塔拉职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "和田职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "铁门关职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "石河子工程职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "喀什职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "克孜勒苏职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "新疆科信职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "阿勒泰职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "塔城职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "塔里木职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "新疆司法警官职业学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "阿克苏工业职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "喀什理工职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "图木舒克职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "可克达拉职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "新星职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "昆玉职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "乌鲁木齐职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "双河职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "新疆工业学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "阜康职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "塔里木理工学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "新疆理工职业大学",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "胡杨河职业技术学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "新疆石河子航空职业学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "新疆昆仑科技学院",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "中国石油大学(北京)克拉玛依校区",
+      "province": "新疆",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 0
+    }
+  ]
+}

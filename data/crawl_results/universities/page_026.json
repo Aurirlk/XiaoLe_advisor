@@ -1,0 +1,23 @@
+{
+  "page": 26,
+  "count": 18,
+  "crawl_time": "2026-06-18T23:42:30.826881",
+  "universities": [
+    {
+      "name": "辽宁装备制造职业技术学院",
+      "province": "辽宁",
+      "admin": "辽宁省教育厅",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "辽河石油职业技术学院",
+      "province": "辽宁",
+      "admin": "辽宁省教育厅",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    }
+  ]
+}

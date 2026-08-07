@@ -1,0 +1,414 @@
+{
+  "province": "天津",
+  "count": 51,
+  "universities": [
+    {
+      "name": "南开大学",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "天津大学",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "天津科技大学",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "天津工业大学",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "中国民航大学",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "天津理工大学",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "天津农学院",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "天津医科大学",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "天津中医药大学",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "天津师范大学",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "天津职业技术师范大学",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "天津外国语大学",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "天津商业大学",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "天津财经大学",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "天津体育学院",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "天津音乐学院",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "天津美术学院",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "河北工业大学",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "天津城建大学",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "天津天狮学院",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "天津职业大学",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "天津中德应用技术大学",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "天津滨海职业学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "天津渤海职业技术学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "天津电子信息职业技术学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "天津机电职业技术学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "天津现代职业技术学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "天津警察学院",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "天津轻工职业技术学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "天津商务职业学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "天津国土资源和房屋职业学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "天津艺术职业学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.2
+    },
+    {
+      "name": "天津交通职业学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "天津外国语大学滨海外事学院",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.2
+    },
+    {
+      "name": "天津传媒学院",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "天津商业大学宝德学院",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "天津医科大学临床医学院",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.3
+    },
+    {
+      "name": "天津工业职业学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "天津石油职业技术学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.2
+    },
+    {
+      "name": "天津城市职业学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.2
+    },
+    {
+      "name": "天津铁道职业技术学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "天津理工大学中环信息学院",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "北京科技大学天津学院",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "天津工艺美术职业学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "天津城市建设管理职业技术学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "天津生物工程职业技术学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.1
+    },
+    {
+      "name": "天津海运职业学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "天津仁爱学院",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "天津财经大学珠江学院",
+      "province": "天津",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.2
+    },
+    {
+      "name": "天津体育职业学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "天津滨海汽车工程职业学院",
+      "province": "天津",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+<template><div class="login-page-component"><slot /></div></template><script>export default { name: 'LoginPage' }</script>

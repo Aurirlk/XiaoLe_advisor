@@ -1,0 +1,910 @@
+{
+  "province": "江西",
+  "count": 113,
+  "universities": [
+    {
+      "name": "南昌大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "华东交通大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "东华理工大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "南昌航空大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "江西理工大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "景德镇陶瓷大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "江西农业大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "江西中医药大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "赣南医科大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "江西师范大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "上饶师范学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "宜春学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "赣南师范大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "井冈山大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "江西财经大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "江西工业职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.3
+    },
+    {
+      "name": "江西科技学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "景德镇学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "萍乡学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "江西科技师范大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "江西水利电力大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "江西警察学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "九江职业大学",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "新余学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "江西职业技术大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "九江学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "江西工程学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.2
+    },
+    {
+      "name": "南昌理工学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "江西司法警官职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "江西陶瓷工艺美术职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "江西旅游商贸职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "江西电力职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "江西环境工程职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "江西艺术职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "鹰潭职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "江西应用科技学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.2
+    },
+    {
+      "name": "江西信息应用职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "江西交通职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "江西财经职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "江西应用技术职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "江西现代职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "江西工业工程职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "江西机电职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.0
+    },
+    {
+      "name": "江西服装学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "江西科技职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "南昌职业大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.3
+    },
+    {
+      "name": "南昌工学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "江西外语外贸职业大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "江西工业贸易职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "宜春职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "江西应用工程职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.0
+    },
+    {
+      "name": "江西生物科技职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "江西建设职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "抚州职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "南昌大学科学技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "南昌大学共青学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "南昌交通学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "赣东学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "南昌航空大学科技学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "赣南科技学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "景德镇艺术职业大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "江西农业大学南昌商学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "南昌医学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "江西师范大学科学技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "赣南师范大学科技学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "南昌应用技术师范学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "江西财经大学现代经济管理学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "豫章师范学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "抚州医药学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.3
+    },
+    {
+      "name": "江西软件职业技术大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "江西制造职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "江西工程职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "江西青年职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.0
+    },
+    {
+      "name": "上饶职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.0
+    },
+    {
+      "name": "江西航空职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "江西农业工程职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "赣西科技职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "江西卫生职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "江西新能源科技职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.1
+    },
+    {
+      "name": "江西枫林涉外经贸职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "南昌科技职业大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "江西冶金职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.2
+    },
+    {
+      "name": "江西管理职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "江西传媒职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "江西工商职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "景德镇陶瓷职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "九江科技职业大学",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "南昌师范学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "江西水利职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "吉安职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "江西洪州职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "南昌影视传播职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "赣南卫生健康职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "萍乡卫生职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "江西婺源茶业职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "赣州职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "南昌健康职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "九江理工职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "和君职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "上饶卫生健康职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "江西樟树中医药职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "赣东职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "江西电子信息职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "鹰潭卫生职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "九江卫生健康职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "新余职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "赣州起元职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "赣州远恒佳职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "鄱阳职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "萍乡职业技术学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "景德镇卫生健康职业学院",
+      "province": "江西",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "江西飞行学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "陆军步兵学院",
+      "province": "江西",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    }
+  ]
+}

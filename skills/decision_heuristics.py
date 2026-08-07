@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Tuple
+import logging
+from typing import Any, Dict, List, Tuple, Optional
+
+logger = logging.getLogger(__name__)
 
 
 def build_soul_questions(user_profile: Dict[str, Any]) -> List[str]:
@@ -28,6 +31,199 @@ def build_soul_questions(user_profile: Dict[str, Any]) -> List[str]:
         questions.append("你能不能接受读研/读博？（有些赛道不读就是死）")
 
     return questions
+
+
+async def generate_progressive_questions(
+    user_profile: Dict[str, Any],
+    scene_type: str,
+    path_type: Optional[str] = None,
+    rag_tools=None,
+    graph_rag=None,
+    crm_manager=None,
+) -> List[Dict[str, Any]]:
+    """
+    生成渐进式引导问题（集成 RAG/图谱/CRM）
+    
+    返回格式：
+    [
+        {
+            "field": "province",
+            "question": "你哪个省的？",
+            "options": ["广东", "北京", ...],  # 可选
+            "source": "base|rag|graph|crm",
+            "priority": 1,
+        }
+    ]
+    """
+    questions: List[Dict[str, Any]] = []
+    
+    # 1. 基础问题
+    base_qs = build_soul_questions(user_profile)
+    for q in base_qs:
+        questions.append({
+            "field": _extract_field_from_question(q),
+            "question": q,
+            "source": "base",
+            "priority": 1,
+        })
+    
+    # 2. RAG 增强问题
+    if rag_tools:
+        try:
+            rag_qs = await _generate_from_rag(user_profile, scene_type, rag_tools)
+            questions.extend(rag_qs)
+        except Exception as e:
+            logger.warning(f"RAG 渐进询问生成失败: {e}")
+    
+    # 3. 图谱增强问题
+    if graph_rag:
+        try:
+            graph_qs = await _generate_from_graph(user_profile, scene_type, graph_rag)
+            questions.extend(graph_qs)
+        except Exception as e:
+            logger.warning(f"图谱渐进询问生成失败: {e}")
+    
+    # 4. CRM 增强问题
+    if crm_manager:
+        try:
+            crm_qs = await _generate_from_crm(user_profile, scene_type, path_type, crm_manager)
+            questions.extend(crm_qs)
+        except Exception as e:
+            logger.warning(f"CRM 渐进询问生成失败: {e}")
+    
+    # 去重并排序
+    return _deduplicate_and_rank(questions)
+
+
+def _extract_field_from_question(question: str) -> str:
+    """从问题中提取字段名"""
+    field_mapping = {
+        "省": "province",
+        "物理": "subject_type",
+        "历史": "subject_type",
+        "分": "score",
+        "位次": "rank",
+        "专业": "major_name",
+        "城市": "target_city",
+        "钱": "budget",
+        "预算": "budget",
+        "考研": "postgraduate_plan",
+        "读研": "postgraduate_plan",
+    }
+    
+    for keyword, field in field_mapping.items():
+        if keyword in question:
+            return field
+    
+    return "unknown"
+
+
+async def _generate_from_rag(
+    user_profile: Dict[str, Any],
+    scene_type: str,
+    rag_tools,
+) -> List[Dict[str, Any]]:
+    """基于 RAG 经验库生成问题"""
+    questions: List[Dict[str, Any]] = []
+    
+    # 如果没有专业偏好，检索相关经验
+    if not user_profile.get("major_preferences"):
+        docs = rag_tools.search("专业选择 建议", top_k=3)
+        if docs:
+            context = "\n".join([d.get("text", "") for d in docs])
+            questions.append({
+                "field": "major_preferences",
+                "question": f"关于专业选择，你可能需要知道：{context[:100]}...",
+                "source": "rag",
+                "priority": 2,
+            })
+    
+    return questions
+
+
+async def _generate_from_graph(
+    user_profile: Dict[str, Any],
+    scene_type: str,
+    graph_rag,
+) -> List[Dict[str, Any]]:
+    """基于知识图谱生成问题"""
+    questions: List[Dict[str, Any]] = []
+    
+    # 如果有兴趣但没有专业偏好，查询关联专业
+    interests = user_profile.get("interests") or []
+    if interests and not user_profile.get("major_preferences"):
+        for interest in interests[:3]:
+            try:
+                related = graph_rag.query(
+                    f"MATCH (i:Interest {{name: $name}})-[:RELATED]->(m:Major) RETURN m.name LIMIT 5",
+                    {"name": interest}
+                )
+                if related:
+                    major_names = [r.get("m.name", "") for r in related[:5] if r.get("m.name")]
+                    if major_names:
+                        questions.append({
+                            "field": "major_preferences",
+                            "question": f"你对{interest}相关专业感兴趣吗？比如：{', '.join(major_names[:3])}",
+                            "options": major_names,
+                            "source": "graph",
+                            "priority": 2,
+                        })
+            except Exception as e:
+                logger.warning(f"图谱查询失败: {e}")
+    
+    return questions
+
+
+async def _generate_from_crm(
+    user_profile: Dict[str, Any],
+    scene_type: str,
+    path_type: Optional[str],
+    crm_manager,
+) -> List[Dict[str, Any]]:
+    """基于 CRM 历史生成问题"""
+    questions: List[Dict[str, Any]] = []
+    
+    try:
+        # 查找相似用户
+        similar_users = await crm_manager.find_similar_profiles(user_profile, limit=5)
+        
+        if similar_users and not path_type:
+            # 统计相似用户的路径选择
+            postgrad_count = sum(
+                1 for u in similar_users 
+                if u.get("postgraduate_plan") == "yes"
+            )
+            
+            if postgrad_count > 0:
+                total = len(similar_users)
+                questions.append({
+                    "field": "career_path",
+                    "question": f"和你情况相似的考生中，{postgrad_count}/{total} 选择了考研。你更倾向哪个方向？",
+                    "options": ["考研", "就业", "还没想好"],
+                    "source": "crm",
+                    "priority": 2,
+                })
+    except Exception as e:
+        logger.warning(f"CRM 查询失败: {e}")
+    
+    return questions
+
+
+def _deduplicate_and_rank(questions: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """去重并排序"""
+    seen_fields = set()
+    unique_questions = []
+    
+    # 按优先级排序
+    sorted_questions = sorted(questions, key=lambda q: q.get("priority", 99))
+    
+    for q in sorted_questions:
+        field = q.get("field", "unknown")
+        if field not in seen_fields:
+            seen_fields.add(field)
+            unique_questions.append(q)
+    
+    return unique_questions[:10]  # 最多 10 个问题
 
 
 def ten_year_pressure_test(user_profile: Dict[str, Any]) -> str:

@@ -5,7 +5,10 @@ import json
 from urllib.error import URLError
 from urllib.request import Request, urlopen
 
-import yaml
+try:
+    import yaml
+except ImportError:
+    yaml = None
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILL_ROOT = ROOT / "zhangxuefeng-skill-main"
@@ -16,7 +19,26 @@ def _load_rag_config() -> dict:
     path = ROOT / "configs" / "rag_config.yaml"
     if not path.exists():
         return {}
-    return yaml.safe_load(path.read_text(encoding="utf-8")).get("rag", {})
+    if yaml:
+        return yaml.safe_load(path.read_text(encoding="utf-8")).get("rag", {})
+    # 简单解析 YAML 配置
+    text = path.read_text(encoding="utf-8")
+    config = {}
+    for line in text.split("\n"):
+        line = line.strip()
+        if ":" in line and not line.startswith("#"):
+            key, value = line.split(":", 1)
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            if value.lower() == "true":
+                config[key] = True
+            elif value.lower() == "false":
+                config[key] = False
+            elif value.isdigit():
+                config[key] = int(value)
+            else:
+                config[key] = value
+    return config
 
 
 def _chunk_text(text: str, max_chunk: int = 1200) -> list[str]:

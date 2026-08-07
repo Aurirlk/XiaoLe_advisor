@@ -1,0 +1,574 @@
+{
+  "province": "贵州",
+  "count": 71,
+  "universities": [
+    {
+      "name": "贵州大学",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "贵州医科大学",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "遵义医科大学",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "贵州中医药大学",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "贵州师范大学",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "遵义师范学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "铜仁学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "兴义民族师范学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "安顺学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "贵州工程应用技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "凯里学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "黔南民族师范学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "贵州财经大学",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "贵州民族大学",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "贵阳学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "六盘水师范学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "贵州商学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "贵州警察学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "贵州交通职业大学",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "贵州航天职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.2
+    },
+    {
+      "name": "贵州电子信息职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "安顺职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "黔东南民族职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "黔南民族职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "遵义职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "贵州城市职业学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "贵州工业职业技术大学",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "六盘水职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "铜仁职业技术大学",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "贵州中医药大学时珍学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.0
+    },
+    {
+      "name": "贵州黔南经济学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "贵州黔南科技学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "贵阳信息科技学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.2
+    },
+    {
+      "name": "贵阳人文科技学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "贵阳康养职业大学",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "遵义医科大学医学与科技学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "贵州医科大学神奇民族医药学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.3
+    },
+    {
+      "name": "黔西南民族职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "贵州轻工职业大学",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "贵阳职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "毕节职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "贵州师范学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "贵州职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "贵州盛华职业学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "贵州工商职业大学",
+      "province": "贵州",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "贵州理工学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "贵州建设职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "贵州农业职业学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "贵州工程职业学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "贵州工贸职业学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "贵州水利水电职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "贵州电子商务职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.3
+    },
+    {
+      "name": "贵州应用技术职业学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "贵州电子科技职业学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "贵州装备制造职业学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "贵州健康职业学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "贵州食品工程职业学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "贵州经贸职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "贵州护理职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "茅台学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "毕节工业职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "贵州机电职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "贵州财经职业学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "贵州民用航空职业学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "贵州文化旅游职业学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "贵州体育职业学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "贵州铜仁数据职业学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "贵州传媒职业学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "贵州生态能源职业学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "黔东南理工职业学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "贵州航空职业技术学院",
+      "province": "贵州",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    }
+  ]
+}

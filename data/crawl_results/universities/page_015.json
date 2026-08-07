@@ -1,0 +1,23 @@
+{
+  "page": 15,
+  "count": 20,
+  "crawl_time": "2026-06-18T23:25:27.846734",
+  "universities": [
+    {
+      "name": "太原科技大学",
+      "province": "山西",
+      "admin": "山西省教育厅",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4
+    },
+    {
+      "name": "中北大学",
+      "province": "山西",
+      "admin": "山西省教育厅",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    }
+  ]
+}

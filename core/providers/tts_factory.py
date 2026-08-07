@@ -123,6 +123,44 @@ class AliyunStreamTTSProvider(TTSProvider):
             return resp.content
 
 
+class MiMoTTSProvider(TTSProvider):
+    """小米 MiMo TTS（OpenAI 兼容接口）"""
+    async def _do_synthesize(self, text: str, emotion: Optional[dict] = None) -> bytes:
+        import httpx
+        api_key = _resolve_api_key(self.config.get("api_key", ""))
+        url = self.config.get("url", "https://api.minimax.chat/v1/audio/speech")
+        model = self.config.get("model", "mimo-v2.5-tts")
+        voice = self.config.get("voice", "mimo-v2.5-tts")
+        payload = {"model": model, "input": text, "voice": voice}
+        async with httpx.AsyncClient(timeout=30) as client:
+            resp = await client.post(
+                url,
+                headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+                json=payload,
+            )
+            resp.raise_for_status()
+            return resp.content
+
+    async def synthesize_stream(self, text: str, emotion: Optional[dict] = None):
+        """MiMo TTS 流式合成"""
+        import httpx
+        api_key = _resolve_api_key(self.config.get("api_key", ""))
+        url = self.config.get("url", "https://api.minimax.chat/v1/audio/speech")
+        model = self.config.get("model", "mimo-v2.5-tts")
+        voice = self.config.get("voice", "mimo-v2.5-tts")
+        payload = {"model": model, "input": text, "voice": voice}
+        async with httpx.AsyncClient(timeout=30) as client:
+            async with client.stream(
+                "POST", url,
+                headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+                json=payload,
+            ) as resp:
+                resp.raise_for_status()
+                async for chunk in resp.aiter_bytes():
+                    if chunk:
+                        yield chunk
+
+
 class TTSFactory:
     """TTS 工厂"""
 
@@ -130,24 +168,28 @@ class TTSFactory:
         "edge": EdgeTTSProvider,
         "siliconflow": SiliconFlowProvider,
         "aliyun_stream": AliyunStreamTTSProvider,
+        "mimo": MiMoTTSProvider,
     }
 
     @classmethod
     def create(cls, config: dict) -> TTSProvider:
         tts_type = config.get("type", "edge")
-        provider_cls = cls._registry.get(tts_type, EdgeTTSProvider)
+        provider_cls = cls._registry.get(tts_type)
+        if provider_cls is None:
+            # 禁止静默降级（原 P0-9 同类问题）
+            raise ValueError(
+                f"未实现的 TTS type={tts_type!r}，可用类型: {sorted(cls._registry)}。"
+                "请检查 configs/.config.yaml 的 selected_module.TTS 与预设的 type 字段。"
+            )
         config["name"] = config.get("name", tts_type)
         return provider_cls(config)
 
     @classmethod
     def create_from_config(cls) -> TTSProvider:
-        config = cls._load_config()
-        if config:
-            return cls.create(config)
-        return cls.create({"type": "edge", "voice": "zh-CN-XiaoxiaoNeural"})
+        return cls.create(cls._load_config())
 
     @classmethod
-    def _load_config(cls) -> dict | None:
+    def _load_config(cls) -> dict:
         user_cfg = {}
         user_cfg_path = ROOT / "configs" / ".config.yaml"
         if user_cfg_path.exists():
@@ -157,18 +199,30 @@ class TTSFactory:
         selected = user_cfg.get("selected_module", {}).get("TTS", "")
         api_keys = user_cfg.get("api_keys", {})
 
-        # 从 tts_config.yaml 查找预设
+        # 合并两处 preset 源：tts_config.yaml 的 presets + .config.yaml 的 TTS 段
+        presets: dict = {}
+        active = ""
         tts_cfg = ROOT / "configs" / "tts_config.yaml"
         if tts_cfg.exists():
             with open(tts_cfg, "r", encoding="utf-8") as f:
-                raw = yaml.safe_load(f)
-            presets = raw.get("tts", {}).get("presets", {})
-            target = selected or raw.get("tts", {}).get("active", "")
-            if target in presets:
-                cfg = dict(presets[target])
-                cls._apply_api_keys(cfg, api_keys)
-                return cfg
-        return None
+                raw = yaml.safe_load(f) or {}
+            presets.update(raw.get("tts", {}).get("presets", {}) or {})
+            active = raw.get("tts", {}).get("active", "")
+        inline = user_cfg.get("TTS", {})
+        if isinstance(inline, dict):
+            presets.update({k: v for k, v in inline.items() if isinstance(v, dict)})
+
+        target = selected or active
+        if not target:
+            # TTS 缺配置时用 edge 兜底是安全的（本地免费引擎，能力等价）
+            logger.warning("未配置 TTS 引擎，回退到 edge-tts")
+            return {"type": "edge", "voice": "zh-CN-XiaoxiaoNeural"}
+        if target not in presets:
+            raise ValueError(f"selected_module.TTS={target!r} 未找到预设，可用: {sorted(presets)}")
+
+        cfg = dict(presets[target])
+        cls._apply_api_keys(cfg, api_keys)
+        return cfg
 
     @staticmethod
     def _apply_api_keys(cfg: dict, api_keys: dict) -> None:

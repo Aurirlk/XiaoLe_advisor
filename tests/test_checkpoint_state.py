@@ -286,6 +286,7 @@ if not LLM_AVAILABLE:
 
 
 @pytest.mark.skipif(not LLM_AVAILABLE, reason="DEEPSEEK_API_KEY 未设置")
+@pytest.mark.llm
 class TestCheckpointE2E:
 
     def _load_llm(self):

@@ -1,0 +1,23 @@
+{
+  "page": 14,
+  "count": 21,
+  "crawl_time": "2026-06-18T23:24:38.465184",
+  "universities": [
+    {
+      "name": "唐山海运职业学院",
+      "province": "河北",
+      "admin": "河北省教育厅",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "邢台应用技术职业学院",
+      "province": "河北",
+      "admin": "河北省教育厅",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    }
+  ]
+}

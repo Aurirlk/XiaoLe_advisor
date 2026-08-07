@@ -1,0 +1,550 @@
+{
+  "province": "上海",
+  "count": 68,
+  "universities": [
+    {
+      "name": "复旦大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "同济大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "上海交通大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "华东理工大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "上海理工大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "上海海事大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "东华大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "上海电力大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "上海应用技术大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "上海健康医学院",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "上海海洋大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "上海中医药大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "华东师范大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "上海师范大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "上海外国语大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "上海财经大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "上海对外经贸大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "上海海关学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 4.1
+    },
+    {
+      "name": "华东政法大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.4
+    },
+    {
+      "name": "上海体育大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.5
+    },
+    {
+      "name": "上海音乐学院",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "上海戏剧学院",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "上海大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "上海东海职业技术学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "上海工商职业技术学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "上海工程技术大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "上海立信会计金融学院",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "上海电机学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "上海杉达学院",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "上海政法学院",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.2
+    },
+    {
+      "name": "上海第二工业大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.0
+    },
+    {
+      "name": "上海商学院",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "上海行健职业学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "上海城建职业学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "上海交通职业技术学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "上海海事职业技术学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.1
+    },
+    {
+      "name": "上海电子信息职业技术学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "上海震旦职业学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "上海民远职业技术学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "上海思博职业技术学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "上海立达学院",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "上海工艺美术职业学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "上海济光职业技术学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.9
+    },
+    {
+      "name": "上海建桥学院",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "上海工商外国语职业学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.5
+    },
+    {
+      "name": "上海科学技术职业学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.4
+    },
+    {
+      "name": "上海农林职业技术学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "上海邦德职业技术学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "上海兴伟学院",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    },
+    {
+      "name": "上海中侨职业技术大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.6
+    },
+    {
+      "name": "上海视觉艺术学院",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.3
+    },
+    {
+      "name": "上海外国语大学贤达经济人文学院",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "上海电影艺术职业学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "上海师范大学天华学院",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.3
+    },
+    {
+      "name": "上海中华职业技术学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.7
+    },
+    {
+      "name": "上海民航职业技术学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 3.3
+    },
+    {
+      "name": "上海科技大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 4.6
+    },
+    {
+      "name": "上海科创职业技术学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "上海闵行职业技术学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "上海现代化工职业学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "上海建设管理职业技术学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "上海浦东职业技术学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "上海纽约大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4.8
+    },
+    {
+      "name": "复旦大学医学院",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 0
+    },
+    {
+      "name": "上海交通大学医学院",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 0
+    },
+    {
+      "name": "上海南湖职业技术学院",
+      "province": "上海",
+      "admin": "",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "海军军医大学",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "“双一流”建设高校",
+      "satisfaction": 0
+    },
+    {
+      "name": "上海公安学院",
+      "province": "上海",
+      "admin": "",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 3.8
+    }
+  ]
+}

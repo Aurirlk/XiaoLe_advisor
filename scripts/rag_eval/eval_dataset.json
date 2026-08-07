@@ -1,0 +1,195 @@
+{
+  "meta": {
+    "description": "小乐AI RAG 检索评估集（领域标注）",
+    "version": "1.0",
+    "usage": "python scripts/rag_eval/run_rag_eval.py",
+    "字段说明": {
+      "query": "用户问题（模拟真实咨询）",
+      "scene": "场景域：gaokao/career/postgraduate/chat",
+      "golden_sources": "期望命中的来源前缀（source 字段包含该子串即视为命中）",
+      "golden_keywords": "期望出现在 top-k 文档文本中的关键语义词（任一命中即算该文档相关）"
+    }
+  },
+  "cases": [
+    {
+      "query": "我孩子今年高考理科600分，想学临床医学，有哪些985院校可以冲？",
+      "scene": "gaokao",
+      "golden_sources": ["临床医学", "医学"],
+      "golden_keywords": ["临床医学", "医学", "院校", "分数", "位次"]
+    },
+    {
+      "query": "法学专业就业前景怎么样？以后好考公吗？",
+      "scene": "career",
+      "golden_sources": ["法学", "就业"],
+      "golden_keywords": ["法学", "就业", "考公", "前景"]
+    },
+    {
+      "query": "计算机专业这几年就业行情如何，会不会过剩？",
+      "scene": "career",
+      "golden_sources": ["计算机", "就业", "互联网"],
+      "golden_keywords": ["计算机", "就业", "互联网", "薪资"]
+    },
+    {
+      "query": "分数边缘不要硬冲热门专业，先保底再谈理想，这话怎么理解？",
+      "scene": "gaokao",
+      "golden_sources": ["保底", "策略"],
+      "golden_keywords": ["保底", "冲", "稳", "策略", "志愿"]
+    },
+    {
+      "query": "学医周期长成本高，家庭预算怎么规划？",
+      "scene": "gaokao",
+      "golden_sources": ["医学", "预算"],
+      "golden_keywords": ["医学", "预算", "成本", "家庭"]
+    },
+    {
+      "query": "自动化专业和电气工程哪个就业更好？",
+      "scene": "career",
+      "golden_sources": ["自动化", "电气"],
+      "golden_keywords": ["自动化", "电气", "就业"]
+    },
+    {
+      "query": "孩子想考研，报录比怎么看？",
+      "scene": "postgraduate",
+      "golden_sources": ["考研", "研究生"],
+      "golden_keywords": ["考研", "报录比", "复试"]
+    },
+    {
+      "query": "警校毕业是不是都能进体制内？",
+      "scene": "career",
+      "golden_sources": ["警校", "体制内", "考公"],
+      "golden_keywords": ["警校", "体制", "考公", "铁饭碗"]
+    },
+    {
+      "query": "600分能上什么大学？",
+      "scene": "gaokao",
+      "golden_sources": ["分数", "院校", "录取"],
+      "golden_keywords": ["分数", "院校", "录取", "位次"]
+    },
+    {
+      "query": "会计专业就业怎么样？需要考哪些证？",
+      "scene": "career",
+      "golden_sources": ["会计", "财会"],
+      "golden_keywords": ["会计", "财务", "考证", "就业"]
+    },
+    {
+      "query": "报考志愿是选城市重要还是选学校重要？",
+      "scene": "gaokao",
+      "golden_sources": ["城市", "院校", "志愿"],
+      "golden_keywords": ["城市", "学校", "城市", "选择", "志愿"]
+    },
+    {
+      "query": "土木工程现在还能报吗？",
+      "scene": "career",
+      "golden_sources": ["土木", "建筑"],
+      "golden_keywords": ["土木", "建筑", "就业"]
+    },
+    {
+      "query": "师范类专业出来当老师容易吗？",
+      "scene": "career",
+      "golden_sources": ["师范", "教师", "教育"],
+      "golden_keywords": ["师范", "教师", "教育", "编制"]
+    },
+    {
+      "query": "电子信息类专业考研好还是直接就业好？",
+      "scene": "postgraduate",
+      "golden_sources": ["电子信息", "考研", "就业"],
+      "golden_keywords": ["电子信息", "考研", "就业"]
+    },
+    {
+      "query": "中外合作办学值得报吗？",
+      "scene": "gaokao",
+      "golden_sources": ["中外合作", "合作办学"],
+      "golden_keywords": ["中外合作", "学费", "办学"]
+    },
+    {
+      "query": "护理学专业就业前景如何？",
+      "scene": "career",
+      "golden_sources": ["护理", "医学"],
+      "golden_keywords": ["护理", "医学", "就业"]
+    },
+    {
+      "query": "低分段考生怎么选专业？",
+      "scene": "gaokao",
+      "golden_sources": ["低分", "分数"],
+      "golden_keywords": ["低分", "分数", "专业", "保底"]
+    },
+    {
+      "query": "市场营销专业是万金油吗？",
+      "scene": "career",
+      "golden_sources": ["市场营销", "营销"],
+      "golden_keywords": ["市场营销", "营销", "就业"]
+    },
+    {
+      "query": "军校报考流程和体检要求是什么？",
+      "scene": "gaokao",
+      "golden_sources": ["军校", "体检"],
+      "golden_keywords": ["军校", "体检", "报考"]
+    },
+    {
+      "query": "生物工程专业就业是不是很坑？",
+      "scene": "career",
+      "golden_sources": ["生物", "生物工程"],
+      "golden_keywords": ["生物", "就业", "坑"]
+    },
+    {
+      "query": "浙江省考生600分能报哪些985？",
+      "scene": "gaokao",
+      "golden_sources": ["浙江", "985"],
+      "golden_keywords": ["浙江", "985", "院校", "分数"]
+    },
+    {
+      "query": "新高考选科物化生能报哪些专业？",
+      "scene": "gaokao",
+      "golden_sources": ["选科", "物理", "化学"],
+      "golden_keywords": ["选科", "物理", "化学", "专业"]
+    },
+    {
+      "query": "人工智能专业就业前景怎么样？",
+      "scene": "career",
+      "golden_sources": ["人工智能", "AI", "计算机"],
+      "golden_keywords": ["人工智能", "AI", "就业", "薪资"]
+    },
+    {
+      "query": "复读一年值得吗？",
+      "scene": "gaokao",
+      "golden_sources": ["复读", "高考"],
+      "golden_keywords": ["复读", "高考", "分数"]
+    },
+    {
+      "query": "医学影像技术专业是学什么的？",
+      "scene": "career",
+      "golden_sources": ["医学影像", "影像"],
+      "golden_keywords": ["医学影像", "影像", "专业"]
+    },
+    {
+      "query": "专升本的学历认可度高吗？",
+      "scene": "postgraduate",
+      "golden_sources": ["专升本", "专科"],
+      "golden_keywords": ["专升本", "专科", "学历"]
+    },
+    {
+      "query": "孩子成绩一般，读职高还是普高好？",
+      "scene": "gaokao",
+      "golden_sources": ["职高", "普高", "职业"],
+      "golden_keywords": ["职高", "普高", "职业", "教育"]
+    },
+    {
+      "query": "金融学专业就业需要什么背景？",
+      "scene": "career",
+      "golden_sources": ["金融", "金融学"],
+      "golden_keywords": ["金融", "就业", "背景"]
+    },
+    {
+      "query": "公费师范生值得报考吗？",
+      "scene": "gaokao",
+      "golden_sources": ["公费师范", "师范"],
+      "golden_keywords": ["公费师范", "师范", "编制"]
+    },
+    {
+      "query": "高考志愿填报的冲稳保策略是什么？",
+      "scene": "gaokao",
+      "golden_sources": ["冲稳保", "保底", "策略"],
+      "golden_keywords": ["冲", "稳", "保", "策略", "志愿"]
+    }
+  ]
+}

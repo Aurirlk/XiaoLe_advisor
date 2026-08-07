@@ -2,6 +2,31 @@ rag:
   write_remote: true
   backend: local_file
   index_path: data/vector_store/zx_experience.json
+  # ── 检索融合权重配置（P1 权重配置化）────────────────────────────
+  # 所有 RAG 融合相关权重/参数都在此处配置，代码内不再硬编码。
+  # 修改后无需重启即可生效（RAGTools 每次构建时读取；生产建议重启）。
+  fusion:
+    # RRF 融合常数 k（score = Σ weight / (k + rank)）
+    rrf_k: 60
+    # RRF 三/四路权重：各路结果对最终分数的贡献系数
+    # dense_weight 默认 0.3（2026-07-31 由 scripts/rag_eval 30 条评估集标定）：
+    # 当前 embedding 模型为 MiniLM(384维)，中文语义召回噪声大，满权重(1.0)会把
+    # FTS5 优质结果挤出 top-k（Recall@3 0.556→0.356）；调低后三路融合稳定最优。
+    # 更换更强 embedding（如 BGE-M3）后可用评估脚本重新标定此值。
+    dense_weight: 0.3      # Chroma 向量路
+    sparse_weight: 1.0     # FTS5 全文路
+    keyword_weight: 1.0    # 关键词混合召回路
+    colbert_weight: 1.0    # ColBERT 细粒度路（multi_embedding_store 使用）
+    # 传统混合召回（无向量库降级路径）的线性加权
+    hybrid_dense_weight: 0.6
+    hybrid_sparse_weight: 0.4
+    # 本地重排（_rerank）的线性加权
+    rerank_dense_weight: 1.0
+    rerank_sparse_weight: 0.2
+    # 每路召回数量 = top_k × recall_multiplier（>=1）
+    recall_multiplier: 2
+    # 关键词兜底的最小召回条数（防止 top_k 过小时退化）
+    keyword_min_recall: 3
   milvus:
     host: localhost
     port: 19530

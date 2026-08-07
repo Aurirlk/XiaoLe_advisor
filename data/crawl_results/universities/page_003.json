@@ -1,0 +1,23 @@
+{
+  "page": 3,
+  "count": 21,
+  "crawl_time": "2026-06-18T23:14:49.478992",
+  "universities": [
+    {
+      "name": "中国音乐学院",
+      "province": "北京",
+      "admin": "北京市教育委员会",
+      "level": "本科",
+      "tags": "双一流建设高校",
+      "satisfaction": 0
+    },
+    {
+      "name": "中央美术学院",
+      "province": "北京",
+      "admin": "教育部",
+      "level": "本科",
+      "tags": "双一流建设高校",
+      "satisfaction": 4.3
+    }
+  ]
+}

@@ -1,0 +1,193 @@
+{
+  "source": "国家统计局",
+  "year": 2023,
+  "industry_salary": {
+    "信息传输、软件和信息技术服务业": {
+      "avg_salary": 231544,
+      "rank": 1
+    },
+    "科学研究和技术服务业": {
+      "avg_salary": 168903,
+      "rank": 2
+    },
+    "金融业": {
+      "avg_salary": 165879,
+      "rank": 3
+    },
+    "卫生和社会工作": {
+      "avg_salary": 135632,
+      "rank": 4
+    },
+    "电力、热力、燃气及水生产和供应业": {
+      "avg_salary": 132680,
+      "rank": 5
+    },
+    "教育": {
+      "avg_salary": 115818,
+      "rank": 6
+    },
+    "公共管理、社会保障和社会组织": {
+      "avg_salary": 114580,
+      "rank": 7
+    },
+    "文化、体育和娱乐业": {
+      "avg_salary": 112896,
+      "rank": 8
+    },
+    "交通运输、仓储和邮政业": {
+      "avg_salary": 110687,
+      "rank": 9
+    },
+    "制造业": {
+      "avg_salary": 100006,
+      "rank": 10
+    },
+    "房地产业": {
+      "avg_salary": 85215,
+      "rank": 11
+    },
+    "建筑业": {
+      "avg_salary": 78962,
+      "rank": 12
+    },
+    "批发和零售业": {
+      "avg_salary": 75643,
+      "rank": 13
+    },
+    "住宿和餐饮业": {
+      "avg_salary": 53478,
+      "rank": 14
+    },
+    "农、林、牧、渔业": {
+      "avg_salary": 53819,
+      "rank": 15
+    }
+  },
+  "region_salary": {
+    "北京": {
+      "avg_salary": 208977,
+      "rank": 1
+    },
+    "上海": {
+      "avg_salary": 204514,
+      "rank": 2
+    },
+    "西藏": {
+      "avg_salary": 155739,
+      "rank": 3
+    },
+    "天津": {
+      "avg_salary": 129582,
+      "rank": 4
+    },
+    "浙江": {
+      "avg_salary": 126138,
+      "rank": 5
+    },
+    "广东": {
+      "avg_salary": 118786,
+      "rank": 6
+    },
+    "江苏": {
+      "avg_salary": 115133,
+      "rank": 7
+    },
+    "青海": {
+      "avg_salary": 114582,
+      "rank": 8
+    },
+    "重庆": {
+      "avg_salary": 108929,
+      "rank": 9
+    },
+    "宁夏": {
+      "avg_salary": 108451,
+      "rank": 10
+    },
+    "福建": {
+      "avg_salary": 106802,
+      "rank": 11
+    },
+    "山东": {
+      "avg_salary": 102955,
+      "rank": 12
+    },
+    "四川": {
+      "avg_salary": 101734,
+      "rank": 13
+    },
+    "湖北": {
+      "avg_salary": 100994,
+      "rank": 14
+    },
+    "安徽": {
+      "avg_salary": 99728,
+      "rank": 15
+    },
+    "湖南": {
+      "avg_salary": 97419,
+      "rank": 16
+    },
+    "陕西": {
+      "avg_salary": 97289,
+      "rank": 17
+    },
+    "海南": {
+      "avg_salary": 96774,
+      "rank": 18
+    },
+    "河北": {
+      "avg_salary": 94943,
+      "rank": 19
+    },
+    "辽宁": {
+      "avg_salary": 94829,
+      "rank": 20
+    },
+    "新疆": {
+      "avg_salary": 94404,
+      "rank": 21
+    },
+    "广西": {
+      "avg_salary": 93552,
+      "rank": 22
+    },
+    "云南": {
+      "avg_salary": 93133,
+      "rank": 23
+    },
+    "江西": {
+      "avg_salary": 93048,
+      "rank": 24
+    },
+    "吉林": {
+      "avg_salary": 92659,
+      "rank": 25
+    },
+    "内蒙古": {
+      "avg_salary": 92432,
+      "rank": 26
+    },
+    "山西": {
+      "avg_salary": 91215,
+      "rank": 27
+    },
+    "河南": {
+      "avg_salary": 90661,
+      "rank": 28
+    },
+    "黑龙江": {
+      "avg_salary": 89876,
+      "rank": 29
+    },
+    "贵州": {
+      "avg_salary": 89123,
+      "rank": 30
+    },
+    "甘肃": {
+      "avg_salary": 87899,
+      "rank": 31
+    }
+  },
+  "generated_at": "2026-06-24T12:51:20.882925"
+}

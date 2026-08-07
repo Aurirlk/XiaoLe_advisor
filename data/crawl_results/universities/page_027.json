@@ -1,0 +1,23 @@
+{
+  "page": 27,
+  "count": 21,
+  "crawl_time": "2026-06-18T23:44:09.644814",
+  "universities": [
+    {
+      "name": "鞍山职业技术学院",
+      "province": "辽宁",
+      "admin": "辽宁省教育厅",
+      "level": "高职(专科)",
+      "tags": "",
+      "satisfaction": 0
+    },
+    {
+      "name": "大连理工大学(盘锦校区)",
+      "province": "辽宁",
+      "admin": "教育部",
+      "level": "本科",
+      "tags": "双一流建设高校",
+      "satisfaction": 0
+    }
+  ]
+}

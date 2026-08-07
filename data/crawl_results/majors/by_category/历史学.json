@@ -1,0 +1,105 @@
+{
+  "category": "历史学",
+  "count": 9,
+  "majors": [
+    {
+      "zydm": "060101",
+      "zymc": "历史学",
+      "specId": "73383743",
+      "zymyd": "4.2",
+      "hasZyjs": true,
+      "category": "历史学",
+      "category_code": "105006",
+      "subcategory": "历史学类",
+      "subcategory_code": "10500601"
+    },
+    {
+      "zydm": "060102",
+      "zymc": "世界史",
+      "specId": "73383747",
+      "zymyd": "4.1",
+      "hasZyjs": true,
+      "category": "历史学",
+      "category_code": "105006",
+      "subcategory": "历史学类",
+      "subcategory_code": "10500601"
+    },
+    {
+      "zydm": "060103",
+      "zymc": "考古学",
+      "specId": "73383751",
+      "zymyd": "4.4",
+      "hasZyjs": true,
+      "category": "历史学",
+      "category_code": "105006",
+      "subcategory": "历史学类",
+      "subcategory_code": "10500601"
+    },
+    {
+      "zydm": "060104",
+      "zymc": "文物与博物馆学",
+      "specId": "73383755",
+      "zymyd": "4.0",
+      "hasZyjs": false,
+      "category": "历史学",
+      "category_code": "105006",
+      "subcategory": "历史学类",
+      "subcategory_code": "10500601"
+    },
+    {
+      "zydm": "060105",
+      "zymc": "文物保护技术",
+      "specId": "73383763",
+      "zymyd": "4.0",
+      "hasZyjs": true,
+      "category": "历史学",
+      "category_code": "105006",
+      "subcategory": "历史学类",
+      "subcategory_code": "10500601"
+    },
+    {
+      "zydm": "060106",
+      "zymc": "外国语言与外国历史",
+      "specId": "666090325",
+      "zymyd": "0.0",
+      "hasZyjs": true,
+      "category": "历史学",
+      "category_code": "105006",
+      "subcategory": "历史学类",
+      "subcategory_code": "10500601"
+    },
+    {
+      "zydm": "060107",
+      "zymc": "文化遗产",
+      "specId": "9kkm84m0jz43z6rp",
+      "zymyd": "0.0",
+      "hasZyjs": true,
+      "category": "历史学",
+      "category_code": "105006",
+      "subcategory": "历史学类",
+      "subcategory_code": "10500601"
+    },
+    {
+      "zydm": "060108",
+      "zymc": "古文字学",
+      "specId": "ti9rbh22mgmphvll",
+      "zymyd": "0.0",
+      "hasZyjs": true,
+      "category": "历史学",
+      "category_code": "105006",
+      "subcategory": "历史学类",
+      "subcategory_code": "10500601"
+    },
+    {
+      "zydm": "060109",
+      "zymc": "科学史",
+      "specId": "v657z4unc3xn75i8",
+      "zymyd": "0.0",
+      "hasZyjs": true,
+      "category": "历史学",
+      "category_code": "105006",
+      "subcategory": "历史学类",
+      "subcategory_code": "10500601"
+    }
+  ]
+}

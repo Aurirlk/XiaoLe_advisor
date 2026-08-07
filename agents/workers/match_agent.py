@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import re
 import logging
 from datetime import datetime
@@ -81,16 +82,20 @@ def build_match_agent(sql_tools: SQLTools):
         # 双路融合：Neo4j优先，SQLite降级
         # ══════════════════════════════════════════════════════════
         
-        # 路径1: 尝试Neo4j图谱查询
+        # 路径1: 尝试Neo4j图谱查询（P0-7：to_thread 避免阻塞事件循环）
         neo4j_results = []
         try:
             from tools.neo4j_tools import query_neo4j_admission_tool
-            neo4j_output = query_neo4j_admission_tool.invoke({
-                "province": profile["province"],
-                "subject_type": profile["subject_type"],
-                "score": profile.get("score", 0) or state.get("extracted_score", 0) or 500,
-                "target_major": profile["major_name"],
-            })
+
+            def _invoke_neo4j():
+                return query_neo4j_admission_tool.invoke({
+                    "province": profile["province"],
+                    "subject_type": profile["subject_type"],
+                    "score": profile.get("score", 0) or state.get("extracted_score", 0) or 500,
+                    "target_major": profile["major_name"],
+                })
+
+            neo4j_output = await asyncio.to_thread(_invoke_neo4j)
             
             # 检查Neo4j是否返回有效结果
             if "【查询为空】" not in neo4j_output and "【查询失败】" not in neo4j_output and "【系统提示】" not in neo4j_output:

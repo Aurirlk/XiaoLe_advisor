@@ -177,9 +177,44 @@ async def upload_document(
     if not text.strip():
         raise HTTPException(status_code=400, detail="文件内容为空")
 
+    # P1-7：按 chunk_size + overlap 递归切分（替代粗暴 split("\n\n")）。
+    # 优先按段落聚合，超长段落按句子/字符切，保证 chunk 不超过 embedding 窗口。
     paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
     docs = []
-    for i, para in enumerate(paragraphs[:500]):
-        docs.append({"source": f"{filename}#{i + 1}", "text": para[:1200]})
+    chunk_id = 0
+    for para in paragraphs[:500]:
+        for chunk in _chunk_text(para, chunk_size=512, overlap=64):
+            if not chunk.strip():
+                continue
+            chunk_id += 1
+            docs.append({
+                "source": f"{filename}#{chunk_id}",
+                "page": 0,          # PDF 多页场景后续接入 pdfplumber 分页信息
+                "chunk_id": chunk_id,
+                "text": chunk,
+            })
     count = store.add_documents(docs)
     return {"ok": True, "filename": filename, "ingested_count": count, "total_count": store.count}
+
+
+def _chunk_text(text: str, chunk_size: int = 512, overlap: int = 64) -> list[str]:
+    """递归字符切分：优先按句子边界，其次按字符边界，保留 overlap。
+
+    对标 langchain SentenceSplitter(chunk_size=512, chunk_overlap=64)。
+    """
+    if len(text) <= chunk_size:
+        return [text]
+
+    # 尝试在句子边界处切分（中文句号/感叹/问号/换行），取最靠后的边界
+    split_at = -1
+    for sep in ("。", "！", "？", "\n", ". ", "! ", "? "):
+        idx = text.rfind(sep, 0, chunk_size)
+        if idx != -1:
+            split_at = max(split_at, idx + len(sep))
+    # 边界过前（head 不足一半）说明是罕见标点，硬切更合理
+    if split_at < chunk_size * 0.5:
+        split_at = chunk_size
+
+    head = text[:split_at]
+    tail = text[split_at - overlap:] if overlap > 0 else text[split_at:]
+    return [head] + _chunk_text(tail, chunk_size=chunk_size, overlap=overlap)

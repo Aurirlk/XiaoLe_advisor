@@ -88,8 +88,10 @@ class TestRRFFusion:
         )
 
         assert len(result) == 2
-        # 来自单一来源的文档分数应该相同
-        assert result[0]["rrf_score"] == result[1]["rrf_score"]
+        # RRF 语义：排名越靠前分数越高（rank1 > rank2），且均为正分。
+        # 注意：旧断言「分数相同」与算法矛盾（1/(k+1) != 1/(k+2)），已修正。
+        assert result[0]["rrf_score"] > result[1]["rrf_score"]
+        assert result[0]["rrf_score"] > 0
 
     def test_rrf_fusion_top_k_limit(self):
         """测试Top-K限制"""

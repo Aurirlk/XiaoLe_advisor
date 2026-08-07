@@ -27,9 +27,9 @@ def service_bundle(tmp_path):
     store = _run(_setup())
 
     mock_search = MagicMock()
-    mock_search.search.return_value = [
+    mock_search.search = AsyncMock(return_value=[
         {"title": "结果A", "url": "https://example.com/a"},
-    ]
+    ])
 
     mock_fetcher = MagicMock()
     mock_fetch = AsyncMock(
@@ -91,7 +91,7 @@ def test_cache_hit_skips_search(service_bundle):
 
 def test_empty_search_results(service_bundle):
     svc, _store, mock_search, _mock_fetcher, mock_vector = service_bundle
-    mock_search.search.return_value = []
+    mock_search.search = AsyncMock(return_value=[])
 
     async def _test():
         bundle = await svc.search_fetch_and_persist("无结果")

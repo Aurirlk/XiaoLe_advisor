@@ -1,0 +1,23 @@
+{
+  "page": 35,
+  "count": 20,
+  "crawl_time": "2026-06-18T23:52:52.952512",
+  "universities": [
+    {
+      "name": "上海理工大学",
+      "province": "上海",
+      "admin": "上海市教育委员会",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4
+    },
+    {
+      "name": "上海海事大学",
+      "province": "上海",
+      "admin": "上海市教育委员会",
+      "level": "本科",
+      "tags": "",
+      "satisfaction": 4
+    }
+  ]
+}

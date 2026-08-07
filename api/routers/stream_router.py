@@ -27,12 +27,17 @@ class StreamRequest(BaseModel):
     query: str
     session_id: str = ""
     conversation_role: str = "student"
+    domain: str = "gaokao"  # 领域标识：gaokao/postgraduate/civil_service/public_institution/associate_bachelor/career
 
 
 _AGENT_NODES = frozenset({
     "profile_agent", "parent_agent", "family_agent", "match_agent", "career_agent",
     "web_search_agent", "sql_agent", "synthesis_agent", "supervisor_agent",
 })
+
+# 真流式只放行「最终回复节点」的 token（synthesis 与 chat 是回复出口；
+# supervisor/profile 等中间节点的 LLM 输出属于内部推理，不推给用户）。
+_STREAM_TOKEN_NODES = frozenset({"synthesis_agent", "chat_agent"})
 
 
 async def _event_generator(
@@ -41,6 +46,7 @@ async def _event_generator(
     session_id: str = "",
     turn_store=None,
     conversation_role: str = "student",
+    domain: str = "gaokao",
 ) -> AsyncGenerator[dict, None]:
     sid = session_id or str(uuid.uuid4())
     turn_id = str(uuid.uuid4())
@@ -49,6 +55,7 @@ async def _event_generator(
     init_state = cm.build_init_state(query, session_id=sid)
     init_state["current_datetime"] = datetime.now(timezone(timedelta(hours=8))).isoformat()
     init_state["conversation_role"] = conversation_role
+    init_state["domain"] = domain
 
     # 情感分析（关键词模式，零成本）
     from core.emotion_analyzer import get_emotion_analyzer
@@ -67,9 +74,39 @@ async def _event_generator(
     final_profile: dict = {}
     sql_hit_count = 0
     risk_level = ""
+    streamed_tokens = False  # 是否已通过 messages 流推送过 token（避免末尾重复）
 
     try:
-        async for chunk in graph.astream(init_state, config=config):
+        # ── 真流式（P1-1 修复）：stream_mode=["updates","messages"] ──
+        # updates：节点完成后 {节点名: 增量}，用于 status/路由事件
+        # messages：LLM 逐 token 输出 (AIMessageChunk, metadata)，metadata 含
+        #   langgraph_node —— 只放行 synthesis_agent 的 token，过滤 supervisor
+        #   等中间节点的路由推理输出（避免把内部思考推给用户）。
+        async for mode_val in graph.astream(
+            init_state,
+            config=config,
+            stream_mode=["updates", "messages"],
+        ):
+            mode, value = mode_val
+            if mode == "messages":
+                msg_chunk, meta = value
+                node = (meta or {}).get("langgraph_node", "") if isinstance(meta, dict) else ""
+                # 只推送逐 token 增量（AIMessageChunk）；节点返回的完整 AIMessage
+                # 也会出现在 messages 流末尾，若一并推送会造成重复拼接。
+                if node in _STREAM_TOKEN_NODES and type(msg_chunk).__name__ == "AIMessageChunk":
+                    content = getattr(msg_chunk, "content", "") or ""
+                    if content:
+                        streamed_tokens = True
+                        yield {
+                            "event": "message",
+                            "data": json.dumps(
+                                {"type": "token", "msg": str(content)},
+                                ensure_ascii=False,
+                            ),
+                        }
+                continue
+
+            # ── updates 模式：节点完成事件 ──
             for status_msg in drain_status(sid):
                 yield {
                     "event": "message",
@@ -78,7 +115,7 @@ async def _event_generator(
                         ensure_ascii=False,
                     ),
                 }
-            for node_name in chunk:
+            for node_name in value:
                 if node_name in _AGENT_NODES and (
                     not route_path or route_path[-1] != node_name
                 ):
@@ -101,7 +138,7 @@ async def _event_generator(
         logger.warning(f"[{sid}] graph.astream 异常: {type(e).__name__}: {e}")
 
     try:
-        final_state = graph.get_state(config)
+        final_state = await graph.aget_state(config)
         if final_state and final_state.values:
             values = final_state.values
             final_profile = values.get("user_profile") or {}
@@ -135,29 +172,87 @@ async def _event_generator(
                     "data": json.dumps(profile_event, ensure_ascii=False),
                 }
 
+            # V6.0: 发送意图信息
+            scene_type = values.get("scene_type")
+            if scene_type:
+                intent_event = {
+                    "type": "intent",
+                    "scene": scene_type,
+                    "scene_confidence": values.get("scene_confidence", 0.0),
+                    "path": values.get("path_type"),
+                    "path_confidence": values.get("path_confidence"),
+                    "decision": values.get("decision_state", "firm"),
+                }
+                yield {
+                    "event": "message",
+                    "data": json.dumps(intent_event, ensure_ascii=False),
+                }
+
+            # V6.0: 发送渐进询问
+            progressive_questions = values.get("progressive_questions", [])
+            if progressive_questions:
+                questions_event = {
+                    "type": "questions",
+                    "questions": progressive_questions[:5],
+                }
+                yield {
+                    "event": "message",
+                    "data": json.dumps(questions_event, ensure_ascii=False),
+                }
+
+            # V6.0: 发送回退响应
+            fallback_response = values.get("fallback_response", "")
+            if fallback_response:
+                fallback_event = {
+                    "type": "fallback",
+                    "response": fallback_response,
+                }
+                yield {
+                    "event": "message",
+                    "data": json.dumps(fallback_event, ensure_ascii=False),
+                }
+
+            # V6.0: 发送推荐理由
+            recommendation_reasons = values.get("recommendation_reasons", [])
+            if recommendation_reasons:
+                reasons_event = {
+                    "type": "reasons",
+                    "reasons": recommendation_reasons,
+                }
+                yield {
+                    "event": "message",
+                    "data": json.dumps(reasons_event, ensure_ascii=False),
+                }
+
             messages = values.get("messages", [])
             logger.info(f"[{sid}] 最终状态消息数: {len(messages)}")
             assistant_msgs = [
                 msg for msg in messages
                 if getattr(msg, "type", "") == "ai"
             ]
-            for msg in assistant_msgs[-1:]:
-                content = getattr(msg, "content", None)
-                if content:
-                    assistant_response = str(content)
+            # 兜底：未走真流式（如异常中断/chat_agent 未捕获）时补发整段回复
+            if not streamed_tokens:
+                for msg in assistant_msgs[-1:]:
+                    content = getattr(msg, "content", None)
+                    if content:
+                        assistant_response = str(content)
+                        yield {
+                            "event": "message",
+                            "data": json.dumps(
+                                {"type": "token", "msg": assistant_response},
+                                ensure_ascii=False,
+                            ),
+                        }
+                if not assistant_msgs:
+                    assistant_response = "服务暂时繁忙（AI 未生成回复），请稍后重试。"
                     yield {
                         "event": "message",
-                        "data": json.dumps(
-                            {"type": "token", "msg": assistant_response},
-                            ensure_ascii=False,
-                        ),
+                        "data": json.dumps({"type": "token", "msg": assistant_response}, ensure_ascii=False),
                     }
-            if not assistant_msgs:
+            elif assistant_msgs:
+                assistant_response = str(getattr(assistant_msgs[-1], "content", "") or "")
+            if not assistant_response:
                 assistant_response = "服务暂时繁忙（AI 未生成回复），请稍后重试。"
-                yield {
-                    "event": "message",
-                    "data": json.dumps({"type": "token", "msg": assistant_response}, ensure_ascii=False),
-                }
         else:
             assistant_response = "服务暂时不可用（状态丢失），请稍后重试。"
             yield {
@@ -217,6 +312,7 @@ async def stream_advice(
         _event_generator(
             graph, payload.query, payload.session_id, turn_store,
             conversation_role=payload.conversation_role,
+            domain=payload.domain,
         )
     )
 
@@ -227,7 +323,7 @@ async def get_state(session_id: str, graph=Depends(get_compiled_graph)):
     cm = get_checkpoint_manager()
     config = cm.build_config(session_id)
     try:
-        state = graph.get_state(config)
+        state = await graph.aget_state(config)
         if state and state.values:
             profile = state.values.get("user_profile", {})
             history = state.values.get("profile_history", [])
@@ -248,7 +344,7 @@ async def get_profile_history(session_id: str, graph=Depends(get_compiled_graph)
     cm = get_checkpoint_manager()
     config = cm.build_config(session_id)
     try:
-        state = graph.get_state(config)
+        state = await graph.aget_state(config)
         if state and state.values:
             history = state.values.get("profile_history", [])
             return {"ok": True, "session_id": session_id, "changes": len(history), "history": history}

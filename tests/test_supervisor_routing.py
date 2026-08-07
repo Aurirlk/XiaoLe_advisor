@@ -9,6 +9,8 @@ import json
 import os
 from pathlib import Path
 
+import pytest
+
 from agents.supervisor_agent import _fallback_route, RouteDecision
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -207,8 +209,9 @@ if not LLM_API_AVAILABLE:
     LLM_API_AVAILABLE = bool(os.getenv("DEEPSEEK_API_KEY"))
 
 
+@pytest.mark.llm
 class TestLLMRouting:
-    """LLM 路由精准度评测 — 需要 DEEPSEEK_API_KEY"""
+    """LLM 路由精准度评测 — 需要 DEEPSEEK_API_KEY（默认被 pytest 排除，-m llm 显式运行）"""
 
     @staticmethod
     def _build_routing_dataset():
@@ -234,13 +237,24 @@ class TestLLMRouting:
         from agents.supervisor_agent import build_supervisor_agent
 
         with open(ROOT / "configs" / "llm_config.yaml", "r", encoding="utf-8") as f:
-            llm_cfg = yaml.safe_load(f)["llm"]
+            llm_raw = yaml.safe_load(f)["llm"]
+        # 支持新版 presets 格式和旧版扁平格式
+        active = llm_raw.get("active", "")
+        presets = llm_raw.get("presets", {})
+        if active and active in presets:
+            llm_cfg = presets[active]
+            defaults = llm_raw.get("defaults", {})
+        else:
+            llm_cfg = llm_raw
+            defaults = {}
         llm = ChatOpenAI(
-            model=llm_cfg["model"],
+            model=llm_cfg.get("model_name") or llm_cfg.get("model", "deepseek-chat"),
             temperature=0,
-            base_url=llm_cfg.get("base_url") or None,
-            api_key=os.getenv(llm_cfg["api_key_env"], ""),
-            timeout=llm_cfg["timeout_seconds"],
+            base_url=llm_cfg.get("base_url") or llm_cfg.get("url") or None,
+            api_key=os.getenv(
+                (llm_cfg.get("api_key", "${DEEPSEEK_API_KEY}").strip("${}")), ""
+            ),
+            timeout=defaults.get("timeout", llm_cfg.get("timeout_seconds", 60)),
         )
         supervisor = build_supervisor_agent(llm)
 
