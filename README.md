@@ -32,6 +32,7 @@
 - [技术栈](#技术栈)
 - [架构概览](#架构概览)
 - [快速开始](#快速开始)
+- [数据下载](#数据下载)
 - [配置说明](#配置说明)
 - [项目结构](#项目结构)
 - [文档目录](#文档目录)
@@ -298,6 +299,46 @@
 
 ---
 
+## 数据下载
+
+> **仓库只包含源代码**。考生数据库、本地模型、向量库等大文件（约 550MB）保存在百度网盘，克隆后需手动下载并解压到指定路径。
+
+### 百度网盘链接
+
+**文件**：`xiaozhi-data.zip`  
+**链接**：[小乐AI 数据包](https://pan.baidu.com/s/1M0eQFM3nxwdGpLNn898b4Q?pwd=oobb)  
+**提取码**：`oobb`
+
+> 上传前请将 `data/` 下未忽略的文件打包为 `xiaole-data.zip`，含：
+> - `data/zx_advisor.db`（录取数据库 55MB，含 28 万条录取数据）
+> - `data/raw/`（原始爬取数据 13MB）
+> - `data/chroma_db/` + `data/vector_store/`（RAG 向量库与索引）
+> - `data/crawl_results/`（院校/专业爬取结果）
+> - `data/models/`（embedding 模型 465MB，也可通过 HuggingFace 自动下载，见下）
+
+### 解压路径
+
+```bash
+# 1. 下载 xiaole-data.zip 后，解压到项目根目录
+#    Windows: 右键解压到「小乐高考志愿填报助手」根目录
+#    Linux:   unzip xiaole-data.zip -d 小乐高考志愿填报助手/
+
+# 2. 验证关键文件存在
+python -c "from pathlib import Path; p=Path('data/zx_advisor.db'); print('✓ 数据库就绪' if p.exists() else '✗ 数据库缺失，请检查解压路径')"
+```
+
+### 不下载数据的替代方案（模型自动下载）
+
+如果只想跑通代码、不想下载 550MB 数据包：
+
+1. 数据库：运行 `python scripts/init_sqlite.py` 生成空库 + 种子数据
+2. embedding 模型：首次启动自动从 HuggingFace 下载（国内用户先设 `HF_ENDPOINT=https://hf-mirror.com`）
+3. RAG 索引：运行 `python scripts/build_rag_index.py` 从 `data/documents/` 重建
+
+> ⚠️ 此方案**没有完整录取数据**，对话可跑但位次/分数线查询会返回空结果。完整功能请下载数据包。
+
+---
+
 ## 快速开始
 
 ### 前置要求
@@ -364,7 +405,7 @@ python -m api.main
 
 | 服务 | 地址 | 说明 |
 |------|------|------|
-| UI 界面 | http://127.0.0.1:5000 | Vue 3 对话界面 |
+| UI 界面 | http://127.0.0.1:8000 | Vite 构建 SPA（FastAPI 统一 serve） |
 | API 文档 | http://127.0.0.1:8000/docs | Swagger UI |
 | 健康检查 | http://127.0.0.1:8000/healthz | 服务状态 |
 

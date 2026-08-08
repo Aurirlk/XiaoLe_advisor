@@ -8,6 +8,7 @@ configs/.config.local.yaml
 # AI 开发过程文件（作品集仓库不展示开发痕迹）
 .omo/
 .workbuddy/
+.novel-workflow/
 
 # Python
 __pycache__/
@@ -45,6 +46,29 @@ core/data/
 Cache/
 data/raw/gaokao_data/*.zip
 
+# ══════════════════════════════════════════════════════════
+# 大数据策略：只上传源码，考生数据/模型/向量库放百度网盘
+# 下载地址见 README「数据下载」章节
+# ══════════════════════════════════════════════════════════
+# 数据库（百度网盘）
+data/*.db
+data/*.db-*
+!data/seeds/*.db
+
+# 本地模型（465MB，可从 HuggingFace 重新下载，见配置指南 HF_ENDPOINT）
+data/models/
+
+# 原始/爬取数据（百度网盘）
+data/raw/
+data/crawl_results/
+
+# 向量库与 RAG 索引（可由 scripts/build_rag_index.py 重建）
+data/vector_store/
+data/neo4j/
+
+# 评测临时产物
+data/eval/
+
 # 前端依赖与构建产物
 node_modules/
 frontend/node_modules/
@@ -63,3 +87,6 @@ desktop.ini
 *.tmp
 *.bak
 ~$*
+
+# 本地数据压缩包（待上传百度网盘，勿提交）
+*.zip
