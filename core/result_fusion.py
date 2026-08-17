@@ -7,10 +7,11 @@
 3. 加权融合: 基于置信度加权合并
 4. 专家融合: 根据问题类型选择最合适的Agent结果
 
-⚠️ 状态标注（2026-08-06 架构拷打）：本模块当前【零调用方】——
-生产链路的多源融合由 career_agent 的 asyncio.gather 四路并行 + synthesis_agent
-统一合成实现，未走 ResultFusion。候选方向：接入后作为 synthesis 前端的
-结构化融合层（需评估 vs 现状 prompt 合成）。
+⚠️ 状态标注（2026-08-06 架构拷打，2026-08-17 更新）：
+本模块已被 `core/graph_builder.py::build_graph(enable_result_fusion=True)` 可选接入
+（synthesis 前节点，收集 sql/career/web 多源输出融合写入 fusion_context），
+生产默认关闭（api/dependencies.py 未开启）。非"零调用方"，勿删。
+候选方向：生产开启前需评估 vs 现状 prompt 合成（career_agent asyncio.gather 四路并行）。
 """
 from __future__ import annotations
 

@@ -519,11 +519,13 @@ vector:
 
 | 文档 | 说明 |
 |------|------|
+| [AGENTS.md](AGENTS.md) | **AI 接手引导（认知路径 + 红线，AI/新接手者先读）** |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | **架构真相源（唯一权威，改架构必须同步）** |
 | [docs/交接手册.md](docs/交接手册.md) | **交接手册（环境搭建/启动/已知坑全清单，接手必读）** |
 | [docs/DELIVERY.md](docs/DELIVERY.md) | 交付手册（部署/验证/功能清单） |
 | [docs/OPERATIONS.md](docs/OPERATIONS.md) | 运维手册（监控/备份/故障排查） |
 | [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) | 开发者文档（架构/规范/API） |
-| [docs/技术文档.md](docs/技术文档.md) | 技术架构文档（12 大体系） |
+| [docs/技术文档.md](docs/技术文档.md) | 技术架构文档（12 大体系，细节展开） |
 | [docs/版本历史.md](docs/版本历史.md) | 版本演进记录 |
 | [docs/项目简介.md](docs/项目简介.md) | 项目简介（面试叙事） |
 
