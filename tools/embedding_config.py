@@ -62,6 +62,38 @@ def resolve_embedding_model(override: Optional[str] = None) -> str:
     return "paraphrase-multilingual-MiniLM-L12-v2"
 
 
+def resolve_embedding_provider() -> str:
+    """解析 embedding 后端提供方（单一真源）。
+
+    返回值：local（本地 SentenceTransformer，默认）| siliconflow（硅基 API）。
+    配置：vector_config.yaml 的 `vector.embedding_provider`。
+    """
+    cfg = load_vector_config()
+    provider = cfg.get("embedding_provider", "local")
+    return provider.strip().lower() or "local"
+
+
+def get_embedder(provider: Optional[str] = None, model: Optional[str] = None):
+    """统一 embedder 工厂（供 XuefengStore / vector_store 等复用）。
+
+    - provider=siliconflow → SiliconFlowEmbedder（硅基 BGE-M3 API，1024 维）
+    - provider=local（默认）→ SentenceTransformer 本地加载（model 名取自单一真源）
+
+    返回对象需实现 encode(texts, normalize_embeddings=True) -> List[List[float]]。
+    """
+    provider = (provider or resolve_embedding_provider()).lower()
+    if provider == "siliconflow":
+        from tools.siliconflow_embedder import SiliconFlowEmbedder
+        # 模型名同样取自单一真源（embedding_model），保证维度校验一致
+        return SiliconFlowEmbedder(model=model or resolve_embedding_model())
+    # local 默认路径：SentenceTransformer
+    from sentence_transformers import SentenceTransformer
+    model_name = model or resolve_embedding_model()
+    local = ROOT / "data" / "models" / model_name
+    model_ref = str(local) if local.exists() else model_name
+    return SentenceTransformer(model_ref)
+
+
 def _resolve_env(raw: str) -> str:
     if raw.startswith("${") and raw.endswith("}"):
         return os.getenv(raw[2:-1], "")

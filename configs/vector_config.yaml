@@ -4,6 +4,12 @@
 # multi_embedding_store（Dense/Sparse/ColBERT）都从这里读取，
 # 杜绝双向量空间不互通。支持 ${ENV_VAR} 占位符。
 #
+# embedding_provider（2026-08-17 新增，硅基 API 接入）：
+#   local        = SentenceTransformer 本地加载（默认）
+#   siliconflow  = 调用硅基流动 Embedding API（BGE-M3 1024 维，
+#                  消除本地 DLL segfault 依赖 + 中文语义更强）
+#   统一入口 get_embedder()（tools/embedding_config.py），XuefengStore 等复用。
+#
 # 切换模型（如统一到 BGE-M3 1024 维）：
 #   1. 本文件 embedding_model 改为 BAAI/bge-m3
 #   2. python scripts/rebuild_embedding_index.py   # 重灌 Chroma 索引（维度变化必须重灌）
@@ -11,5 +17,6 @@
 vector:
   persist_dir: data/chroma_db
   collection_name: zx_experience
-  embedding_model: paraphrase-multilingual-MiniLM-L12-v2
+  embedding_provider: siliconflow
+  embedding_model: BAAI/bge-m3
   web_cache_collection: zx_web_cache

@@ -13,7 +13,7 @@
   <img src="https://img.shields.io/badge/vue-3.3.4-brightgreen" alt="Vue 3" />
   <img src="https://img.shields.io/badge/langgraph-multi--agent-orange" alt="LangGraph" />
   <img src="https://img.shields.io/badge/deepseek-v4--flash-purple" alt="DeepSeek" />
-  <img src="https://img.shields.io/badge/version-v0.4.0-darkgreen" alt="Version" />
+  <img src="https://img.shields.io/badge/version-v0.4.1-darkgreen" alt="Version" />
   <img src="https://img.shields.io/badge/license-MIT-green" alt="License" />
 </p>
 
@@ -52,7 +52,7 @@
 ### 项目实现功能
 
 - **多 Agent 协同决策**：Supervisor 路由中枢（场景/路径/决心度三层意图识别）→ 8+ Worker 员工（profile/parent/family/match/career/web_search/sql/write）→ Synthesis 合成，Agent 间可经通信总线协作、反思循环自纠、结果融合去冲突
-- **RAG 知识库 + 图谱**：ChromaDB 向量检索 + FTS5 全文检索 + 知识域分权（kb_scope）+ Neo4j 知识图谱（院校-专业-职业-城市-政策）+ GraphRAG 多跳查询 + 张雪峰对话语料库（Milvus，风格锚点注入）
+- **RAG 知识库 + 图谱**：ChromaDB 向量检索 + FTS5 全文检索 + 知识域分权（kb_scope）+ Neo4j 知识图谱（院校-专业-职业-城市-政策）+ GraphRAG 多跳查询 + 张雪峰对话语料库（Milvus，硅基 BGE-M3 embedding，风格锚点注入）
 - **确定性风控**：SynthesisGuard 防端水引擎 + 红线审计 + 反方审计 + 硬编码过滤（体检/预算/地域），回复不越界、不编数据
 - **write_Agent 学习闭环**：联网搜到但知识库没有的内容，由唯一写权限 worker 校验去重后自动写入知识库，实现"越用越懂"
 - **全模态交互**：文字对话（SSE 真流式）/ 语音（VAD→ASR→TTS 情绪合成）/ 图片理解（VLLM）/ WebSocket 全双工
@@ -210,7 +210,7 @@
 | **自我反思循环** | ✅ | **ReflexionAgent 评估→建议→重试→反思记忆（蓝图 Phase 3）** |
 | **结果融合** | ✅ | **ResultFusion 多源融合节点（蓝图 Phase 3，开关可控）** |
 | **write_Agent** | ✅ | **唯一写权限 worker：搜索内容校验去重后自动入库** |
-| **雪峰语料库** | ✅ | **Milvus+学科 embedding 对话检索，风格锚点注入合成** |
+| **雪峰语料库** | ✅ | **Milvus+硅基 BGE-M3 embedding 对话检索，风格锚点注入合成** |
 
 ---
 
@@ -376,6 +376,7 @@ copy .env.example .env
 编辑 `.env`，填入 API Key：
 ```ini
 DEEPSEEK_API_KEY=sk-xxxxxxxxxxxxxxxx
+SILICONFLOW_API_KEY=sk-xxxxxxxxxxxxxxxx   # 硅基流动 embedding（向量库需要，v0.4.1）
 ```
 
 ### 5. 初始化数据库
@@ -423,6 +424,21 @@ selected_module:
   TTS: EdgeTTS
   VLLM: glm-4v-flash
 ```
+
+### Embedding（v0.4.1）
+
+向量库统一走 `configs/vector_config.yaml` 单一真源，当前默认**硅基流动 API**：
+
+```yaml
+# configs/vector_config.yaml
+vector:
+  embedding_provider: siliconflow   # siliconflow（硅基 API）| local（本地模型）
+  embedding_model: BAAI/bge-m3       # 1024 维
+```
+
+- `siliconflow` 需要 `.env` 中配置 `SILICONFLOW_API_KEY`
+- 切换 provider / 模型后**必须重灌索引**（`python scripts/rebuild_embedding_index.py --force`），否则维度不匹配
+- 详见 `docs/交接手册.md` 第 4 节
 
 ### 可用 LLM 模型
 
@@ -503,13 +519,25 @@ selected_module:
 
 | 文档 | 说明 |
 |------|------|
+| [docs/交接手册.md](docs/交接手册.md) | **交接手册（环境搭建/启动/已知坑全清单，接手必读）** |
 | [docs/DELIVERY.md](docs/DELIVERY.md) | 交付手册（部署/验证/功能清单） |
 | [docs/OPERATIONS.md](docs/OPERATIONS.md) | 运维手册（监控/备份/故障排查） |
 | [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) | 开发者文档（架构/规范/API） |
+| [docs/技术文档.md](docs/技术文档.md) | 技术架构文档（12 大体系） |
+| [docs/版本历史.md](docs/版本历史.md) | 版本演进记录 |
+| [docs/项目简介.md](docs/项目简介.md) | 项目简介（面试叙事） |
 
 ---
 
 ## 版本历史
+
+### v0.4.1 (2026-08-17) — 硅基 Embedding 接入 + 交接手册
+
+- Embedding 切换硅基流动 API（BGE-M3 1024 维），`tools/embedding_config.py` 统一 provider 入口（siliconflow/local 单一真源），消除本地模型 Windows segfault 依赖 + 双向量空间风险
+- 新增 `tools/siliconflow_embedder.py`；`vector_store/xuefeng_store/multi_embedding_store` 全部适配统一入口
+- 新增 `docs/交接手册.md`（环境搭建、数据恢复、已知坑全清单）
+- 独立脚本补 `load_dotenv`（SILICONFLOW_API_KEY 读取修复）
+- ⚠️ 切换后需重灌索引（384→1024 维），见交接手册第 4/5 节
 
 ### v0.4.0 (2026-08-06) — 多 Agent 协作体系 + write_Agent + 雪峰语料库
 

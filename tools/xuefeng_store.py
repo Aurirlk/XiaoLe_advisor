@@ -109,23 +109,35 @@ class XuefengStore:
             logger.warning("雪峰语料解析失败", exc_info=True)
             return []
 
-    # ── embedding（懒加载，复用统一模型）─────────────────────
+    # ── embedding（懒加载，统一入口：硅基 API 优先，失败降级本地）──
 
     def _get_embedder(self):
         if self._embedder is None:
-            from sentence_transformers import SentenceTransformer
-            from tools.embedding_config import resolve_embedding_model
+            from tools.embedding_config import get_embedder, resolve_embedding_provider
 
-            model_name = self._embedding_model_name or resolve_embedding_model()
-            # 本地优先（防联网超时）
-            local = ROOT / "data" / "models" / model_name
-            model_ref = str(local) if local.exists() else model_name
-            self._embedder = SentenceTransformer(model_ref)
+            # 全项目 provider 单一真源：siliconflow（API）| local（本地模型）
+            try:
+                self._embedder = get_embedder(
+                    provider=resolve_embedding_provider(),
+                    model=self._embedding_model_name,
+                )
+            except Exception:
+                # 硅基 key 缺失/网络失败 → 降级本地 SentenceTransformer
+                logger.warning("[XuefengStore] 统一 embedder 获取失败，降级本地", exc_info=True)
+                from sentence_transformers import SentenceTransformer
+                from tools.embedding_config import resolve_embedding_model
+
+                model_name = self._embedding_model_name or resolve_embedding_model()
+                local = ROOT / "data" / "models" / model_name
+                model_ref = str(local) if local.exists() else model_name
+                self._embedder = SentenceTransformer(model_ref)
         return self._embedder
 
     def _embed(self, texts: List[str]) -> List[List[float]]:
         model = self._get_embedder()
-        return model.encode(texts, normalize_embeddings=True).tolist()
+        vectors = model.encode(texts, normalize_embeddings=True)
+        # SentenceTransformer 返回 ndarray；SiliconFlowEmbedder 返回 list，统一转 list
+        return vectors.tolist() if hasattr(vectors, "tolist") else list(vectors)
 
     # ── Milvus 后端（可切换，面试叙事核心）───────────────────
 

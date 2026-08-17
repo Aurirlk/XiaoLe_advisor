@@ -78,13 +78,15 @@ class ChromaVectorStore:
         return name
 
     def _get_embedding_model(self):
-        """懒加载 SentenceTransformer 模型"""
+        """懒加载 embedding 模型（统一入口 get_embedder，provider 单一真源）"""
         if self._embedding_model is None:
             import logging
+            from tools.embedding_config import get_embedder
+
             logger = logging.getLogger(__name__)
-            logger.info(f"首次使用，加载 SentenceTransformer 模型: {self._embedding_model_name}")
-            self._embedding_model = SentenceTransformer(self._embedding_model_name)
-            logger.info("SentenceTransformer 模型加载完成")
+            logger.info(f"首次使用，加载 embedding（{self._embedding_model_name}）")
+            self._embedding_model = get_embedder(model=self._embedding_model_name)
+            logger.info("embedding 加载完成")
         return self._embedding_model
 
     @property
@@ -98,7 +100,8 @@ class ChromaVectorStore:
     def _embed(self, texts: List[str]) -> List[List[float]]:
         model = self._get_embedding_model()
         embeddings = model.encode(texts, normalize_embeddings=True)
-        return embeddings.tolist()
+        # SentenceTransformer 返回 ndarray；SiliconFlowEmbedder 返回 list，统一转 list
+        return embeddings.tolist() if hasattr(embeddings, "tolist") else list(embeddings)
 
     def add_documents(
         self,

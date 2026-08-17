@@ -86,17 +86,12 @@ class MultiEmbeddingStore:
         }
     
     def _load_dense_model(self):
-        """延迟加载稠密嵌入模型（P1-9：本地模型目录优先，避免联网超时）"""
+        """延迟加载稠密嵌入模型（P1-9：统一入口 get_embedder，provider 单一真源）"""
         if self._dense_model is None:
             try:
-                from sentence_transformers import SentenceTransformer
-                from pathlib import Path
+                from tools.embedding_config import get_embedder
 
-                model_ref = self._dense_model_name
-                local = Path(__file__).resolve().parents[1] / "data" / "models" / model_ref
-                if local.exists():
-                    model_ref = str(local)
-                self._dense_model = SentenceTransformer(model_ref)
+                self._dense_model = get_embedder(model=self._dense_model_name)
             except Exception as e:
                 print(f"[WARN] 加载稠密模型失败: {e}")
                 self._dense_model = None
@@ -122,7 +117,12 @@ class MultiEmbeddingStore:
         # 构建稠密向量索引
         self._load_dense_model()
         if self._dense_model:
-            self._dense_embeddings = self._dense_model.encode(texts, normalize_embeddings=True)
+            embeddings = self._dense_model.encode(texts, normalize_embeddings=True)
+            # SentenceTransformer 返回 ndarray；SiliconFlowEmbedder 返回 list，统一转 ndarray
+            if not hasattr(embeddings, "dtype"):
+                import numpy as np
+                embeddings = np.asarray(embeddings, dtype="float32")
+            self._dense_embeddings = embeddings
         
         print(f"[INFO] 多维索引构建完成: {len(documents)} 文档")
     
@@ -132,6 +132,9 @@ class MultiEmbeddingStore:
             return []
         
         query_embedding = self._dense_model.encode([query], normalize_embeddings=True)
+        if not hasattr(query_embedding, "dtype"):
+            import numpy as np
+            query_embedding = np.asarray(query_embedding, dtype="float32")
         similarities = query_embedding @ self._dense_embeddings.T
         similarities = similarities[0]
         
