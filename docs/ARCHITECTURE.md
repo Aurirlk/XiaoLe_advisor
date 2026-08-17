@@ -129,6 +129,12 @@ Worker 输出 → ReflexionAgent 规则评估 → 达标 → 写 reflexion_repor
 - **切换后必须重灌索引**（维度变化）：`rebuild_embedding_index.py --force` + `check_xuefeng_milvus.py --enable --rebuild`
 - **兼容适配**：所有 `_embed` 统一处理 ndarray/list 两种返回
 
+### 7.1 分类器模型（独立于 RAG 向量空间）
+
+- `vector.classifier_model`（默认 MiniLM-L12-v2）= **web_search_agent 平台分类专用**本地模型
+- 与 `embedding_model` 分离的原因：① 每次搜索都要分类，走 API 有延迟+成本；② 模板向量与 query 向量同模型内部自洽，不参与 RAG 向量比较
+- 解析入口：`embedding_config.resolve_classifier_model()`；`web_search_agent._build_embedding_model()` 从配置读，**无硬编码**
+
 ## 8. 死代码 / 陷阱标注（真相，勿删）
 
 | 文件 | 状态 | 处置 |

@@ -73,6 +73,21 @@ def resolve_embedding_provider() -> str:
     return provider.strip().lower() or "local"
 
 
+def resolve_classifier_model() -> str:
+    """解析平台分类器专用模型名（独立于 RAG 向量空间）。
+
+    用途：web_search_agent 的 query 平台分类（知乎/微博/贴吧/小红书/全网）。
+    与 embedding_model 分离的原因：分类器必须本地轻量（每次搜索都要算，
+    走硅基 API 会引入延迟+成本），且模板向量与 query 向量同模型内部自洽，
+    不参与 RAG 向量比较，故不归入单一真源。
+    """
+    cfg = load_vector_config()
+    model = cfg.get("classifier_model", "")
+    if model:
+        return _resolve_env(model)
+    return "paraphrase-multilingual-MiniLM-L12-v2"
+
+
 def get_embedder(provider: Optional[str] = None, model: Optional[str] = None):
     """统一 embedder 工厂（供 XuefengStore / vector_store 等复用）。
 

@@ -10,6 +10,14 @@
 #                  消除本地 DLL segfault 依赖 + 中文语义更强）
 #   统一入口 get_embedder()（tools/embedding_config.py），XuefengStore 等复用。
 #
+# classifier_model（2026-08-17 新增）：
+#   独立于 RAG 向量空间的「平台分类器」专用本地模型（web_search_agent
+#   判断 query 发知乎/微博/贴吧/小红书/全网）。用途不同：
+#   - RAG embedding 走 provider（当前硅基 API）
+#   - 分类器必须本地轻量（每次搜索都要算，走 API 会引入延迟+成本），
+#     且模板向量与 query 向量同模型内部自洽，不参与 RAG 向量比较，
+#     故不归入 embedding_model 单一真源，单独配置。
+#
 # 切换模型（如统一到 BGE-M3 1024 维）：
 #   1. 本文件 embedding_model 改为 BAAI/bge-m3
 #   2. python scripts/rebuild_embedding_index.py   # 重灌 Chroma 索引（维度变化必须重灌）
@@ -19,4 +27,5 @@ vector:
   collection_name: zx_experience
   embedding_provider: siliconflow
   embedding_model: BAAI/bge-m3
+  classifier_model: paraphrase-multilingual-MiniLM-L12-v2
   web_cache_collection: zx_web_cache

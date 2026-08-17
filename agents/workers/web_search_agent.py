@@ -62,9 +62,16 @@ KEYWORD_EXTRACT_PROMPT = """你是一个搜索关键词提取器。从用户的�
 
 @lru_cache(maxsize=1)
 def _build_embedding_model():
-    """懒加载 embedding 模型（进程级单例——每次请求重新构造会阻塞事件循环并重复加载 ~420MB 模型）"""
+    """懒加载平台分类器模型（进程级单例——每次请求重新构造会阻塞事件循环并重复加载 ~420MB 模型）。
+
+    模型名从 vector_config.yaml 的 `vector.classifier_model` 读取（tools/embedding_config
+    单一真源解析），不硬编码。注意：这是「平台分类器」专用本地模型，独立于 RAG
+    向量空间（embedding_model / provider），原因见 embedding_config.resolve_classifier_model。
+    """
     from sentence_transformers import SentenceTransformer
-    model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
+    from tools.embedding_config import resolve_classifier_model
+    model_name = resolve_classifier_model()
+    model = SentenceTransformer(model_name)
     return model
 
 
